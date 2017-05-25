@@ -7,11 +7,21 @@
 
     .DESCRIPTION
 
+    WriteProcessMemory copies the data from the specified buffer in the current process to the address range of the specified process. Any process that has a handle with PROCESS_VM_WRITE and PROCESS_VM_OPERATION access to the process to be written to can call the function. Typically but not always, the process with address space that is being written to is being debugged.
+    
+    The entire area to be written to must be accessible, and if it is not accessible, the function fails.
+
     .PARAMETER ProcessHandle
+
+    A handle to the process memory to be modified. The handle must have PROCESS_VM_WRITE and PROCESS_VM_OPERATION access to the process.
 
     .PARAMETER BaseAddress
 
+    A pointer to the base address in the specified process to which data is written. Before data transfer occurs, the system verifies that all data in the base address and memory of the specified size is accessible for write access, and if it is not accessible, the function fails.
+
     .PARAMETER Buffer
+
+    A byte array that contains data to be written in the address space of the specified process.
 
     .NOTES
 
@@ -29,6 +39,8 @@
     ) -SetLastError) # MSDN states to call GetLastError if the return value is false. 
 
     .LINK
+
+    https://msdn.microsoft.com/en-us/library/windows/desktop/ms681674(v=vs.85).aspx
 
     .EXAMPLE
     #>
@@ -51,8 +63,10 @@
 
     [Int32]$lpNumberOfBytesWritten = 0
 
-    if(-not($Kernel32::WriteProcessMemory($ProcessHandle, $BaseAddress, $Buffer, $Buffer.Length, [ref]$lpNumberOfBytesWritten)))
+    $SUCCESS = $Kernel32::WriteProcessMemory($ProcessHandle, $BaseAddress, $Buffer, $Buffer.Length, [ref]$lpNumberOfBytesWritten); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+
+    if($hThread -eq 0) 
     {
-        Throw "Unable to Write to Memory"
+        throw "WriteProcessMemory Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
 }

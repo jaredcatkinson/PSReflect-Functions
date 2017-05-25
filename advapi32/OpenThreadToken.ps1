@@ -29,10 +29,10 @@
     Author - Jared Atkinson (@jaredcatkinson)
 
     (func advapi32 OpenThreadToken ([bool]) @(
-      [IntPtr],                                    #_In_  HANDLE  ThreadHandle
-      [UInt32],                                    #_In_  DWORD   DesiredAccess
-      [bool],                                      #_In_  BOOL    OpenAsSelf
-      [IntPtr].MakeByRefType()                     #_Out_ PHANDLE TokenHandle
+      [IntPtr],                #_In_  HANDLE  ThreadHandle
+      [UInt32],                #_In_  DWORD   DesiredAccess
+      [bool],                  #_In_  BOOL    OpenAsSelf
+      [IntPtr].MakeByRefType() #_Out_ PHANDLE TokenHandle
     ) -SetLastError)
         
     .LINK

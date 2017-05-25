@@ -60,12 +60,12 @@
     $buf = New-Object byte[]($Size)
     [Int32]$NumberOfBytesRead = 0
     
-    $Success = $Kernel32::ReadProcessMemory($ProcessHandle, $BaseAddress, $buf, $buf.Length, [ref]$NumberOfBytesRead); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $SUCCESS = $Kernel32::ReadProcessMemory($ProcessHandle, $BaseAddress, $buf, $buf.Length, [ref]$NumberOfBytesRead); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
-    if(-not $Success) 
+    if(-not $SUCCESS) 
     {
         Write-Debug "ReadProcessMemory Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
     
     Write-Output $buf
-} 
+}

@@ -1,0 +1,3 @@
+﻿$TOKEN_MANDATORY_LABEL = struct $Mod TOKEN_MANDATORY_LABEL @{
+    Label = field 0 $SID_AND_ATTRIBUTES
+}

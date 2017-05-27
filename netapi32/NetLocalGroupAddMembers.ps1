@@ -70,7 +70,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370436(v=vs.85).aspx
             $MemberStruct.lgrmi3_domainandname = $MemberName
 
             [IntPtr]$MemberStructPtr = [System.Runtime.InteropServices.Marshal]::AllocHGlobal($LOCALGROUP_MEMBERS_INFO_3::GetSize())
-            [Runtime.InteropServices.Marshal]::StructureToPtr($MemberStruct, $MemberStructPtr, $false)
+            [Runtime.InteropServices.Marshal]::StructureToPtr($MemberStruct, $MemberStructPtr, $False)
 
             $Result = $Netapi32::NetLocalGroupAddMembers($Computer, $GroupName, 3, $MemberStructPtr, 1)
 

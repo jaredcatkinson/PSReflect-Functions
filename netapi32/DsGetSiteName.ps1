@@ -15,14 +15,14 @@ name of the site where a specified computer resides.
 
 .PARAMETER ComputerName
 
-Specifies the hostname to add the share to (also accepts IP addresses).
+Specifies the hostname to query the site for (also accepts IP addresses).
 Defaults to the local host name.
 
 .NOTES
 
     (func netapi32 DsGetSiteName ([Int]) @(
-        [String],
-        [IntPtr].MakeByRefType())
+        [String],                   # _In_  LPCTSTR ComputerName
+        [IntPtr].MakeByRefType())   # _Out_ LPTSTR  *SiteName
     )
 
     (func netapi32 NetApiBufferFree ([Int]) @(

@@ -44,6 +44,11 @@ Default of 1. Affects the result structure returned.
         [IntPtr]    # _In_ LPVOID Buffer
     )
 
+    (func advapi32 ConvertSidToStringSid ([Int]) @(
+        [IntPtr],
+        [String].MakeByRefType()
+    ) -SetLastError)
+
 .EXAMPLE
 
 

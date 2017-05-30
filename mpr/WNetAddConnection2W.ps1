@@ -32,16 +32,18 @@ Specifies the remote \\UNC\path to add the connection for.
 A [Management.Automation.PSCredential] object of alternate credentials
 for connection to the remote system.
 
-.EXAMPLE
+.NOTES
 
-$Cred = Get-Credential
-Add-RemoteConnection -ComputerName 'PRIMARY.testlab.local' -Credential $Cred
+(func Mpr WNetAddConnection2W ([Int]) @(
+    $NETRESOURCEW,      # _In_ LPNETRESOURCE lpNetResource
+    [String],           # _In_ LPCTSTR       lpPassword
+    [String],           # _In_ LPCTSTR       lpUsername
+    [UInt32]            # _In_ DWORD         dwFlags
+))
 
-.EXAMPLE
+.LINK
 
-$SecPassword = ConvertTo-SecureString 'Password123!' -AsPlainText -Force
-$Cred = New-Object System.Management.Automation.PSCredential('TESTLAB\dfm.a', $SecPassword)
-Add-RemoteConnection -Path '\\PRIMARY.testlab.local\C$\' -Credential $Cred
+https://msdn.microsoft.com/en-us/library/windows/desktop/aa385413(v=vs.85).aspx
 
 .EXAMPLE
 

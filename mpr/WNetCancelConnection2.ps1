@@ -22,6 +22,18 @@ Specifies the system to remove a \\ComputerName\IPC$ connection for.
 
 Specifies the remote \\UNC\path to remove the connection for.
 
+.NOTES
+
+(func Mpr WNetCancelConnection2 ([Int]) @(
+    [String],       # _In_ LPCTSTR lpName,
+    [Int],          # _In_ DWORD   dwFlags
+    [Bool]          # _In_ BOOL    fForce
+))
+
+.LINK
+
+https://msdn.microsoft.com/en-us/library/windows/desktop/aa385427(v=vs.85).aspx
+
 .EXAMPLE
 
 #>

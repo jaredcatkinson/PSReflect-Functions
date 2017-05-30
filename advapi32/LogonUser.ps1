@@ -4,7 +4,8 @@ function LogonUser
 .SYNOPSIS
 
 This function will create a new user logon session on the local computer
-using the passed -Credential object. The returned value is 
+using the passed -Credential object. The returned value is  a handle to
+a token that represents the specified user
 
 Author: Will Schroeder (@harmj0y)  
 License: BSD 3-Clause  
@@ -56,7 +57,7 @@ Default of 'WINNT50', for user with "-LogonType 'NEW_CREDENTIALS'"
 
 .LINK
 
-https://msdn.microsoft.com/en-us/library/windows/desktop/aa378184(v=vs.85).aspx{}
+https://msdn.microsoft.com/en-us/library/windows/desktop/aa378184(v=vs.85).aspx
 
 .EXAMPLE
 

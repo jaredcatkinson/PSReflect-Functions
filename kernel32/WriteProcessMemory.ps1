@@ -65,7 +65,7 @@
 
     $SUCCESS = $Kernel32::WriteProcessMemory($ProcessHandle, $BaseAddress, $Buffer, $Buffer.Length, [ref]$lpNumberOfBytesWritten); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
-    if($hThread -eq 0) 
+    if($SUCCESS -eq 0) 
     {
         throw "WriteProcessMemory Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }

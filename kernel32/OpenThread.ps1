@@ -25,13 +25,16 @@
     
     .NOTES
     
-    Author - Jared Atkinson (@jaredcatkinson)
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: None
+    Optional Dependencies: None
 
     (func kernel32 OpenThread ([IntPtr]) @(
-        [UInt32],                                  #_In_ DWORD dwDesiredAccess,
-        [bool],                                    #_In_ BOOL  bInheritHandle,
-        [UInt32]                                   #_In_ DWORD dwThreadId
-    ) -SetLastError)
+        [UInt32], #_In_ DWORD dwDesiredAccess
+        [bool],   #_In_ BOOL  bInheritHandle
+        [UInt32]  #_In_ DWORD dwThreadId
+    ) -EntryPoint OpenThread -SetLastError)
         
     .LINK
 

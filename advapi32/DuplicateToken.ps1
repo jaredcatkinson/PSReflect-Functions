@@ -21,10 +21,10 @@
     Optional Dependencies: None
 
     (func advapi32 DuplicateToken ([bool]) @(
-        [IntPtr]                                  #_In_  HANDLE                       ExistingTokenHandle,
-        [UInt32]                                  #_In_  SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
-        [IntPtr].MakeByRefType()                  #_Out_ PHANDLE                      DuplicateTokenHandle
-    ) -SetLastError)
+        [IntPtr]                 #_In_  HANDLE                       ExistingTokenHandle,
+        [UInt32]                 #_In_  SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+        [IntPtr].MakeByRefType() #_Out_ PHANDLE                      DuplicateTokenHandle
+    ) -EntryPoint DuplicateToken -SetLastError)
 
     .LINK
 

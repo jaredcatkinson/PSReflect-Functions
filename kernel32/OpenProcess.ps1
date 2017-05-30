@@ -33,10 +33,10 @@
     Optional Dependencies: None
 
     (func kernel32 OpenProcess ([IntPtr]) @(
-        [UInt32],                                 #_In_ DWORD dwDesiredAccess,
-        [bool],                                   #_In_ BOOL  bInheritHandle,
-        [UInt32]                                  #_In_ DWORD dwProcessId
-    ) -SetLastError)
+        [UInt32], #_In_ DWORD dwDesiredAccess
+        [bool],   #_In_ BOOL  bInheritHandle
+        [UInt32]  #_In_ DWORD dwProcessId
+    ) -EntryPoint OpenProcess -SetLastError)
         
     .LINK
 

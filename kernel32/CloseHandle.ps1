@@ -43,7 +43,7 @@
     
     (func kernel32 CloseHandle ([bool]) @(
         [IntPtr] #_In_ HANDLE hObject
-    ) -SetLastError)
+    ) -EntryPoint CloseHandle -SetLastError)
 
     .LINK
 

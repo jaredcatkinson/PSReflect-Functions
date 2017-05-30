@@ -21,9 +21,9 @@
     Optional Dependencies: None
     
     (func advapi32 ConvertSidToStringSid ([bool]) @(
-        [IntPtr]                                  #_In_  PSID   Sid,
-        [IntPtr].MakeByRefType()                  #_Out_ LPTSTR *StringSid
-    ) -SetLastError)
+        [IntPtr]                 #_In_  PSID   Sid,
+        [IntPtr].MakeByRefType() #_Out_ LPTSTR *StringSid
+    ) -EntryPoint ConvertSidToStringSid -SetLastError)
 
     .LINK
 
@@ -38,13 +38,6 @@
         [IntPtr]
         $SidPointer    
     )
-    
-    <#
-    (func advapi32 ConvertSidToStringSid ([bool]) @(
-        [IntPtr]                                  #_In_  PSID   Sid,
-        [IntPtr].MakeByRefType()                  #_Out_ LPTSTR *StringSid
-    ) -SetLastError)
-    #>
     
     $StringPtr = [IntPtr]::Zero
     $Success = $Advapi32::ConvertSidToStringSid($SidPointer, [ref]$StringPtr); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()

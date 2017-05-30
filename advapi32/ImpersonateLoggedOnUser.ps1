@@ -34,7 +34,7 @@
 
     (func advapi32 ImpersonateLoggedOnUser ([bool]) @(
         [IntPtr] #_In_ HANDLE hToken
-    ) -SetLastError)
+    ) -EntryPoint ImpersonateLoggedOnUser -SetLastError)
 
     .LINK
 

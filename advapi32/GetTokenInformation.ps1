@@ -19,12 +19,12 @@
     Optional Dependencies: TokenInformationClass (Enum)
 
     (func advapi32 GetTokenInformation ([bool]) @(
-      [IntPtr],                                   #_In_      HANDLE                  TokenHandle
-      [Int32],                                    #_In_      TOKEN_INFORMATION_CLASS TokenInformationClass
-      [IntPtr],                                   #_Out_opt_ LPVOID                  TokenInformation
-      [UInt32],                                   #_In_      DWORD                   TokenInformationLength
-      [UInt32].MakeByRefType()                    #_Out_     PDWORD                  ReturnLength
-    ) -SetLastError)
+      [IntPtr],                #_In_      HANDLE                  TokenHandle
+      [Int32],                 #_In_      TOKEN_INFORMATION_CLASS TokenInformationClass
+      [IntPtr],                #_Out_opt_ LPVOID                  TokenInformation
+      [UInt32],                #_In_      DWORD                   TokenInformationLength
+      [UInt32].MakeByRefType() #_Out_     PDWORD                  ReturnLength
+    ) -EntryPoint GetTokenInformation -SetLastError)
         
     .LINK
 

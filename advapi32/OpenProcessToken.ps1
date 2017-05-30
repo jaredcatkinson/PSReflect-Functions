@@ -22,10 +22,10 @@
     Optional Dependencies: None
 
     (func advapi32 OpenProcessToken ([bool]) @(
-      [IntPtr],                                   #_In_  HANDLE  ProcessHandle
-      [UInt32],                                   #_In_  DWORD   DesiredAccess
-      [IntPtr].MakeByRefType()                    #_Out_ PHANDLE TokenHandle
-    ) -SetLastError)
+      [IntPtr],                #_In_  HANDLE  ProcessHandle
+      [UInt32],                #_In_  DWORD   DesiredAccess
+      [IntPtr].MakeByRefType() #_Out_ PHANDLE TokenHandle
+    ) -EntryPoint OpenProcessToken -SetLastError)
         
     .LINK
 

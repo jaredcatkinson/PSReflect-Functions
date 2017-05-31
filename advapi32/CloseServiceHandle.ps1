@@ -35,11 +35,11 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/ms682028(v=vs.85).aspx
     [OutputType([IntPtr])]
     [CmdletBinding()]
     Param(
-        [Parameter(Position = 0,  Mandatory = $True, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)]
+        [Parameter(Position = 0, Mandatory = $True, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)]
         [Alias('hSCObject')]
         [ValidateNotNullOrEmpty()]
         [IntPtr]
-        $Handle`
+        $Handle
     )
 
     $Result = $Advapi32::CloseServiceHandle($Handle);$LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()

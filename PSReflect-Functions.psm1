@@ -1,13 +1,13 @@
-﻿. C:\Users\tester\Documents\GitHub\PSReflect-Functions\PSReflect.ps1
+﻿. "$($PSScriptRoot)\PSReflect.ps1"
 
 $Module = New-InMemoryModule -ModuleName PSReflectFunctions
 
 Write-Host "Loading Enumerations"
-Get-ChildItem C:\Users\tester\Documents\GitHub\PSReflect-Functions\Enumerations\* -Include '*.ps1' |
+Get-ChildItem "$($PSScriptRoot)\Enumerations\*" -Include '*.ps1' |
     % {. $_.FullName}
 
 Write-Host "Loading Structures"
-Get-ChildItem C:\Users\tester\Documents\GitHub\PSReflect-Functions\Structures\* -Include '*.ps1' |
+Get-ChildItem "$($PSScriptRoot)\Structures\*" -Include '*.ps1' |
     % {. $_.FullName}
 
 Write-Host "Loading API Functions Definitions"
@@ -90,7 +90,6 @@ $FunctionDefinitions = @(
         # No Parameters
     ) -EntryPoint RevertToSelf -SetLastError),
     #endregion advapi32
-
     #region iphlpapi
     (func iphlpapi GetIpNetTable ([Int32]) @(
         [IntPtr],                 #_Out_   PMIB_IPNETTABLE pIpNetTable
@@ -98,7 +97,6 @@ $FunctionDefinitions = @(
         [bool]                    #_In_    BOOL            bOrder
     ) -EntryPoint GetIpNetTable),
     #endregion iphlpapi
-
     #region kernel32
     (func kernel32 CloseHandle ([bool]) @(
         [IntPtr] #_In_ HANDLE hObject
@@ -195,7 +193,6 @@ $FunctionDefinitions = @(
         [UInt32].MakeByRefType()                   # _Out_ SIZE_T *lpNumberOfBytesWritten
     ) -EntryPoint WriteProcessMemory -SetLastError),
     #endregion kernel32
-
     #region Mpr
     (func Mpr WNetAddConnection2W ([Int]) @(
         $NETRESOURCEW,      # _In_ LPNETRESOURCE lpNetResource
@@ -210,7 +207,6 @@ $FunctionDefinitions = @(
         [Bool]          # _In_ BOOL    fForce
     ) -EntryPoint WNetCancelConnection2),
     #endregion Mpr
-
     #region netapi32
     (func netapi32 DsEnumerateDomainTrusts ([Int]) @(
         [String],                   # _In_opt_ LPTSTR            ServerName
@@ -345,7 +341,6 @@ $FunctionDefinitions = @(
         [Int32].MakeByRefType()     # _Inout_ LPDWORD resumehandle
     ) -EntryPoint NetWkstaUserEnum),
     #endregion netapi32
-
     #region ntdll
     (func ntdll NtQueryInformationThread ([Int32]) @(
         [IntPtr], #_In_      HANDLE          ThreadHandle,
@@ -362,7 +357,6 @@ $FunctionDefinitions = @(
         [Int32].MakeByRefType() # out bool PreviousValue
     ) -EntryPoint RtlAdjustPrivilege),
     #endregion ntdll
-
     #region secur32
     (func secur32 LsaCallAuthenticationPackage ([UInt32]) @(
         [IntPtr],                 #_In_  HANDLE    LsaHandle
@@ -408,20 +402,56 @@ $FunctionDefinitions = @(
         [UInt64].MakeByRefType()     #_Out_ PLSA_OPERATIONAL_MODE SecurityMode
     ) -EntryPoint LsaRegisterLogonProcess)
     #endregion secur32
+    #region wtsapi32
+    (func wtsapi32 WTSCloseServer ([Int]) @(
+        [IntPtr]    # _In_ HANDLE hServer
+    ) -EntryPoint WTSCloseServer),
+
+    (func wtsapi32 WTSEnumerateSessionsEx ([Int]) @(
+        [IntPtr],                   # _In_    HANDLE              hServer
+        [Int32].MakeByRefType(),    # _Inout_ DWORD               *pLevel
+        [Int],                      # _In_    DWORD               Filter
+        [IntPtr].MakeByRefType(),   # _Out_   PWTS_SESSION_INFO_1 *ppSessionInfo
+        [Int32].MakeByRefType()     # _Out_   DWORD               *pCount
+    ) -EntryPoint WTSEnumerateSessionsEx -SetLastError),
+
+    (func wtsapi32 WTSFreeMemory ([Int]) @(
+        [IntPtr] #_In_ PVOID pMemory
+    ) -EntryPoint WTSFreeMemory),
+
+    (func wtsapi32 WTSFreeMemoryEx ([Int]) @(
+        [Int32],  #_In_ WTS_TYPE_CLASS WTSTypeClass
+        [IntPtr], #_In_ PVOID          pMemory
+        [Int32]   #_In_ ULONG          NumberOfEntries
+    ) -EntryPoint WTSFreeMemoryEx),
+
+    (func wtsapi32 WTSOpenServerEx ([IntPtr]) @(
+        [String] #_In_ LPTSTR pServerName
+    ) -EntryPoint WTSOpenServerEx),
+
+    (func wtsapi32 WTSQuerySessionInformation ([Int]) @(
+        [IntPtr]                 #_In_  HANDLE         hServer
+        [Int]                    #_In_  DWORD          SessionId
+        [Int]                    #_In_  WTS_INFO_CLASS WTSInfoClass
+        [IntPtr].MakeByRefType() #_Out_ LPTSTR         *ppBuffer
+        [Int32].MakeByRefType()  #_Out_ DWORD          *pBytesReturned
+    ) -EntryPoint WTSQuerySessionInformation -SetLastError)
+    #endregion wtsapi32
 )
 
 $Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace PSReflectFunctions
 
-$Advapi32 = $Types['advapi32']
-$Iphlpapi = $Types['iphlpapi']
-$Kernel32 = $Types['kernel32']
-$Mpr = $Types['Mpr']
-$Netapi32 = $Types['netapi32']
-$Ntdll = $Types['ntdll']
-$Secur32 = $Types['secur32']
+$advapi32 = $Types['advapi32']
+$iphlpapi = $Types['iphlpapi']
+$kernel32 = $Types['kernel32']
+$mpr = $Types['Mpr']
+$netapi32 = $Types['netapi32']
+$ntdll = $Types['ntdll']
+$secur32 = $Types['secur32']
+$wtsapi32 = $Types['wtsapi32']
 
 Write-Host "Defining API Abstraction Functions"
-Get-ChildItem C:\Users\tester\Documents\GitHub\PSReflect-Functions | 
+Get-ChildItem $PSScriptRoot | 
     ? {$_.PSIsContainer -and ($_.Name -ne 'Enumerations' -and $_.Name -ne 'Structures')} |
     % {Get-ChildItem "$($_.FullName)\*" -Include '*.ps1'} |
     % {. $_.FullName}

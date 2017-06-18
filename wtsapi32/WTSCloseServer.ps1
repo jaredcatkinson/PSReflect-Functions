@@ -21,7 +21,7 @@ Handle to the RD session host to close.
 
 (func wtsapi32 WTSCloseServer ([Int]) @(
     [IntPtr]    # _In_ HANDLE hServer
-))
+) -EntryPoint WTSCloseServer)
 
 .EXAMPLE
 
@@ -43,11 +43,3 @@ https://msdn.microsoft.com/en-us/library/aa383829(v=vs.85).aspx
         $Wtsapi32::WTSCloseServer($Handle)
     }
 }
-
-$FunctionDefinitions = @(
-    (func wtsapi32 WTSCloseServer ([Int]) @([IntPtr]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Wtsapi32 = $Types['wtsapi32']

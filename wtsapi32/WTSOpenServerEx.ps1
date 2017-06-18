@@ -58,11 +58,3 @@ https://msdn.microsoft.com/en-us/library/ee621021(v=vs.85).aspx
         }
     }
 }
-
-$FunctionDefinitions = @(
-    (func wtsapi32 WTSOpenServerEx ([IntPtr]) @([String]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Wtsapi32 = $Types['wtsapi32']

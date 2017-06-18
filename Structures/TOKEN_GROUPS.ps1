@@ -16,7 +16,7 @@ typedef struct _TOKEN_GROUPS {
 } TOKEN_GROUPS, *PTOKEN_GROUPS;
 #>
 
-$TOKEN_GROUPS = struct $Mod TOKEN_GROUPS @{
+$TOKEN_GROUPS = struct $Module TOKEN_GROUPS @{
     GroupCount = field 0 UInt32
-    Groups = field 1 $SID_AND_ATTRIBUTES.MakeArrayType() -MarshalAs 
+    Groups = field 1 IntPtr
 }

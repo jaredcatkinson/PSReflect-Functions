@@ -1,4 +1,4 @@
-﻿$THREAD_ACCESS = psenum $Mod THREAD_ACCESS UInt32 @{
+﻿$THREAD_ACCESS = psenum $Module THREAD_ACCESS UInt32 @{
     THREAD_TERMINATE                 = 0x00000001
     THREAD_SUSPEND_RESUME            = 0x00000002
     THREAD_GET_CONTEXT               = 0x00000008

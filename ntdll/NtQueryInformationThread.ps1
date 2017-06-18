@@ -22,7 +22,7 @@
         [IntPtr], #_Inout_   PVOID           ThreadInformation,
         [Int32],  #_In_      ULONG           ThreadInformationLength,
         [IntPtr]  #_Out_opt_ PULONG          ReturnLength
-    ))
+    ) -EntryPoint NtQueryInformationThread)
         
     .LINK
 

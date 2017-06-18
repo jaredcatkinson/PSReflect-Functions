@@ -29,7 +29,7 @@
     (func kernel32 TerminateThread ([bool]) @(
         [IntPtr],                                  # _InOut_ HANDLE hThread
         [UInt32]                                   # _In_ DWORD dwExitCode
-    ) -SetLastError)
+    ) -EntryPoint TerminateThread -SetLastError)
         
     .LINK
 

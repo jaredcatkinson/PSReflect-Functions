@@ -1,4 +1,4 @@
-﻿$CONTEXT64 = struct $mod CONTEXT64 @{
+﻿$CONTEXT64 = struct $Module CONTEXT64 @{
     P1Home            = field 0 UInt64
     P2Home            = field 1 UInt64
     P3Home            = field 2 UInt64

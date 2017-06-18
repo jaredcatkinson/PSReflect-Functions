@@ -26,8 +26,8 @@ The domain the ComputerName resides in to enumerate the PDS for.
     (func netapi32 NetGetDCName ([Int]) @(
         [String],                   # _In_  LPCWSTR servername
         [String],                   # _In_  LPCWSTR domainname
-        [IntPtr].MakeByRefType())   # _Out_ LPBYTE  *bufptr
-    )
+        [IntPtr].MakeByRefType()    # _Out_ LPBYTE  *bufptr
+    ) -EntryPoint NetGetDCName)
 
     (func netapi32 NetApiBufferFree ([Int]) @(
         [IntPtr]    # _In_ LPVOID Buffer
@@ -79,13 +79,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370420(v=vs.85).aspx
         $Null = $Netapi32::NetApiBufferFree($PtrInfo)
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func netapi32 NetGetDCName ([Int]) @([String], [String], [IntPtr].MakeByRefType())),
-    (func netapi32 NetApiBufferFree ([Int]) @([IntPtr]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']

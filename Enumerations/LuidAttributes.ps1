@@ -1,4 +1,4 @@
-﻿$LuidAttributes = psenum $Mod LuidAttributes UInt32 @{
+﻿$LuidAttributes = psenum $Module LuidAttributes UInt32 @{
     DISABLED                        = 0x00000000
     SE_PRIVILEGE_ENABLED_BY_DEFAULT = 0x00000001
     SE_PRIVILEGE_ENABLED            = 0x00000002

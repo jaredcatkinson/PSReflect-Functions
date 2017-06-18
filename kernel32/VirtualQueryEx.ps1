@@ -25,7 +25,7 @@
         [IntPtr],                                  #_In_opt_ LPCVOID                   lpAddress,
         $MEMORYBASICINFORMATION.MakeByRefType(),   #_Out_    PMEMORY_BASIC_INFORMATION lpBuffer,
         [UInt32]                                   #_In_     SIZE_T                    dwLength
-    ) -SetLastError)
+    ) -EntryPoint VirtualQueryEx -SetLastError)
         
     .LINK
 

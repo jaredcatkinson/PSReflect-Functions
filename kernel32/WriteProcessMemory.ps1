@@ -36,7 +36,7 @@
         [Byte[]],                                  # _In_ LPCVOID lpBuffer
         [UInt32],                                  # _In_ SIZE_T nSize
         [UInt32].MakeByRefType()                   # _Out_ SIZE_T *lpNumberOfBytesWritten
-    ) -SetLastError) # MSDN states to call GetLastError if the return value is false. 
+    ) -EntryPoint WriteProcessMemory -SetLastError)
 
     .LINK
 

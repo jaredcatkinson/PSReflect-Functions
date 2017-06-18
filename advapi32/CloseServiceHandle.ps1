@@ -51,12 +51,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/ms682028(v=vs.85).aspx
         throw "[CloseServiceHandle] CloseServiceHandle() Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func advapi32 CloseServiceHandle ([Int]) @([IntPtr]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Advapi32 = $Types['advapi32']

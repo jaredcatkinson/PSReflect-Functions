@@ -23,7 +23,7 @@ Defaults to the local host name.
     (func netapi32 DsGetSiteName ([Int]) @(
         [String],                   # _In_  LPCTSTR ComputerName
         [IntPtr].MakeByRefType())   # _Out_ LPTSTR  *SiteName
-    )
+    ) -EntryPoint DsGetSiteName)
 
     (func netapi32 NetApiBufferFree ([Int]) @(
         [IntPtr]    # _In_ LPVOID Buffer
@@ -69,13 +69,3 @@ https://msdn.microsoft.com/en-us/library/ms675992(v=vs.85).aspx
         }
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func netapi32 DsGetSiteName ([Int]) @([String], [IntPtr].MakeByRefType())),
-    (func netapi32 NetApiBufferFree ([Int]) @([IntPtr]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']

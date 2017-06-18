@@ -35,8 +35,8 @@ Default of 3. Affects the result structure returned.
         [Int],                      # _In_    DWORD      prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    totalentries
-        [Int32].MakeByRefType())    # _Inout_ PDWORD_PTR resume_handle
-    )
+        [Int32].MakeByRefType()     # _Inout_ PDWORD_PTR resume_handle
+    ) -EntryPoint NetFileEnum)
 
     (func netapi32 NetApiBufferFree ([Int]) @(
         [IntPtr]    # _In_ LPVOID Buffer
@@ -110,27 +110,4 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb525378(v=vs.85).aspx
             }
         }
     }
-}
-
-
-$FunctionDefinitions = @(
-    (func netapi32 NetFileEnum ([Int]) @([String], [String], [String], [Int], [IntPtr].MakeByRefType(), [Int], [Int32].MakeByRefType(), [Int32].MakeByRefType(), [Int32].MakeByRefType())),
-    (func netapi32 NetApiBufferFree ([Int]) @([IntPtr]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']
-
-
-$FILE_INFO_2        = struct $Module FILE_INFO_2 @{
-    fi2_id          = field 0 UInt32
-}
-
-$FILE_INFO_3        = struct $Module FILE_INFO_3 @{
-    fi3_id          = field 0 UInt32
-    fi3_permissions = field 1 UInt32
-    fi3_num_locks   = field 2 UInt32
-    fi3_pathname    = field 3 String -MarshalAs @('LPWStr')
-    fi3_username    = field 4 String -MarshalAs @('LPWStr')
 }

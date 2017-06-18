@@ -20,7 +20,7 @@
     Required Dependencies: None
     Optional Dependencies: None
 
-    (func advapi32 RevertToSelf ([bool]) @() -SetLastError)
+    (func advapi32 RevertToSelf ([bool]) @() -EntryPoint RevertToSelf -SetLastError)
 
     .LINK
 

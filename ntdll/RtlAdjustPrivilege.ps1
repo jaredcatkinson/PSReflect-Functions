@@ -36,7 +36,7 @@ The privilege to enable. One of 'SeCreateTokenPrivilege', 'SeAssignPrimaryTokenP
     [Bool],                 # bool bEnablePrivilege
     [Bool],                 # bool IsThreadPrivilege
     [Int32].MakeByRefType() # out bool PreviousValue
-))
+) -EntryPoint RtlAdjustPrivilege)
 
 .LINK
 
@@ -111,12 +111,3 @@ $SecurityEntity = psenum $Module SecurityEntity UInt32 @{
     SeTimeZonePrivilege                 =   34
     SeCreateSymbolicLinkPrivilege       =   35
 }
-
-
-$FunctionDefinitions = @(
-    (func ntdll RtlAdjustPrivilege ([UInt32]) @([Int32], [Bool], [Bool], [Int32].MakeByRefType()))
-)
-
-
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$NTDll    = $Types['ntdll']

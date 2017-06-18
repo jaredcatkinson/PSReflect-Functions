@@ -1,4 +1,4 @@
-﻿$MEMORY_BASIC_INFORMATION = struct $Mod MEMORY_BASIC_INFORMATION @{
+﻿$MEMORY_BASIC_INFORMATION = struct $Module MEMORY_BASIC_INFORMATION @{
     BaseAddress       = field 0 UIntPtr
     AllocationBase    = field 1 UIntPtr
     AllocationProtect = field 2 UInt32

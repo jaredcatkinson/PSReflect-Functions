@@ -21,7 +21,7 @@
         [IntPtr],                                    # _In_ LPVOID lpAddress
         [UInt32],                                    # _In_ SIZE_T dwSize
         [UInt32]                                     # _In_ DWORD  dwFreeType
-    ) -SetLastError) # MSDN states to call GetLastError if the return value is false.
+    ) -EntryPoint VirtualFreeEx -SetLastError)
         
     .LINK
 

@@ -33,7 +33,7 @@
         [Byte[]],                                  # _Out_ LPVOID  lpBuffer
         [Int],                                     # _In_ SIZE_T nSize
         [Int].MakeByRefType()                      # _Out_ SIZE_T *lpNumberOfBytesRead
-    ) -SetLastError) # MSDN states to call GetLastError if the return value is false.
+    ) -EntryPoint ReadProcessMemory -SetLastError)
         
     .LINK
 

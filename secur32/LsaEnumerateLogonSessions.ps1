@@ -19,7 +19,7 @@
     (func secur32 LsaEnumerateLogonSessions ([UInt32]) @(
         [UInt64].MakeByRefType(), #_Out_ PULONG LogonSessionCount,
         [IntPtr].MakeByRefType()  #_Out_ PLUID  *LogonSessionList
-    ))
+    ) -EntryPoint LsaEnumerateLogonSessions)
 
     .LINK
 

@@ -34,7 +34,7 @@ The local group name to delete the member from. If not given, it defaults to "Ad
         [Int],                      # _In_ DWORD   level
         [IntPtr],                   # _In_ LPBYTE  buf
         [Int]                       # _In_ DWORD   totalentries
-    )
+    ) -EntryPoint NetLocalGroupDelMembers)
 
 .EXAMPLE
 
@@ -85,18 +85,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370439(v=vs.85).aspx
         }
     }
 }
-
-
-$Module = New-InMemoryModule -ModuleName Win32
-
-$LOCALGROUP_MEMBERS_INFO_3  = struct $Module LOCALGROUP_MEMBERS_INFO_3 @{
-    lgrmi3_domainandname    = field 0 String -MarshalAs @('LPWStr')
-}
-
-
-$FunctionDefinitions = @(
-    (func netapi32 NetLocalGroupDelMembers ([Int]) @([String], [String], [Int], [IntPtr], [Int]))
-)
-
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']

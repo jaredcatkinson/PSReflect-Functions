@@ -21,7 +21,7 @@
     (func secur32 LsaGetLogonSessionData ([UInt32]) @(
         [IntPtr],                #_In_  PLUID                        LogonId,
         [IntPtr].MakeByRefType() #_Out_ PSECURITY_LOGON_SESSION_DATA *ppLogonSessionData
-    ))
+    ) -EntryPoint LsaGetLogonSessionData)
 
     .LINK
 

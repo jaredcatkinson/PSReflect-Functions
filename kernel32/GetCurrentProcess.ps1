@@ -15,7 +15,7 @@ Retrieves a pseudo handle for the current process.
 
 .NOTES
 
-(func kernel32 GetCurrentProcess ([IntPtr]) @())
+(func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess)
 
 .LINK
 
@@ -30,12 +30,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/ms683179(v=vs.85).aspx
 
     $Kernel32::GetCurrentProcess()
 }
-
-
-$FunctionDefinitions = @(
-    (func kernel32 GetCurrentProcess ([IntPtr]) @())
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Kernel32 = $Types['kernel32']

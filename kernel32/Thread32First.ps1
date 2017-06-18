@@ -19,7 +19,7 @@
     (func kernel32 Thread32First ([bool]) @(
         [IntPtr],                                  #_In_    HANDLE          hSnapshot,
         $THREADENTRY32.MakeByRefType()             #_Inout_ LPTHREADENTRY32 lpte
-    ) -SetLastError)
+    ) -EntryPoint Thread32First -SetLastError)
         
     .LINK
 

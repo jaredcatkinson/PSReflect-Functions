@@ -27,7 +27,7 @@
       [UInt32]                                     #_In_    DWORD  dwFlags,
       [System.Text.StringBuilder]                  #_Out_   LPTSTR lpExeName,
       [UInt32].MakeByRefType()                     #_Inout_ PDWORD lpdwSize
-    ) -SetLastError)
+    ) -EntryPoint QueryFullProcessImageName -SetLastError)
         
     .LINK
 

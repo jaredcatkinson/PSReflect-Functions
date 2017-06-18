@@ -28,7 +28,7 @@ The name of the share to delete.
         [String],                   # _In_  LPWSTR  servername
         [String],                   # _In_  LPWSTR  netname
         [Int]                       # _In_  DWORD   reserved
-    )
+    ) -EntryPoint NetShareDel)
 
 .EXAMPLE
 
@@ -66,12 +66,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb525386(v=vs.85).aspx
         }
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func netapi32 NetShareDel ([Int]) @([String], [String], [Int]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']

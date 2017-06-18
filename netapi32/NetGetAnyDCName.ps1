@@ -24,11 +24,11 @@ The domain the ComputerName resides in to enumerate a domain controller for.
 
 .NOTES
 
-    (func netapi32 DsGetSiteName ([Int]) @(
+    (func netapi32 NetGetAnyDCName ([Int]) @(
         [String],                   # _In_  LPCWSTR servername
         [String],                   # _In_  LPCWSTR domainname
-        [IntPtr].MakeByRefType())   # _Out_ LPBYTE  *bufptr
-    )
+        [IntPtr].MakeByRefType()    # _Out_ LPBYTE  *bufptr
+    ) -EntryPoint NetGetAnyDCName)
 
     (func netapi32 NetApiBufferFree ([Int]) @(
         [IntPtr]    # _In_ LPVOID Buffer
@@ -80,13 +80,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370419(v=vs.85).aspx
         $Null = $Netapi32::NetApiBufferFree($PtrInfo)
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func netapi32 NetGetAnyDCName ([Int]) @([String], [String], [IntPtr].MakeByRefType())),
-    (func netapi32 NetApiBufferFree ([Int]) @([IntPtr]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']

@@ -1,4 +1,4 @@
-﻿$MemProtection = psenum $Mod PageOptions UInt32 @{
+﻿$MemProtection = psenum $Module PageOptions UInt32 @{
     PAGE_NOACCESS          = 0x01
     PAGE_READONLY          = 0x02
     PAGE_READWRITE         = 0x04

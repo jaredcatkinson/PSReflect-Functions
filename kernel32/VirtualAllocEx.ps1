@@ -53,7 +53,7 @@
         [UInt32],                                  # _In_ SIZE_T dwSize
         [UInt32],                                  # _In_ DWORD  flAllocationType
         [UInt32]                                   # _In_ DWORD  flProtect
-    ) -SetLastError) # MSDN states to call GetLastError if the return value is false.
+    ) -EntryPoint VirtualAllocEx -SetLastError)
 
     .LINK
 

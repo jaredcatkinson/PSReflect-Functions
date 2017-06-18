@@ -28,7 +28,7 @@
         [UInt32],                #_In_  SIZE_T dwSize
         [UInt32]                 #_In_  DWORD  flNewProtect
         [IntPtr].MakeByRefType() #_Out_ PDWORD lpflOldProtect
-    ) -SetLastError) # MSDN states to call GetLastError if the return value is false.
+    ) -EntryPoint VirtualProtectEx -SetLastError)
 
     .LINK
     

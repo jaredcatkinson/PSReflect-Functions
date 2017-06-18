@@ -1,4 +1,4 @@
-﻿$SYSTEM_HANDLE_INFORMATION = struct $Mod SYSTEM_HANDLE_INFORMATION @{
+﻿$SYSTEM_HANDLE_INFORMATION = struct $Module SYSTEM_HANDLE_INFORMATION @{
 	ProcessId        = field 0 UInt32
 	ObjectTypeNumber = field 1 Byte
 	Flags            = field 2 Byte

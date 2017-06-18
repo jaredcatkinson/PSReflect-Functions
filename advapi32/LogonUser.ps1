@@ -46,14 +46,14 @@ Default of 'WINNT50', for user with "-LogonType 'NEW_CREDENTIALS'"
 
 .NOTES
 
-(func advapi32 LogonUser ([Bool]) @
+(func advapi32 LogonUser ([Bool]) @(
     [String],                   # _In_     LPTSTR  lpszUsername
     [String],                   # _In_opt_ LPTSTR  lpszDomain
     [String],                   # _In_opt_ LPTSTR  lpszPassword
     [UInt32],                   # _In_     DWORD   dwLogonType
     [UInt32],                   # _In_     DWORD   dwLogonProvider
     [IntPtr].MakeByRefType()    # _Out_    PHANDLE phToken
-) -SetLastError)
+) -EntryPoint LogonUser -SetLastError)
 
 .LINK
 
@@ -114,12 +114,3 @@ $Handle = LogonUser -Credential $Cred
         $LogonTokenHandle
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func advapi32 LogonUser ([Bool]) @([String], [String], [String], [UInt32], [UInt32], [IntPtr].MakeByRefType()) -SetLastError)
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Advapi32 = $Types['advapi32']

@@ -22,7 +22,7 @@
 
     (func secur32 LsaConnectUntrusted ([UInt32]) @(
         [IntPtr].MakeByRefType() #_Out_ PHANDLE LsaHandle
-    ))
+    ) -EntryPoint LsaConnectUntrusted)
 
     .LINK
 

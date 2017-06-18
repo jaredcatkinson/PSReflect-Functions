@@ -18,7 +18,7 @@
 
     (func secur32 LsaDeregisterLogonProcess ([UInt32]) @(
         [IntPtr] #_In_ HANDLE LsaHandle
-    ))
+    ) -EntryPoint LsaDeregisterLogonProcess)
 
     .LINK
 

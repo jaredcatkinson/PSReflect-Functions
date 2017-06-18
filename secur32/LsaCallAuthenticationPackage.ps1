@@ -25,6 +25,16 @@
     Required Dependencies: LsaNtStatusToWinError (Function)
     Optional Dependencies: None
 
+    (func secur32 LsaCallAuthenticationPackage ([UInt32]) @(
+        [IntPtr],                 #_In_  HANDLE    LsaHandle
+        [UInt64],                 #_In_  ULONG     AuthenticationPackage
+        [IntPtr],                 #_In_  PVOID     ProtocolSubmitBuffer
+        [UInt64],                 #_In_  ULONG     SubmitBufferLength
+        [IntPtr].MakeByRefType(), #_Out_ PVOID     *ProtocolReturnBuffer
+        [UInt64].MakeByRefType(), #_Out_ PULONG    *ReturnBufferLength
+        [UInt32].MakeByRefType()  #_Out_ PNTSTATUS ProtocolStatus
+    ) -EntryPoint LsaCallAuthenticationPackage)
+
     .LINK
 
     https://msdn.microsoft.com/en-us/library/windows/desktop/aa378261(v=vs.85).aspx
@@ -51,18 +61,6 @@
         [UInt64]
         $SubmitBufferLength
     )
-
-    <#
-    (func secur32 LsaCallAuthenticationPackage ([UInt32]) @(
-        [IntPtr],                 #_In_  HANDLE    LsaHandle
-        [UInt64],                 #_In_  ULONG     AuthenticationPackage
-        [IntPtr],                 #_In_  PVOID     ProtocolSubmitBuffer
-        [UInt64],                 #_In_  ULONG     SubmitBufferLength
-        [IntPtr].MakeByRefType(), #_Out_ PVOID     *ProtocolReturnBuffer
-        [UInt64].MakeByRefType(), #_Out_ PULONG    *ReturnBufferLength
-        [UInt32].MakeByRefType()  #_Out_ PNTSTATUS ProtocolStatus
-    ))
-    #>
     
     $ProtocolReturnBuffer = [IntPtr]::Zero
     $ReturnBufferLength = [UInt64]0

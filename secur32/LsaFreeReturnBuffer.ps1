@@ -22,8 +22,8 @@
     Optional Dependencies: None
 
     (func secur32 LsaFreeReturnBuffer ([UInt32]) @(
-        [IntPtr].MakeByRefType() #_In_ PVOID Buffer
-    ))
+        [IntPtr] #_In_ PVOID Buffer
+    ) -EntryPoint LsaFreeReturnBuffer)
 
     .LINK
 

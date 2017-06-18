@@ -34,7 +34,7 @@ Default of 'ALL_ACCESS'.
     [String],       # _In_opt_ LPCTSTR lpMachineName
     [String],       # _In_opt_ LPCTSTR lpDatabaseName
     [Int]           # _In_     DWORD   dwDesiredAccess
-) -SetLastError)
+) -EntryPoint OpenSCManagerW -SetLastError)
 
 .LINK
 
@@ -80,12 +80,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/ms684323(v=vs.85).aspx
         throw "[OpenSCManagerW] OpenSCManagerW() Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func advapi32 OpenSCManagerW ([IntPtr]) @([String], [String], [Int]) -SetLastError)
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Advapi32 = $Types['advapi32']

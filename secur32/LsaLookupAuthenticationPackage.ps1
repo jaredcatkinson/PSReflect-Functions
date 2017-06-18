@@ -28,7 +28,7 @@
         [IntPtr],                           #_In_  HANDLE      LsaHandle,
         $LSA_UNICODE_STRING.MakeByRefType() #_In_  PLSA_STRING PackageName,
         [UInt64].MakeByRefType()            #_Out_ PULONG      AuthenticationPackage
-    ))
+    ) -EntryPoint LsaLookupAuthenticationPackage)
 
     .LINK
 

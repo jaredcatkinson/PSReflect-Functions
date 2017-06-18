@@ -32,8 +32,8 @@ Default of 1. Affects the result structure returned.
         [Int],                      # _In_    DWORD      prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    totalentries
-        [Int32].MakeByRefType())    # _Inout_ PDWORD_PTR resumehandle
-    )
+        [Int32].MakeByRefType()     # _Inout_ PDWORD_PTR resumehandle
+    ) -EntryPoint NetLocalGroupEnum)
 
     (func netapi32 NetApiBufferFree ([Int]) @(
         [IntPtr]    # _In_ LPVOID Buffer
@@ -107,24 +107,4 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb525382(v=vs.85).aspx
             }
         }
     }
-}
-
-
-$FunctionDefinitions = @(
-    (func netapi32 NetLocalGroupEnum ([Int]) @([String], [Int], [IntPtr].MakeByRefType(), [Int], [Int32].MakeByRefType(), [Int32].MakeByRefType(), [Int32].MakeByRefType())),
-    (func netapi32 NetApiBufferFree ([Int]) @([IntPtr]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']
-
-
-$LOCALGROUP_INFO_0  = struct $Module LOCALGROUP_INFO_0 @{
-    lgrpi0_name     = field 0 String -MarshalAs @('LPWStr')
-}
-
-$LOCALGROUP_INFO_1  = struct $Module LOCALGROUP_INFO_1 @{
-    lgrpi1_name     = field 0 String -MarshalAs @('LPWStr')
-    lgrpi1_comment  = field 1 String -MarshalAs @('LPWStr')
 }

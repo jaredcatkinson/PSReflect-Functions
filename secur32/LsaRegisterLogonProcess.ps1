@@ -20,7 +20,7 @@
         $LSA_STRING.MakeByRefType() #_In_  PLSA_STRING           LogonProcessName,
         [IntPtr].MakeByRefType()    #_Out_ PHANDLE               LsaHandle,
         [UInt64].MakeByRefType()    #_Out_ PLSA_OPERATIONAL_MODE SecurityMode
-    ))
+    ) -EntryPoint LsaRegisterLogonProcess)
 
     .LINK
 

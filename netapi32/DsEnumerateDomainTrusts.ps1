@@ -24,11 +24,11 @@ Specifies the hostname or domain to query current domain trusts for.
         [UInt32],                   # _In_     ULONG             Flags
         [IntPtr].MakeByRefType(),   # _Out_    PDS_DOMAIN_TRUSTS *Domains
         [IntPtr].MakeByRefType()    # _Out_    PULONG            DomainCount
-    )
+    ) -EntryPoint DsEnumerateDomainTrusts)
 
     (func netapi32 NetApiBufferFree ([Int]) @(
         [IntPtr]    # _In_ LPVOID Buffer
-    )
+    ) -EntryPoint NetApiBufferFree)
 
     (func advapi32 ConvertSidToStringSid ([Int]) @(
         [IntPtr],
@@ -101,54 +101,4 @@ https://msdn.microsoft.com/en-us/library/ms675976(v=vs.85).aspx
         }
     }
     
-}
-
-
-$FunctionDefinitions = @(
-    (func netapi32 DsEnumerateDomainTrusts ([Int]) @([String], [UInt32], [IntPtr].MakeByRefType(), [IntPtr].MakeByRefType())),
-    (func netapi32 NetApiBufferFree ([Int]) @([IntPtr])),
-    (func advapi32 ConvertSidToStringSid ([Int]) @([IntPtr], [String].MakeByRefType()) -SetLastError)
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']
-$Advapi32 = $Types['advapi32']
-
-
-# enums used in DS_DOMAIN_TRUSTS
-$DsDomainFlag = psenum $Module DsDomainFlag UInt32 @{
-    IN_FOREST       = 1
-    DIRECT_OUTBOUND = 2
-    TREE_ROOT       = 4
-    PRIMARY         = 8
-    NATIVE_MODE     = 16
-    DIRECT_INBOUND  = 32
-} -Bitfield
-$DsDomainTrustType = psenum $Module DsDomainTrustType UInt32 @{
-    DOWNLEVEL   = 1
-    UPLEVEL     = 2
-    MIT         = 3
-    DCE         = 4
-}
-$DsDomainTrustAttributes = psenum $Module DsDomainTrustAttributes UInt32 @{
-    NON_TRANSITIVE      = 1
-    UPLEVEL_ONLY        = 2
-    FILTER_SIDS         = 4
-    FOREST_TRANSITIVE   = 8
-    CROSS_ORGANIZATION  = 16
-    WITHIN_FOREST       = 32
-    TREAT_AS_EXTERNAL   = 64
-}
-
-# the DsEnumerateDomainTrusts result structure
-$DS_DOMAIN_TRUSTS = struct $Module DS_DOMAIN_TRUSTS @{
-    NetbiosDomainName = field 0 String -MarshalAs @('LPWStr')
-    DnsDomainName = field 1 String -MarshalAs @('LPWStr')
-    Flags = field 2 $DsDomainFlag
-    ParentIndex = field 3 UInt32
-    TrustType = field 4 $DsDomainTrustType
-    TrustAttributes = field 5 $DsDomainTrustAttributes
-    DomainSid = field 6 IntPtr
-    DomainGuid = field 7 Guid
 }

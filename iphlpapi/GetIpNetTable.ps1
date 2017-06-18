@@ -22,7 +22,7 @@
         [IntPtr],                 #_Out_   PMIB_IPNETTABLE pIpNetTable
         [Int32].MakeByRefType(),  #_Inout_ PULONG          pdwSize
         [bool]                    #_In_    BOOL            bOrder
-    ))
+    ) -EntryPoint GetIpNetTable)
 
     .LINK
 

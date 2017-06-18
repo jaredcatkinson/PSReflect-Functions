@@ -1,4 +1,4 @@
-﻿$SID_NAME_USER = psenum $Mod SID_NAME_USER UInt32 @{
+﻿$SID_NAME_USER = psenum $Module SID_NAME_USER UInt32 @{
     SidTypeUser           = 1
     SidTypeGroup          = 2
     SidTypeDomain         = 3

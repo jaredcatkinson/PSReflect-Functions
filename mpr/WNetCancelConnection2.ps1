@@ -28,7 +28,7 @@ Specifies the remote \\UNC\path to remove the connection for.
     [String],       # _In_ LPCTSTR lpName,
     [Int],          # _In_ DWORD   dwFlags
     [Bool]          # _In_ BOOL    fForce
-))
+) -EntryPoint WNetCancelConnection2)
 
 .LINK
 
@@ -78,13 +78,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa385427(v=vs.85).aspx
         }
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func Mpr WNetCancelConnection2 ([Int]) @([String], [Int], [Bool]))
-)
-
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Mpr = $Types['Mpr']

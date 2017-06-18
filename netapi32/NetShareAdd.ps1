@@ -37,7 +37,7 @@ An optional comment/remark to set for the newly created share.
         [Int],                      # _In_  DWORD   level
         [IntPtr],                   # _In_  LPBYTE  buf
         [Int32].MakeByRefType()     # _Out_ LPDWORD parm_err
-    )
+    ) -EntryPoint NetShareAdd)
 
 .EXAMPLE
 
@@ -93,25 +93,4 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb525384(v=vs.85).aspx
             }
         }
     }
-}
-
-
-$FunctionDefinitions = @(
-    (func netapi32 NetShareAdd ([Int]) @([String], [Int], [IntPtr], [Int32]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']
-
-
-$SHARE_INFO_2                 = struct $Module SHARE_INFO_2 @{
-    shi2_netname              = field 0 String -MarshalAs @('LPWStr')
-    shi2_type                 = field 1 UInt32
-    shi2_remark               = field 2 String -MarshalAs @('LPWStr')
-    shi2_permissions          = field 3 UInt32
-    shi2_max_uses             = field 4 UInt32
-    shi2_current_uses         = field 5 UInt32
-    shi2_path                 = field 6 String -MarshalAs @('LPWStr')
-    shi2_passwd               = field 7 String -MarshalAs @('LPWStr')
 }

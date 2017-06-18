@@ -1,4 +1,4 @@
-﻿$SecurityEntity = psenum $Mod SecurityEntity UInt32 @{
+﻿$SecurityEntity = psenum $Module SecurityEntity UInt32 @{
     SeCreateTokenPrivilege          = 1
     SeAssignPrimaryTokenPrivilege   = 2
     SeLockMemoryPrivilege           = 3

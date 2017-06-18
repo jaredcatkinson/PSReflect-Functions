@@ -34,7 +34,7 @@ Default of 1. Affects the result structure returned.
         [Int32].MakeByRefType(),    # _Out_   LPDWORD entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD totalentries
         [Int32].MakeByRefType()     # _Inout_ LPDWORD resumehandle
-    )
+    ) -EntryPoint NetWkstaUserEnum)
 
     (func netapi32 NetApiBufferFree ([Int]) @(
         [IntPtr]    # _In_ LPVOID Buffer
@@ -108,26 +108,4 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370669(v=vs.85).aspx
             }
         }
     }
-}
-
-
-$FunctionDefinitions = @(
-    (func netapi32 NetWkstaUserEnum ([Int]) @([String], [Int], [IntPtr].MakeByRefType(), [Int], [Int32].MakeByRefType(), [Int32].MakeByRefType(), [Int32].MakeByRefType())),
-    (func netapi32 NetApiBufferFree ([Int]) @([IntPtr]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']
-
-
-$WKSTA_USER_INFO_0 = struct $Module WKSTA_USER_INFO_0 @{
-    wkui0_username = field 0 String -MarshalAs @('LPWStr')
-}
-
-$WKSTA_USER_INFO_1      = struct $Module WKSTA_USER_INFO_1 @{
-    wkui1_username      = field 0 String -MarshalAs @('LPWStr')
-    wkui1_logon_domain  = field 1 String -MarshalAs @('LPWStr')
-    wkui1_oth_domains   = field 2 String -MarshalAs @('LPWStr')
-    wkui1_logon_server  = field 3 String -MarshalAs @('LPWStr')
 }

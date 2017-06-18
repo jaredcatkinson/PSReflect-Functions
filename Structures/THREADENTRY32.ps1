@@ -1,4 +1,4 @@
-﻿$THREADENTRY32 = struct $Mod THREADENTRY32 @{
+﻿$THREADENTRY32 = struct $Module THREADENTRY32 @{
     dwSize             = field 0 UInt32
     cntUsage           = field 1 UInt32
     th32ThreadID       = field 2 UInt32

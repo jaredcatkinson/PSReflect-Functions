@@ -29,7 +29,7 @@
     (func kernel32 GetThreadContextx64 ([bool]) @(
         [IntPtr],                  #_In_    HANDLE    hThread
         $CONTEXT64.MakeByRefType() #_Inout_ LPCONTEXT lpContext
-    ) -EntryPoint GetThreadContext -SetLastError), # MSDN states to call GetLastError if the return value is false.
+    ) -EntryPoint GetThreadContext -SetLastError)
 
     .LINK
     

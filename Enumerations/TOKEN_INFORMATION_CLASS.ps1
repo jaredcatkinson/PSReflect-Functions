@@ -1,4 +1,4 @@
-﻿$TOKEN_INFORMATION_CLASS = psenum $Mod TOKEN_INFORMATION_CLASS UInt16 @{ 
+﻿$TOKEN_INFORMATION_CLASS = psenum $Module TOKEN_INFORMATION_CLASS UInt16 @{ 
     TokenUser                            = 1
     TokenGroups                          = 2
     TokenPrivileges                      = 3

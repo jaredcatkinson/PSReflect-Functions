@@ -39,7 +39,7 @@ for connection to the remote system.
     [String],           # _In_ LPCTSTR       lpPassword
     [String],           # _In_ LPCTSTR       lpUsername
     [UInt32]            # _In_ DWORD         dwFlags
-))
+) -EntryPoint WNetAddConnection2W)
 
 .LINK
 
@@ -122,24 +122,3 @@ WNetAddConnection2W -ComputerName "PRIMARY" -Credential $Cred -Verbose
         }
     }
 }
-
-$Module = New-InMemoryModule -ModuleName Win32
-
-$NETRESOURCEW = struct $Module NETRESOURCEW @{
-    dwScope =         field 0 UInt32
-    dwType =          field 1 UInt32
-    dwDisplayType =   field 2 UInt32
-    dwUsage =         field 3 UInt32
-    lpLocalName =     field 4 String -MarshalAs @('LPWStr')
-    lpRemoteName =    field 5 String -MarshalAs @('LPWStr')
-    lpComment =       field 6 String -MarshalAs @('LPWStr')
-    lpProvider =      field 7 String -MarshalAs @('LPWStr')
-}
-
-
-$FunctionDefinitions = @(
-    (func Mpr WNetAddConnection2W ([Int]) @($NETRESOURCEW, [String], [String], [UInt32]))
-)
-
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Mpr = $Types['Mpr']

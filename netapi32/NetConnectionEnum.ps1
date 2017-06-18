@@ -119,28 +119,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb525376(v=vs.85).aspx
         }
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func netapi32 NetConnectionEnum ([Int]) @([String], [String], [Int], [IntPtr].MakeByRefType(), [Int], [Int32].MakeByRefType(), [Int32].MakeByRefType(), [Int32].MakeByRefType())),
-    (func netapi32 NetApiBufferFree ([Int]) @([IntPtr]))
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Netapi32 = $Types['netapi32']
-
-
-$CONNECTION_INFO_0  = struct $Module CONNECTION_INFO_0 @{
-    coni0_id        = field 0 UInt32
-}
-
-$CONNECTION_INFO_1  = struct $Module CONNECTION_INFO_1 @{
-    coni1_id        = field 0 UInt32
-    coni1_type      = field 1 UInt32
-    coni1_num_opens = field 2 UInt32
-    coni1_num_users = field 3 UInt32
-    coni1_time      = field 4 UInt32
-    coni1_username  = field 5 String -MarshalAs @('LPWStr')
-    coni1_netname   = field 6 String -MarshalAs @('LPWStr')
-}

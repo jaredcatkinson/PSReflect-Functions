@@ -28,7 +28,7 @@
 
     (func kernel32 ResumeThread ([UInt32]) @(
         [IntPtr] #_In_ HANDLE hThread
-    ) -SetLastError) # MSDN states to call GetLastError if the return value is false.
+    ) -EntryPoint ResumeThread -SetLastError)
 
     .LINK
     

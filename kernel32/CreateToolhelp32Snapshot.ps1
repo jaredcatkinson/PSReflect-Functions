@@ -21,7 +21,7 @@
     (func kernel32 CreateToolhelp32Snapshot ([IntPtr]) @(
         [UInt32],                                 #_In_ DWORD dwFlags,
         [UInt32]                                  #_In_ DWORD th32ProcessID
-    ) -SetLastError)
+    ) -EntryPoint CreateToolhelp32Snapshot -SetLastError)
         
     .LINK
 

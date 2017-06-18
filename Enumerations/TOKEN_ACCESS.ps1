@@ -1,4 +1,4 @@
-﻿$TOKEN_ACCESS = psenum $Mod TOKEN_ACCESS UInt32 @{
+﻿$TOKEN_ACCESS = psenum $Module TOKEN_ACCESS UInt32 @{
     TOKEN_ASSIGN_PRIMARY              = 0x00000001
     TOKEN_DUPLICATE                   = 0x00000002
     TOKEN_IMPERSONATE                 = 0x00000004

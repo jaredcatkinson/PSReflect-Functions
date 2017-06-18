@@ -164,13 +164,3 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/ms681987(v=vs.85).aspx
         }
     }
 }
-
-
-$FunctionDefinitions = @(
-    (func advapi32 ChangeServiceConfig ([Bool]) @([IntPtr], [UInt32], [UInt32], [UInt32], [String], [String], [IntPtr], [String], [String], [String], [String]) -SetLastError -Charset Unicode),
-    (func advapi32 CloseServiceHandle ([Bool]) @([IntPtr]) -SetLastError)
-)
-
-$Module = New-InMemoryModule -ModuleName Win32
-$Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace 'Win32'
-$Advapi32 = $Types['advapi32']

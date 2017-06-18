@@ -5,7 +5,7 @@ typedef enum tagTOKEN_TYPE {
 } TOKEN_TYPE, *PTOKEN_TYPE;
 #>
 
-$TOKEN_TYPE = psenum $Mod TOKEN_TYPE UInt32 @{
+$TOKEN_TYPE = psenum $Module TOKEN_TYPE UInt32 @{
     TokenPrimary       = 1
     TokenImpersonation = 2
 }

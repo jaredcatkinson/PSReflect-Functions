@@ -5,7 +5,7 @@ typedef struct _TOKEN_SOURCE {
 } TOKEN_SOURCE, *PTOKEN_SOURCE;
 #>
 
-$TOKEN_SOURCE = struct $Mod TOKEN_SOURCE @{
+$TOKEN_SOURCE = struct $Module TOKEN_SOURCE @{
     SourceName = field 0 string
     SourceIdentifier = field 1 $LUID
 }

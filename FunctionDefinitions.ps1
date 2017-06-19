@@ -63,7 +63,7 @@
     (func advapi32 OpenSCManagerW ([IntPtr]) @(
         [String],       # _In_opt_ LPCTSTR lpMachineName
         [String],       # _In_opt_ LPCTSTR lpDatabaseName
-        [Int]           # _In_     DWORD   dwDesiredAccess
+        [Int32]         # _In_     DWORD   dwDesiredAccess
     ) -EntryPoint OpenSCManagerW -SetLastError),
 
     (func advapi32 OpenThreadToken ([bool]) @(
@@ -124,8 +124,8 @@
         [IntPtr],                                  # _In_ HANDLE hProcess
         [IntPtr],                                  # _In_ LPCVOID lpBaseAddress
         [Byte[]],                                  # _Out_ LPVOID  lpBuffer
-        [Int],                                     # _In_ SIZE_T nSize
-        [Int].MakeByRefType()                      # _Out_ SIZE_T *lpNumberOfBytesRead
+        [Int32],                                   # _In_ SIZE_T nSize
+        [Int32].MakeByRefType()                    # _Out_ SIZE_T *lpNumberOfBytesRead
     ) -EntryPoint ReadProcessMemory -SetLastError),
 
     (func kernel32 ResumeThread ([UInt32]) @(
@@ -181,148 +181,148 @@
     ) -EntryPoint WriteProcessMemory -SetLastError),
     #endregion kernel32
     #region Mpr
-    (func Mpr WNetAddConnection2W ([Int]) @(
+    (func Mpr WNetAddConnection2W ([Int32]) @(
         $NETRESOURCEW,      # _In_ LPNETRESOURCE lpNetResource
         [String],           # _In_ LPCTSTR       lpPassword
         [String],           # _In_ LPCTSTR       lpUsername
         [UInt32]            # _In_ DWORD         dwFlags
     ) -EntryPoint WNetAddConnection2W),
 
-    (func Mpr WNetCancelConnection2 ([Int]) @(
+    (func Mpr WNetCancelConnection2 ([Int32]) @(
         [String],       # _In_ LPCTSTR lpName,
-        [Int],          # _In_ DWORD   dwFlags
+        [Int32],        # _In_ DWORD   dwFlags
         [Bool]          # _In_ BOOL    fForce
     ) -EntryPoint WNetCancelConnection2),
     #endregion Mpr
     #region netapi32
-    (func netapi32 DsEnumerateDomainTrusts ([Int]) @(
+    (func netapi32 DsEnumerateDomainTrusts ([Int32]) @(
         [String],                   # _In_opt_ LPTSTR            ServerName
         [UInt32],                   # _In_     ULONG             Flags
         [IntPtr].MakeByRefType(),   # _Out_    PDS_DOMAIN_TRUSTS *Domains
         [IntPtr].MakeByRefType()    # _Out_    PULONG            DomainCount
     ) -EntryPoint DsEnumerateDomainTrusts),
 
-    (func netapi32 DsGetSiteName ([Int]) @(
+    (func netapi32 DsGetSiteName ([Int32]) @(
         [String],                   # _In_  LPCTSTR ComputerName
         [IntPtr].MakeByRefType()    # _Out_ LPTSTR  *SiteName
     ) -EntryPoint DsGetSiteName),
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
+    (func netapi32 NetApiBufferFree ([Int32]) @(
         [IntPtr]    # _In_ LPVOID Buffer
     ) -EntryPoint NetApiBufferFree),
 
-    (func netapi32 NetConnectionEnum ([Int]) @(
+    (func netapi32 NetConnectionEnum ([Int32]) @(
         [String],                   # _In_    LMSTR   servername
         [String],                   # _In_    LMSTR   qualifier
-        [Int],                      # _In_    LMSTR   qualifier
+        [Int32],                    # _In_    LMSTR   qualifier
         [IntPtr].MakeByRefType(),   # _Out_   LPBYTE  *bufptr
-        [Int],                      # _In_    DWORD   prefmaxlen
+        [Int32],                    # _In_    DWORD   prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD totalentries
         [Int32].MakeByRefType()     # _Inout_ LPDWORD resume_handle
     ) -EntryPoint NetConnectionEnum),
 
-    (func netapi32 NetFileEnum ([Int]) @(
+    (func netapi32 NetFileEnum ([Int32]) @(
         [String],                   # _In_    LMSTR      servername
         [String],                   # _In_    LMSTR      basepath
         [String],                   # _In_    LMSTR      username
-        [Int],                      # _In_    DWORD      level
+        [Int32],                    # _In_    DWORD      level
         [IntPtr].MakeByRefType(),   # _Out_   LPBYTE     *bufptr
-        [Int],                      # _In_    DWORD      prefmaxlen
+        [Int32],                    # _In_    DWORD      prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    totalentries
         [Int32].MakeByRefType()     # _Inout_ PDWORD_PTR resume_handle
     ) -EntryPoint NetFileEnum),
 
-    (func netapi32 NetGetAnyDCName ([Int]) @(
+    (func netapi32 NetGetAnyDCName ([Int32]) @(
         [String],                   # _In_  LPCWSTR servername
         [String],                   # _In_  LPCWSTR domainname
         [IntPtr].MakeByRefType()    # _Out_ LPBYTE  *bufptr
     ) -EntryPoint NetGetAnyDCName),
 
-    (func netapi32 NetGetDCName ([Int]) @(
+    (func netapi32 NetGetDCName ([Int32]) @(
         [String],                   # _In_  LPCWSTR servername
         [String],                   # _In_  LPCWSTR domainname
         [IntPtr].MakeByRefType()    # _Out_ LPBYTE  *bufptr
     ) -EntryPoint NetGetDCName),
 
-    (func netapi32 NetLocalGroupAddMembers ([Int]) @(
+    (func netapi32 NetLocalGroupAddMembers ([Int32]) @(
         [String],                   # _In_ LPCWSTR servername
         [String],                   # _In_ LPCWSTR groupname
-        [Int],                      # _In_ DWORD   level
+        [Int32],                    # _In_ DWORD   level
         [IntPtr].MakeByRefType(),   # _In_ LPBYTE  buf
-        [Int]                       # _In_ DWORD   totalentries
+        [Int32]                     # _In_ DWORD   totalentries
     ) -EntryPoint NetLocalGroupAddMembers),
 
-    (func netapi32 NetLocalGroupDelMembers ([Int]) @(
+    (func netapi32 NetLocalGroupDelMembers ([Int32]) @(
         [String],                   # _In_ LPCWSTR servername
         [String],                   # _In_ LPCWSTR groupname
-        [Int],                      # _In_ DWORD   level
+        [Int32],                    # _In_ DWORD   level
         [IntPtr],                   # _In_ LPBYTE  buf
-        [Int]                       # _In_ DWORD   totalentries
+        [Int32]                     # _In_ DWORD   totalentries
     ) -EntryPoint NetLocalGroupDelMembers),
 
-    (func netapi32 NetLocalGroupEnum ([Int]) @(
+    (func netapi32 NetLocalGroupEnum ([Int32]) @(
         [String],                   # _In_    LPCWSTR    servername
-        [Int],                      # _In_    DWORD      level
+        [Int32],                    # _In_    DWORD      level
         [IntPtr].MakeByRefType(),   # _Out_   LPBYTE     *bufptr
-        [Int],                      # _In_    DWORD      prefmaxlen
+        [Int32],                    # _In_    DWORD      prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    totalentries
         [Int32].MakeByRefType()     # _Inout_ PDWORD_PTR resumehandle
     ) -EntryPoint NetLocalGroupEnum),
 
-    (func netapi32 NetLocalGroupGetMembers ([Int]) @(
+    (func netapi32 NetLocalGroupGetMembers ([Int32]) @(
         [String],
         [String],
-        [Int],
+        [Int32],
         [IntPtr].MakeByRefType(),
-        [Int], 
+        [Int32], 
         [Int32].MakeByRefType(),
         [Int32].MakeByRefType(),
         [Int32].MakeByRefType()
     ) -EntryPoint NetLocalGroupGetMembers),
 
-    (func netapi32 NetSessionEnum ([Int]) @(
+    (func netapi32 NetSessionEnum ([Int32]) @(
         [String],                   # _In_    LPWSTR  servername
         [String],                   # _In_    LPWSTR  UncClientName
         [String],                   # _In_    LPWSTR  username
-        [Int],                      # _In_    DWORD   level
+        [Int32],                    # _In_    DWORD   level
         [IntPtr].MakeByRefType(),   # _Out_   LPBYTE  *bufptr
-        [Int],                      # _In_    DWORD   prefmaxlen
+        [Int32],                    # _In_    DWORD   prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD totalentries
         [Int32].MakeByRefType()     # _Inout_ LPDWORD resume_handle
     ) -EntryPoint NetSessionEnum),
 
-    (func netapi32 NetShareAdd ([Int]) @(
+    (func netapi32 NetShareAdd ([Int32]) @(
         [String],                   # _In_  LPWSTR  servername
-        [Int],                      # _In_  DWORD   level
+        [Int32],                    # _In_  DWORD   level
         [IntPtr],                   # _In_  LPBYTE  buf
         [Int32].MakeByRefType()     # _Out_ LPDWORD parm_err
     ) -EntryPoint NetShareAdd),
 
-    (func netapi32 NetShareDel ([Int]) @(
+    (func netapi32 NetShareDel ([Int32]) @(
         [String],                   # _In_  LPWSTR  servername
         [String],                   # _In_  LPWSTR  netname
-        [Int]                       # _In_  DWORD   reserved
+        [Int32]                     # _In_  DWORD   reserved
     ) -EntryPoint NetShareDel),
 
-    (func netapi32 NetShareEnum ([Int]) @(
+    (func netapi32 NetShareEnum ([Int32]) @(
         [String],                                   # _In_    LPWSTR  servername
-        [Int],                                      # _In_    DWORD   level
+        [Int32],                                    # _In_    DWORD   level
         [IntPtr].MakeByRefType(),                   # _Out_   LPBYTE  *bufptr
-        [Int],                                      # _In_    DWORD   prefmaxlen
+        [Int32],                                    # _In_    DWORD   prefmaxlen
         [Int32].MakeByRefType(),                    # _Out_   LPDWORD entriesread
         [Int32].MakeByRefType(),                    # _Out_   LPDWORD totalentries
         [Int32].MakeByRefType()                     # _Inout_ LPDWORD resume_handle
     ) -EntryPoint NetShareEnum),
 
-    (func netapi32 NetWkstaUserEnum ([Int]) @(
+    (func netapi32 NetWkstaUserEnum ([Int32]) @(
         [String],                   # _In_    LPWSTR  servername
-        [Int],                      # _In_    DWORD   level
+        [Int32],                    # _In_    DWORD   level
         [IntPtr].MakeByRefType(),   # _Out_   LPBYTE  *bufptr
-        [Int],                      # _In_    DWORD   prefmaxlen
+        [Int32],                    # _In_    DWORD   prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD totalentries
         [Int32].MakeByRefType()     # _Inout_ LPDWORD resumehandle
@@ -390,23 +390,23 @@
     ) -EntryPoint LsaRegisterLogonProcess)
     #endregion secur32
     #region wtsapi32
-    (func wtsapi32 WTSCloseServer ([Int]) @(
+    (func wtsapi32 WTSCloseServer ([Int32]) @(
         [IntPtr]    # _In_ HANDLE hServer
     ) -EntryPoint WTSCloseServer),
 
-    (func wtsapi32 WTSEnumerateSessionsEx ([Int]) @(
+    (func wtsapi32 WTSEnumerateSessionsEx ([Int32]) @(
         [IntPtr],                   # _In_    HANDLE              hServer
         [Int32].MakeByRefType(),    # _Inout_ DWORD               *pLevel
-        [Int],                      # _In_    DWORD               Filter
+        [Int32],                    # _In_    DWORD               Filter
         [IntPtr].MakeByRefType(),   # _Out_   PWTS_SESSION_INFO_1 *ppSessionInfo
         [Int32].MakeByRefType()     # _Out_   DWORD               *pCount
     ) -EntryPoint WTSEnumerateSessionsEx -SetLastError),
 
-    (func wtsapi32 WTSFreeMemory ([Int]) @(
+    (func wtsapi32 WTSFreeMemory ([void]) @(
         [IntPtr] #_In_ PVOID pMemory
     ) -EntryPoint WTSFreeMemory),
 
-    (func wtsapi32 WTSFreeMemoryEx ([Int]) @(
+    (func wtsapi32 WTSFreeMemoryEx ([Int32]) @(
         [Int32],  #_In_ WTS_TYPE_CLASS WTSTypeClass
         [IntPtr], #_In_ PVOID          pMemory
         [Int32]   #_In_ ULONG          NumberOfEntries
@@ -416,10 +416,10 @@
         [String] #_In_ LPTSTR pServerName
     ) -EntryPoint WTSOpenServerEx),
 
-    (func wtsapi32 WTSQuerySessionInformation ([Int]) @(
+    (func wtsapi32 WTSQuerySessionInformation ([Int32]) @(
         [IntPtr]                 #_In_  HANDLE         hServer
-        [Int]                    #_In_  DWORD          SessionId
-        [Int]                    #_In_  WTS_INFO_CLASS WTSInfoClass
+        [Int32]                  #_In_  DWORD          SessionId
+        [Int32]                  #_In_  WTS_INFO_CLASS WTSInfoClass
         [IntPtr].MakeByRefType() #_Out_ LPTSTR         *ppBuffer
         [Int32].MakeByRefType()  #_Out_ DWORD          *pBytesReturned
     ) -EntryPoint WTSQuerySessionInformation -SetLastError)

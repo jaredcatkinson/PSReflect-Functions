@@ -1,36 +1,37 @@
 function CloseServiceHandle
 {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Closes a handle to a service control manager or service object.
+    Closes a handle to a service control manager or service object. 
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect  
+    .DESCRIPTION
 
-.DESCRIPTION
+    Closes a handle to a service control manager or service object using the
+    CloseServiceHandle Win32 API call.
 
-Closes a handle to a service control manager or service object using the
-CloseServiceHandle Win32 API call.
+    .PARAMETER Handle
 
-.PARAMETER Handle
+    Handle to the service control manager object or the service object to close.
 
-Handle to the service control manager object or the service object to close.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect 
+    Optional Dependencies: None
 
-(func advapi32 CloseServiceHandle ([Int]) @(
-    [IntPtr]        # _In_ SC_HANDLE hSCObject
-))
+    (func advapi32 CloseServiceHandle ([Int]) @(
+        [IntPtr] # _In_ SC_HANDLE hSCObject
+    ) -EntryPoint CloseServiceHandle)
 
-.LINK
+    .LINK
 
-https://msdn.microsoft.com/en-us/library/windows/desktop/ms682028(v=vs.85).aspx
+    https://msdn.microsoft.com/en-us/library/windows/desktop/ms682028(v=vs.85).aspx
 
-.EXAMPLE
+    .EXAMPLE
 
-#>
+    #>
     
     [OutputType([IntPtr])]
     [CmdletBinding()]

@@ -15,12 +15,28 @@
     
     When protecting a region that will be executable, the calling program bears responsibility for ensuring cache coherency via an appropriate call to FlushInstructionCache once the code has been set in place. Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
 
+    .PARAMETER ProcessHandle
+
+    A handle to the process whose memory protection is to be changed. The handle must have the PROCESS_VM_OPERATION access right.
+
+    .PARAMETER BaseAddress
+
+    A pointer to the base address of the region of pages whose access protection attributes are to be changed.
+
+    .PARAMETER Size
+
+    The size of the region whose access protection attributes are changed, in bytes. The region of affected pages includes all pages containing one or more bytes in the range from the lpAddress parameter to (lpAddress+dwSize). This means that a 2-byte range straddling a page boundary causes the protection attributes of both pages to be changed.
+
+    .PARAMETER NewProtection
+
+    The memory protection option.
+
     .NOTES
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
-    Optional Dependencies: None
+    Required Dependencies: PSReflect
+    Optional Dependencies: MEMORY_PROTECTION (Enumeration)
 
     (func kernel32 VirtualProtectEx ([bool]) @(
         [IntPtr],                #_In_  HANDLE hProcess

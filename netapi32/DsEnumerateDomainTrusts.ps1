@@ -1,47 +1,38 @@
 function DsEnumerateDomainTrusts {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Returns domain trust data for a specified server or domain.
+    Returns domain trust data for a specified server or domain.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the DsEnumerateDomainTrusts Win32API call
+    to enumerate trusts for the current or specified domain.
 
-This function will execute the DsEnumerateDomainTrusts Win32API call
-to enumerate trusts for the current or specified domain.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname or domain to query current domain trusts for.
 
-Specifies the hostname or domain to query current domain trusts for.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect, ConvertSidToStringSid (Function), NetApiBufferFree (Function)
+    Optional Dependencies: None
 
-    (func netapi32 DsEnumerateDomainTrusts ([Int]) @(
-        [String],                   # _In_opt_ LPTSTR            ServerName
+    (func netapi32 DsEnumerateDomainTrusts ([Int32]) @(
+        [string],                   # _In_opt_ LPTSTR            ServerName
         [UInt32],                   # _In_     ULONG             Flags
         [IntPtr].MakeByRefType(),   # _Out_    PDS_DOMAIN_TRUSTS *Domains
         [IntPtr].MakeByRefType()    # _Out_    PULONG            DomainCount
     ) -EntryPoint DsEnumerateDomainTrusts)
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    ) -EntryPoint NetApiBufferFree)
+    .LINK
 
-    (func advapi32 ConvertSidToStringSid ([Int]) @(
-        [IntPtr],
-        [String].MakeByRefType()
-    ) -SetLastError)
+    https://msdn.microsoft.com/en-us/library/ms675976(v=vs.85).aspx
 
-.EXAMPLE
-
-
-.LINK
-
-https://msdn.microsoft.com/en-us/library/ms675976(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(
@@ -82,8 +73,7 @@ https://msdn.microsoft.com/en-us/library/ms675976(v=vs.85).aspx
                 # return all the sections of the structure - have to do it this way for V2
                 $Object = $Info | Select-Object *
 
-                $SidString = ''
-                $Result2 = $Advapi32::ConvertSidToStringSid($Info.DomainSid, [ref]$SidString)
+                $SidString = ConvertSidToStringSid -SidPointer $Info.DomainSid
 
                 $Object.DomainSid = $SidString
 
@@ -94,7 +84,7 @@ https://msdn.microsoft.com/en-us/library/ms675976(v=vs.85).aspx
             }
 
             # free up the result buffer
-            $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+            NetApiBufferFree -Buffer $PtrInfo
         }
         else {
             Write-Verbose "[DsEnumerateDomainTrusts] Error: $(([ComponentModel.Win32Exception] $Result).Message)"

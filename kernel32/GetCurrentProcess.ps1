@@ -1,29 +1,32 @@
 function GetCurrentProcess
 {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Retrieves a pseudo handle for the current process.
+    Retrieves a pseudo handle for the current process.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect  
+    .DESCRIPTION
 
-.DESCRIPTION
+    Retrieves a pseudo handle for the current process.
 
-Retrieves a pseudo handle for the current process.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect  
+    Optional Dependencies: None
 
-(func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess)
+    (func kernel32 GetCurrentProcess ([IntPtr]) @(
+    
+    ) -EntryPoint GetCurrentProcess)
 
-.LINK
+    .LINK
 
-https://msdn.microsoft.com/en-us/library/windows/desktop/ms683179(v=vs.85).aspx
+    https://msdn.microsoft.com/en-us/library/windows/desktop/ms683179(v=vs.85).aspx
 
-.EXAMPLE
+    .EXAMPLE
 
-#>
+    #>
 
     [OutputType([IntPtr])]
     Param()

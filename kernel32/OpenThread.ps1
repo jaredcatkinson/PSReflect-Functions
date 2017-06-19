@@ -27,8 +27,8 @@
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
-    Optional Dependencies: None
+    Required Dependencies: PSReflect
+    Optional Dependencies: THREAD_ACCESS (Enumeration)
 
     (func kernel32 OpenThread ([IntPtr]) @(
         [UInt32], #_In_ DWORD dwDesiredAccess

@@ -1,41 +1,37 @@
 function DsGetSiteName {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Returns the AD site where the local (or a remote) machine resides.
+    Returns the AD site where the local (or a remote) machine resides.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the DsGetSiteName Win32API call to look up the
+    name of the site where a specified computer resides.
 
-This function will execute the DsGetSiteName Win32API call to look up the
-name of the site where a specified computer resides.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to query the site for (also accepts IP addresses).
+    Defaults to the local host name.
 
-Specifies the hostname to query the site for (also accepts IP addresses).
-Defaults to the local host name.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect, NetApiBufferFree (Function)
+    Optional Dependencies: None
 
-    (func netapi32 DsGetSiteName ([Int]) @(
-        [String],                   # _In_  LPCTSTR ComputerName
+    (func netapi32 DsGetSiteName ([Int32]) @(
+        [string],                   # _In_  LPCTSTR ComputerName
         [IntPtr].MakeByRefType())   # _Out_ LPTSTR  *SiteName
     ) -EntryPoint DsGetSiteName)
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    )
+    .LINK
 
-.EXAMPLE
+    https://msdn.microsoft.com/en-us/library/ms675992(v=vs.85).aspx
 
-
-.LINK
-
-https://msdn.microsoft.com/en-us/library/ms675992(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(
@@ -65,7 +61,7 @@ https://msdn.microsoft.com/en-us/library/ms675992(v=vs.85).aspx
                 Throw "[DsGetSiteName] Error enumerating site for '$Computer' : $(([ComponentModel.Win32Exception]$Result).Message)"
             }
 
-            $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+            NetApiBufferFree -Buffer $PtrInfo
         }
     }
 }

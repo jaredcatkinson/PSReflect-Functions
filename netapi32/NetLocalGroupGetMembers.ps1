@@ -1,61 +1,52 @@
 function NetLocalGroupGetMembers {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Enumerates members of a specific local group on the local (or remote) machine.
+    Enumerates members of a specific local group on the local (or remote) machine.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetLocalGroupGetMembers Win32API call to query
+    a given host for local group members.
 
-This function will execute the NetLocalGroupGetMembers Win32API call to query
-a given host for local group members.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to query for local group members (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to query for local group members (also accepts IP addresses).
-Defaults to 'localhost'.
+    .PARAMETER GroupName
 
-.PARAMETER GroupName
+    The local group name to query for users. If not given, it defaults to "Administrators".
 
-The local group name to query for users. If not given, it defaults to "Administrators".
+    .PARAMETER Level
 
-.PARAMETER Level
+    Specifies the level of information to query from NetLocalGroupGetMembers.
+    Default of 1. Affects the result structure returned.
 
-Specifies the level of information to query from NetLocalGroupGetMembers.
-Default of 1. Affects the result structure returned.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect, ConvertSidToStringSid (Function), NetApiBufferFree (Function)
+    Optional Dependencies: None
 
-    (func netapi32 NetLocalGroupGetMembers ([Int]) @(
-        [String],
-        [String],
-        [Int],
-        [IntPtr].MakeByRefType(),
-        [Int], 
-        [Int32].MakeByRefType(),
-        [Int32].MakeByRefType(),
-        [Int32].MakeByRefType()
+    (func netapi32 NetLocalGroupGetMembers ([Int32]) @(
+        [string],                 # _In_    LPCWSTR    servername
+        [string],                 # _In_    LPCWSTR    localgroupname
+        [Int32],                  # _In_    DWORD      level
+        [IntPtr].MakeByRefType(), # _Out_   LPBYTE     *bufptr
+        [Int32],                  # _In_    DWORD      prefmaxlen
+        [Int32].MakeByRefType(),  # _Out_   LPDWORD    entriesread
+        [Int32].MakeByRefType(),  # _Out_   LPDWORD    totalentries
+        [Int32].MakeByRefType()   # _Inout_ PDWORD_PTR resumehandle
     ) -EntryPoint NetLocalGroupGetMembers)
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    )
+    .LINK
 
-    (func advapi32 ConvertSidToStringSid ([Int]) @(
-        [IntPtr],
-        [String].MakeByRefType()
-    ) -SetLastError)
+    https://msdn.microsoft.com/en-us/library/windows/desktop/aa370601(v=vs.85).aspx
 
-.EXAMPLE
-
-
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/aa370601(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(
@@ -115,17 +106,13 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370601(v=vs.85).aspx
                     $Object = $Info | Select-Object *
 
                     # translate the SID ptr if we can
-                    $SidString = ''
-                    $SIDPTR = $Object.psobject.Properties | Where-Object {$_.Name -Match 'sid$'}
-                    if ($SIDPTR) {
-                        $Result2 = $Advapi32::ConvertSidToStringSid([IntPtr]$SIDPTR.Value, [ref]$SidString);$LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
-                        if ($Result2 -eq 0) {
-                            Write-Verbose "Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
-                            $Object.$($SIDPTR.Name) = ''
-                        }
-                        else {
-                            $Object.$($SIDPTR.Name) = $SidString
-                        }
+                    try
+                    {
+                        $Object.$($SIDPTR.Name) = ConvertSidToStringSid -SidPointer $SIDPTR.Value
+                    }
+                    catch
+                    {
+                        $Object.$($SIDPTR.Name) = ''
                     }
 
                     $Offset = $NewIntPtr.ToInt64()
@@ -134,7 +121,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370601(v=vs.85).aspx
                 }
 
                 # free up the result buffer
-                $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+                NetApiBufferFree -Buffer $PtrInfo
             }
             else {
                 Write-Verbose "[NetLocalGroupGetMembers] Error: $(([ComponentModel.Win32Exception] $Result).Message)"

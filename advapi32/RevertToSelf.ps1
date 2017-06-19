@@ -17,10 +17,12 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
+    Required Dependencies: PSReflect
     Optional Dependencies: None
 
-    (func advapi32 RevertToSelf ([bool]) @() -EntryPoint RevertToSelf -SetLastError)
+    (func advapi32 RevertToSelf ([bool]) @(
+    
+    ) -EntryPoint RevertToSelf -SetLastError)
 
     .LINK
 
@@ -28,7 +30,13 @@
 
     .EXAMPLE
 
+        [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+        NT AUTHORITY\SYSTEM
+
         RevertToSelf
+
+        [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+        hunt.local\jared
     #>
 
     $SUCCESS = $Advapi32::RevertToSelf(); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()

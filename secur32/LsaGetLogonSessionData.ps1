@@ -15,7 +15,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: LsaNtStatusToWinError, SECURITY_LOGON_SESSION_DATA (Struct), SECURITY_LOGON_TYPE (Enum)
+    Required Dependencies: PSReflect, LsaFreeReturnBuffer (Function), LsaNtStatusToWinError (Function), SECURITY_LOGON_SESSION_DATA (Structure), LUID (Structure), SecurityEntity (Enumeration) LSA_UNICODE_STRING (Structure), LSA_LAST_INTER_LOGON_INFO (Structure), SECURITY_LOGON_TYPE (Enumeration)
     Optional Dependencies: None
 
     (func secur32 LsaGetLogonSessionData ([UInt32]) @(
@@ -29,6 +29,8 @@
 
     .EXAMPLE
 
+    $SessionCount, $LogonSessionListPtr = LsaEnumerateLogonSessions
+    LsaGetLogonSessionData -LuidPtr $LogonSessionListPtr -SessionCount $SessionCount
     #>
 
     param
@@ -96,7 +98,7 @@
 
         }
 
-        #LsaFreeReturnBuffer -Buffer $sessionDataPtr
+        LsaFreeReturnBuffer -Buffer $sessionDataPtr
         $CurrentLuidPtr = [IntPtr]($CurrentLuidPtr.ToInt64() + $LUID::GetSize())
     }
 }

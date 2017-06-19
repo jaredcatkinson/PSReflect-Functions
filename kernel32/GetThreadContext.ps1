@@ -23,7 +23,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: CONTEXT64 (Struct)
+    Required Dependencies: PSReflect, CONTEXT64 (Structure)
     Optional Dependencies: None
 
     (func kernel32 GetThreadContextx64 ([bool]) @(

@@ -13,11 +13,15 @@
 
     A handle to an access token opened with TOKEN_DUPLICATE access.
 
+    .PARAMETER ImpersonationLevel
+
+    Specifies a SECURITY_IMPERSONATION_LEVEL enumerated type that supplies the impersonation level of the new token. The Default is SecurityImpersonation.
+
     .NOTES
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: SECURITY_IMPERSONATION_LEVEL (Enum)
+    Required Dependencies: PSReflect, SECURITY_IMPERSONATION_LEVEL (Enum)
     Optional Dependencies: None
 
     (func advapi32 DuplicateToken ([bool]) @(
@@ -38,12 +42,16 @@
     (
         [Parameter(Mandatory = $true)]
         [IntPtr]
-        $TokenHandle
+        $TokenHandle,
+
+        [Parameter(Mandatory = $true)]
+        [UInt32]
+        $ImpersonationLevel = $SECURITY_IMPERSONATION_LEVEL::SecurityImpersonation
     )
 
     $DuplicateTokenHandle = [IntPtr]::Zero
 
-    $success = $Advapi32::DuplicateToken($TokenHandle, $SECURITY_IMPERSONATION_LEVEL::SecurityImpersonation, [ref]$DuplicateTokenHandle); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $success = $Advapi32::DuplicateToken($TokenHandle, $ImpersonationLevel, [ref]$DuplicateTokenHandle); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
     
     if(-not $success)
     {

@@ -1,42 +1,43 @@
 function WNetCancelConnection2 {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Destroys a connection created by WNetAddConnection2W.
+    Destroys a connection created by WNetAddConnection2W.  
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect  
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function uses WNetCancelConnection2 to destroy a connection created by
+    WNetAddConnection2W. If a -Path isn't specified, a -ComputerName is required to
+    'unmount' \\$ComputerName\IPC$.
 
-This function uses WNetCancelConnection2 to destroy a connection created by
-WNetAddConnection2W. If a -Path isn't specified, a -ComputerName is required to
-'unmount' \\$ComputerName\IPC$.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the system to remove a \\ComputerName\IPC$ connection for.
 
-Specifies the system to remove a \\ComputerName\IPC$ connection for.
+    .PARAMETER Path
 
-.PARAMETER Path
+    Specifies the remote \\UNC\path to remove the connection for.
 
-Specifies the remote \\UNC\path to remove the connection for.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
-(func Mpr WNetCancelConnection2 ([Int]) @(
-    [String],       # _In_ LPCTSTR lpName,
-    [Int],          # _In_ DWORD   dwFlags
-    [Bool]          # _In_ BOOL    fForce
-) -EntryPoint WNetCancelConnection2)
+    (func Mpr WNetCancelConnection2 ([Int]) @(
+        [String],       # _In_ LPCTSTR lpName,
+        [Int],          # _In_ DWORD   dwFlags
+        [Bool]          # _In_ BOOL    fForce
+    ) -EntryPoint WNetCancelConnection2)
 
-.LINK
+    .LINK
 
-https://msdn.microsoft.com/en-us/library/windows/desktop/aa385427(v=vs.85).aspx
+    https://msdn.microsoft.com/en-us/library/windows/desktop/aa385427(v=vs.85).aspx
 
-.EXAMPLE
+    .EXAMPLE
 
-#>
+    #>
 
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [CmdletBinding(DefaultParameterSetName = 'ComputerName')]

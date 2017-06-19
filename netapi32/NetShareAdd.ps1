@@ -1,36 +1,37 @@
 function NetShareAdd {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Creates a new share on the local (or a remote) machine.
+    Creates a new share on the local (or a remote) machine.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetShareAdd Win32API call to create
+    a new share on the specified host given at specified path.
 
-This function will execute the NetShareAdd Win32API call to create
-a new share on the specified host given at specified path.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to add the share to (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to add the share to (also accepts IP addresses).
-Defaults to 'localhost'.
+    .PARAMETER ShareName
 
-.PARAMETER ShareName
+    The name of the share to create.
 
-The name of the share to create.
+    .PARAMETER SharePath
 
-.PARAMETER SharePath
+    The name of the local path to create the share with.
 
-The name of the local path to create the share with.
+    .PARAMETER ShareComment
 
-.PARAMETER ShareComment
+    An optional comment/remark to set for the newly created share.
 
-An optional comment/remark to set for the newly created share.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
     (func netapi32 NetShareAdd ([Int]) @(
         [String],                   # _In_  LPWSTR  servername
@@ -39,13 +40,12 @@ An optional comment/remark to set for the newly created share.
         [Int32].MakeByRefType()     # _Out_ LPDWORD parm_err
     ) -EntryPoint NetShareAdd)
 
-.EXAMPLE
+    .LINK
 
+    https://msdn.microsoft.com/en-us/library/windows/desktop/bb525384(v=vs.85).aspx
 
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/bb525384(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(

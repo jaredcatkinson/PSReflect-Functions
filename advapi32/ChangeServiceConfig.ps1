@@ -1,51 +1,52 @@
 function ChangeServiceConfig {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Modifies a specified service's configuration.
+    Modifies a specified service's configuration.
 
-Author: Will Schroeder (@harmj0y), Matthew Graeber (@mattifestation)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect  
+    .DESCRIPTION
 
-.DESCRIPTION
+    Changes the configuration parameters of a service using the ChangeServiceConfig
+    Win32 API call. Reflection is first used to retrieve the handle to the specified
+    service (Get-ServiceConfigControlHandle), the specified modifications are made,
+    and then CloseServiceHandle() is used to close the handle
 
-Changes the configuration parameters of a service using the ChangeServiceConfig
-Win32 API call. Reflection is first used to retrieve the handle to the specified
-service (Get-ServiceConfigControlHandle), the specified modifications are made,
-and then CloseServiceHandle() is used to close the handle
+    .PARAMETER Name
 
-.PARAMETER Name
+    An array of one or more service names to set the binary path for. Required.
 
-An array of one or more service names to set the binary path for. Required.
+    .PARAMETER Path
 
-.PARAMETER Path
+    The new binary path (lpBinaryPathName) to set for the specified service. Required.
 
-The new binary path (lpBinaryPathName) to set for the specified service. Required.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y), Matthew Graeber (@mattifestation)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
-(func advapi32 ChangeServiceConfig ([Bool]) @(
-    [IntPtr],       # _In_      SC_HANDLE hService
-    [UInt32],       # _In_      DWORD     dwServiceType
-    [UInt32],       # _In_      DWORD     dwStartType
-    [UInt32],       # _In_      DWORD     dwErrorControl
-    [String],       # _In_opt_  LPCTSTR   lpBinaryPathName
-    [String],       # _In_opt_  LPCTSTR   lpLoadOrderGroup
-    [IntPtr],       # _Out_opt_ LPDWORD   lpdwTagId
-    [String],       # _In_opt_  LPCTSTR   lpDependencies
-    [String],       # _In_opt_  LPCTSTR   lpServiceStartName
-    [String],       # _In_opt_  LPCTSTR   lpPassword
-    [String]        # _In_opt_  LPCTSTR   lpDisplayName
-) -SetLastError -Charset Unicode)
+    (func advapi32 ChangeServiceConfig ([Bool]) @(
+        [IntPtr],       # _In_      SC_HANDLE hService
+        [UInt32],       # _In_      DWORD     dwServiceType
+        [UInt32],       # _In_      DWORD     dwStartType
+        [UInt32],       # _In_      DWORD     dwErrorControl
+        [String],       # _In_opt_  LPCTSTR   lpBinaryPathName
+        [String],       # _In_opt_  LPCTSTR   lpLoadOrderGroup
+        [IntPtr],       # _Out_opt_ LPDWORD   lpdwTagId
+        [String],       # _In_opt_  LPCTSTR   lpDependencies
+        [String],       # _In_opt_  LPCTSTR   lpServiceStartName
+        [String],       # _In_opt_  LPCTSTR   lpPassword
+        [String]        # _In_opt_  LPCTSTR   lpDisplayName
+    ) -SetLastError -Charset Unicode)
 
-.LINK
+    .LINK
 
-https://msdn.microsoft.com/en-us/library/windows/desktop/ms681987(v=vs.85).aspx
+    https://msdn.microsoft.com/en-us/library/windows/desktop/ms681987(v=vs.85).aspx
 
-.EXAMPLE
+    .EXAMPLE
 
-#>
+    #>
     
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [OutputType('System.Boolean')]

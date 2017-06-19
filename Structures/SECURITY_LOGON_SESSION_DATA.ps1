@@ -1,0 +1,25 @@
+﻿$SECURITY_LOGON_SESSION_DATA = struct $Module SECURITY_LOGON_SESSION_DATA @{
+    Size = field 0 UInt32
+    LogonId = field 1 $LUID
+    Username = field 2 $LSA_UNICODE_STRING
+    LogonDomain = field 3 $LSA_UNICODE_STRING
+    AuthenticationPackage = field 4 $LSA_UNICODE_STRING
+    LogonType = field 5 UInt32
+    Session = field 6 UInt32
+    PSiD = field 7 IntPtr
+    LogonTime = field 8 UInt64
+    LogonServer = field 9 $LSA_UNICODE_STRING
+    DnsDomainName = field 10 $LSA_UNICODE_STRING
+    Upn = field 11 $LSA_UNICODE_STRING
+    UserFlags = field 12 UInt64
+    LastLogonInfo = field 13 $LSA_LAST_INTER_LOGON_INFO
+    LogonScript = field 14 $LSA_UNICODE_STRING
+    ProfilePath = field 15 $LSA_UNICODE_STRING
+    HomeDirectory = field 16 $LSA_UNICODE_STRING
+    HomeDirectoryDrive = field 17 $LSA_UNICODE_STRING
+    LogoffTime = field 18 Int64
+    KickOffTime = field 19 Int64
+    PasswordLastSet = field 20 Int64
+    PasswordCanChange = field 21 Int64
+    PasswordMustChange = field 22 Int64
+}

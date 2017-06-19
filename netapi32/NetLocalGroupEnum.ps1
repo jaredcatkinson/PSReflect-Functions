@@ -1,51 +1,47 @@
 function NetLocalGroupEnum {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Enumerates the local groups on the local (or remote) machine.
+    Enumerates the local groups on the local (or remote) machine.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetLocalGroupEnum Win32API call to query
+    a given host for local groups.
 
-This function will execute the NetLocalGroupEnum Win32API call to query
-a given host for local groups.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to query for local groups (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to query for local groups (also accepts IP addresses).
-Defaults to 'localhost'.
+    .PARAMETER Level
 
-.PARAMETER Level
+    Specifies the level of information to query from NetLocalGroupEnum.
+    Default of 1. Affects the result structure returned.
 
-Specifies the level of information to query from NetLocalGroupEnum.
-Default of 1. Affects the result structure returned.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect, NetApiBufferFree (Function)
+    Optional Dependencies: None
 
-    (func netapi32 NetLocalGroupEnum ([Int]) @(
+    (func netapi32 NetLocalGroupEnum ([Int32]) @(
         [String],                   # _In_    LPCWSTR    servername
-        [Int],                      # _In_    DWORD      level
+        [Int32],                    # _In_    DWORD      level
         [IntPtr].MakeByRefType(),   # _Out_   LPBYTE     *bufptr
-        [Int],                      # _In_    DWORD      prefmaxlen
+        [Int32],                    # _In_    DWORD      prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD    totalentries
         [Int32].MakeByRefType()     # _Inout_ PDWORD_PTR resumehandle
     ) -EntryPoint NetLocalGroupEnum)
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    )
+    .LINK
 
-.EXAMPLE
+    https://msdn.microsoft.com/en-us/library/windows/desktop/bb525382(v=vs.85).aspx
 
-
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/bb525382(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(
@@ -100,7 +96,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb525382(v=vs.85).aspx
                 }
 
                 # free up the result buffer
-                $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+                NetApiBufferFree -Buffer $PtrInfo
             }
             else {
                 Write-Verbose "[NetLocalGroupEnum] Error: $(([ComponentModel.Win32Exception] $Result).Message)"

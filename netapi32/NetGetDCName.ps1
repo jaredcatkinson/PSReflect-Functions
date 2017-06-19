@@ -1,45 +1,41 @@
 function NetGetDCName {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Returns the name of the primary domain controller (PDC).
+    Returns the name of the primary domain controller (PDC).
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetGetDCName Win32API call to return a
+    system's primary domain controller.
 
-This function will execute the NetGetDCName Win32API call to return a
-system's primary domain controller.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to query the PDC for (also accepts IP addresses).
 
-Specifies the hostname to query the PDC for (also accepts IP addresses).
+    .PARAMETER DomainName
 
-.PARAMETER DomainName
+    The domain the ComputerName resides in to enumerate the PDS for.
 
-The domain the ComputerName resides in to enumerate the PDS for.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect, NetApiBufferFree (Function)
+    Optional Dependencies: None
 
-    (func netapi32 NetGetDCName ([Int]) @(
-        [String],                   # _In_  LPCWSTR servername
-        [String],                   # _In_  LPCWSTR domainname
+    (func netapi32 NetGetDCName ([Int32]) @(
+        [string],                   # _In_  LPCWSTR servername
+        [string],                   # _In_  LPCWSTR domainname
         [IntPtr].MakeByRefType()    # _Out_ LPBYTE  *bufptr
     ) -EntryPoint NetGetDCName)
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    )
+    .LINK
 
-.EXAMPLE
+    https://msdn.microsoft.com/en-us/library/windows/desktop/aa370420(v=vs.85).aspx
 
-
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/aa370420(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(
@@ -76,6 +72,6 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370420(v=vs.85).aspx
             Throw "[NetGetDCName] Error enumerating site for '$Computer' : $(([ComponentModel.Win32Exception]$Result).Message)"
         }
 
-        $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+        NetApiBufferFree -Buffer $PtrInfo
     }
 }

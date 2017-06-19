@@ -13,7 +13,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: LsaNtStatusToWinError (Function), LSA_STRING (Struct)
+    Required Dependencies: PSReflect, LsaNtStatusToWinError (Function), LSA_STRING (Structure)
     Optional Dependencies: None
 
     (func secur32 LsaRegisterLogonProcess ([UInt32]) @(

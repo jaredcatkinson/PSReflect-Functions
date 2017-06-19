@@ -9,7 +9,6 @@
 
     Some of the LSA authentication functions allocate memory buffers to hold returned information, for example, LsaLogonUser and LsaCallAuthenticationPackage. Your application should call LsaFreeReturnBuffer to free these buffers when they are no longer needed.
 
-
     .PARAMETER Buffer
 
     Pointer to the buffer to be freed.
@@ -18,7 +17,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
+    Required Dependencies: PSReflect, LsaNtStatusToWinError (Function)
     Optional Dependencies: None
 
     (func secur32 LsaFreeReturnBuffer ([UInt32]) @(
@@ -31,6 +30,7 @@
 
     .EXAMPLE
 
+    LsaFreeReturnBuffer -Buffer $Buffer
     #>
 
     param
@@ -40,7 +40,7 @@
         $Buffer
     )
 
-    $SUCCESS = $Secur32::LsaFreeReturnBuffer([ref]$Buffer)
+    $SUCCESS = $Secur32::LsaFreeReturnBuffer($Buffer)
 
     if($SUCCESS -ne 0)
     {

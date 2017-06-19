@@ -29,7 +29,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
+    Required Dependencies: PSReflect
     Optional Dependencies: None
 
     (func advapi32 ImpersonateLoggedOnUser ([bool]) @(

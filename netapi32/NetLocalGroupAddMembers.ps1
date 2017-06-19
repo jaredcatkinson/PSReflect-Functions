@@ -1,48 +1,48 @@
 function NetLocalGroupAddMembers {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Adds a member to a specific local group on the local (or remote) machine.
+    Adds a member to a specific local group on the local (or remote) machine.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetLocalGroupAddMembers Win32API call to add
+    a member to the specified local group on a specified host.
 
-This function will execute the NetLocalGroupAddMembers Win32API call to add
-a member to the specified local group on a specified host.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to add the local group member to (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to add the local group member to (also accepts IP addresses).
-Defaults to 'localhost'.
+    .PARAMETER MemberName
 
-.PARAMETER MemberName
+    The member to add to the local group, in COMPUTER\member or DOMAIN\member syntax.
 
-The member to add to the local group, in COMPUTER\member or DOMAIN\member syntax.
+    .PARAMETER GroupName
 
-.PARAMETER GroupName
+    The local group name to add the member to. If not given, it defaults to "Administrators".
 
-The local group name to add the member to. If not given, it defaults to "Administrators".
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
-    (func netapi32 NetLocalGroupAddMembers ([Int]) @(
-        [String],                   # _In_ LPCWSTR servername
-        [String],                   # _In_ LPCWSTR groupname
-        [Int],                      # _In_ DWORD   level
+    (func netapi32 NetLocalGroupAddMembers ([Int32]) @(
+        [string],                   # _In_ LPCWSTR servername
+        [string],                   # _In_ LPCWSTR groupname
+        [Int32],                    # _In_ DWORD   level
         [IntPtr].MakeByRefType(),   # _In_ LPBYTE  buf
-        [Int]                       # _In_ DWORD   totalentries
+        [Int32]                     # _In_ DWORD   totalentries
     ) -EntryPoint NetLocalGroupAddMembers)
 
-.EXAMPLE
+    .LINK
 
+    https://msdn.microsoft.com/en-us/library/windows/desktop/aa370436(v=vs.85).aspx
 
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/aa370436(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(

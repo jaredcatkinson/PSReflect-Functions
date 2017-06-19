@@ -1,56 +1,57 @@
 function WNetAddConnection2W {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Pseudo "mounts" a connection to a remote path using the specified
-credential object, allowing for access of remote resources. If a -Path isn't
-specified, a -ComputerName is required to pseudo-mount IPC$.
+    Pseudo "mounts" a connection to a remote path using the specified
+    credential object, allowing for access of remote resources. If a -Path isn't
+    specified, a -ComputerName is required to pseudo-mount IPC$.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect  
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function uses WNetAddConnection2W to make a 'temporary' (i.e. not saved) connection
+    to the specified remote -Path (\\UNC\share) with the alternate credentials specified in the
+    -Credential object. If a -Path isn't specified, a -ComputerName is required to pseudo-mount IPC$.
 
-This function uses WNetAddConnection2W to make a 'temporary' (i.e. not saved) connection
-to the specified remote -Path (\\UNC\share) with the alternate credentials specified in the
--Credential object. If a -Path isn't specified, a -ComputerName is required to pseudo-mount IPC$.
+    To destroy the connection, use Remove-RemoteConnection with the same specified \\UNC\share path
+    or -ComputerName.
 
-To destroy the connection, use Remove-RemoteConnection with the same specified \\UNC\share path
-or -ComputerName.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the system to add a \\ComputerName\IPC$ connection for.
 
-Specifies the system to add a \\ComputerName\IPC$ connection for.
+    .PARAMETER Path
 
-.PARAMETER Path
+    Specifies the remote \\UNC\path to add the connection for.
 
-Specifies the remote \\UNC\path to add the connection for.
+    .PARAMETER Credential
 
-.PARAMETER Credential
+    A [Management.Automation.PSCredential] object of alternate credentials
+    for connection to the remote system.
 
-A [Management.Automation.PSCredential] object of alternate credentials
-for connection to the remote system.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None  
 
-(func Mpr WNetAddConnection2W ([Int]) @(
-    $NETRESOURCEW,      # _In_ LPNETRESOURCE lpNetResource
-    [String],           # _In_ LPCTSTR       lpPassword
-    [String],           # _In_ LPCTSTR       lpUsername
-    [UInt32]            # _In_ DWORD         dwFlags
-) -EntryPoint WNetAddConnection2W)
+    (func Mpr WNetAddConnection2W ([Int]) @(
+        $NETRESOURCEW,      # _In_ LPNETRESOURCE lpNetResource
+        [String],           # _In_ LPCTSTR       lpPassword
+        [String],           # _In_ LPCTSTR       lpUsername
+        [UInt32]            # _In_ DWORD         dwFlags
+    ) -EntryPoint WNetAddConnection2W)
 
-.LINK
+    .LINK
 
-https://msdn.microsoft.com/en-us/library/windows/desktop/aa385413(v=vs.85).aspx
+    https://msdn.microsoft.com/en-us/library/windows/desktop/aa385413(v=vs.85).aspx
 
-.EXAMPLE
+    .EXAMPLE
 
-$SecPassword = ConvertTo-SecureString 'Password123!' -AsPlainText -Force
-$Cred = New-Object System.Management.Automation.PSCredential('TESTLAB\dfm.a', $SecPassword)
-WNetAddConnection2W -ComputerName "PRIMARY" -Credential $Cred -Verbose
-#>
+    $SecPassword = ConvertTo-SecureString 'Password123!' -AsPlainText -Force
+    $Cred = New-Object System.Management.Automation.PSCredential('TESTLAB\dfm.a', $SecPassword)
+    WNetAddConnection2W -ComputerName "PRIMARY" -Credential $Cred -Verbose
+    #>
 
     [CmdletBinding(DefaultParameterSetName = 'ComputerName')]
     Param(

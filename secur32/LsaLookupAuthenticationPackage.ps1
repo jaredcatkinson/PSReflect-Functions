@@ -21,7 +21,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Function Dependencies: LsaNtStatusToWinError, LSA_STRING (Struct)
+    Required Function Dependencies: PSReflect, LsaNtStatusToWinError, LSA_STRING (Structure)
     Optional Dependencies: None
 
     (func secur32 LsaLookupAuthenticationPackage ([UInt32]) @(

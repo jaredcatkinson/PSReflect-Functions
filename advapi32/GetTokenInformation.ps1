@@ -19,11 +19,11 @@
     Optional Dependencies: TokenInformationClass (Enum)
 
     (func advapi32 GetTokenInformation ([bool]) @(
-      [IntPtr],                #_In_      HANDLE                  TokenHandle
-      [Int32],                 #_In_      TOKEN_INFORMATION_CLASS TokenInformationClass
-      [IntPtr],                #_Out_opt_ LPVOID                  TokenInformation
-      [UInt32],                #_In_      DWORD                   TokenInformationLength
-      [UInt32].MakeByRefType() #_Out_     PDWORD                  ReturnLength
+        [IntPtr],                #_In_      HANDLE                  TokenHandle
+        [Int32],                 #_In_      TOKEN_INFORMATION_CLASS TokenInformationClass
+        [IntPtr],                #_Out_opt_ LPVOID                  TokenInformation
+        [UInt32],                #_In_      DWORD                   TokenInformationLength
+        [UInt32].MakeByRefType() #_Out_     PDWORD                  ReturnLength
     ) -EntryPoint GetTokenInformation -SetLastError)
         
     .LINK
@@ -62,6 +62,25 @@
 
 function GetTokenInformation-TokenUser
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -76,6 +95,25 @@ function GetTokenInformation-TokenUser
 
 function GetTokenInformation-TokenGroups
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -90,6 +128,25 @@ function GetTokenInformation-TokenGroups
 
 function GetTokenInformation-TokenPrivileges
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -116,6 +173,25 @@ function GetTokenInformation-TokenPrivileges
 
 function GetTokenInformation-TokenOwner
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -130,6 +206,25 @@ function GetTokenInformation-TokenOwner
 
 function GetTokenInformation-TokenPrimaryGroup
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -144,6 +239,25 @@ function GetTokenInformation-TokenPrimaryGroup
 
 function GetTokenInformation-TokenDefaultDacl
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -158,6 +272,25 @@ function GetTokenInformation-TokenDefaultDacl
 
 function GetTokenInformation-TokenSource
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -172,6 +305,25 @@ function GetTokenInformation-TokenSource
 
 function GetTokenInformation-TokenType
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -186,6 +338,25 @@ function GetTokenInformation-TokenType
 
 function GetTokenInformation-TokenImpersonationLevel
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -200,6 +371,25 @@ function GetTokenInformation-TokenImpersonationLevel
 
 function GetTokenInformation-TokenStatistics
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -214,6 +404,25 @@ function GetTokenInformation-TokenStatistics
 
 function GetTokenInformation-TokenRestrictedSids
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -228,6 +437,25 @@ function GetTokenInformation-TokenRestrictedSids
 
 function GetTokenInformation-TokenSessionId
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -242,6 +470,25 @@ function GetTokenInformation-TokenSessionId
 
 function GetTokenInformation-TokenGroupsAndPrivileges
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -256,6 +503,25 @@ function GetTokenInformation-TokenGroupsAndPrivileges
 
 function GetTokenInformation-TokenSessionReference
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -270,6 +536,25 @@ function GetTokenInformation-TokenSessionReference
 
 function GetTokenInformation-TokenSandBoxInert
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -284,6 +569,25 @@ function GetTokenInformation-TokenSandBoxInert
 
 function GetTokenInformation-TokenAuditPolicy
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -298,6 +602,25 @@ function GetTokenInformation-TokenAuditPolicy
 
 function GetTokenInformation-TokenOrigin
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -313,6 +636,25 @@ function GetTokenInformation-TokenOrigin
 
 function GetTokenInformation-TokenElevationType
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -327,6 +669,25 @@ function GetTokenInformation-TokenElevationType
 
 function GetTokenInformation-TokenLinkedToken
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -341,6 +702,25 @@ function GetTokenInformation-TokenLinkedToken
 
 function GetTokenInformation-TokenElevation
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -355,6 +735,25 @@ function GetTokenInformation-TokenElevation
 
 function GetTokenInformation-TokenHasRestrictions
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -369,6 +768,25 @@ function GetTokenInformation-TokenHasRestrictions
 
 function GetTokenInformation-TokenAccessInformation
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -383,6 +801,25 @@ function GetTokenInformation-TokenAccessInformation
 
 function GetTokenInformation-TokenVirtualizationAllowed
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -397,6 +834,25 @@ function GetTokenInformation-TokenVirtualizationAllowed
 
 function GetTokenInformation-TokenVirtualizationEnabled
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -411,6 +867,25 @@ function GetTokenInformation-TokenVirtualizationEnabled
 
 function GetTokenInformation-TokenIntegrityLevel
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -459,6 +934,25 @@ function GetTokenInformation-TokenIntegrityLevel
 
 function GetTokenInformation-TokenUIAccess
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -473,6 +967,25 @@ function GetTokenInformation-TokenUIAccess
 
 function GetTokenInformation-TokenMandatoryPolicy
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -487,6 +1000,25 @@ function GetTokenInformation-TokenMandatoryPolicy
 
 function GetTokenInformation-TokenLogonSid
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -501,6 +1033,25 @@ function GetTokenInformation-TokenLogonSid
 
 function GetTokenInformation-TokenIsAppContainer
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -515,6 +1066,25 @@ function GetTokenInformation-TokenIsAppContainer
 
 function GetTokenInformation-TokenCapabilities
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -529,6 +1099,25 @@ function GetTokenInformation-TokenCapabilities
 
 function GetTokenInformation-TokenAppContainerSid
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -543,6 +1132,25 @@ function GetTokenInformation-TokenAppContainerSid
 
 function GetTokenInformation-TokenAppContainerName
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -557,6 +1165,25 @@ function GetTokenInformation-TokenAppContainerName
 
 function GetTokenInformation-TokenUserClaimAttributes
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -571,6 +1198,25 @@ function GetTokenInformation-TokenUserClaimAttributes
 
 function GetTokenInformation-TokenDeviceClaimAttributes
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -585,6 +1231,25 @@ function GetTokenInformation-TokenDeviceClaimAttributes
 
 function GetTokenInformation-TokenRestrictedUserClaimAttributes
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -599,6 +1264,25 @@ function GetTokenInformation-TokenRestrictedUserClaimAttributes
 
 function GetTokenInformation-TokenRestrictedDeviceClaimAttributes
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -613,6 +1297,25 @@ function GetTokenInformation-TokenRestrictedDeviceClaimAttributes
 
 function GetTokenInformation-TokenDeviceGroups
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -627,6 +1330,25 @@ function GetTokenInformation-TokenDeviceGroups
 
 function GetTokenInformation-TokenRestrictedDeviceGroups
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -641,6 +1363,25 @@ function GetTokenInformation-TokenRestrictedDeviceGroups
 
 function GetTokenInformation-TokenSecurityAttributes
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -655,6 +1396,25 @@ function GetTokenInformation-TokenSecurityAttributes
 
 function GetTokenInformation-TokenIsRestricted
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]
@@ -669,6 +1429,25 @@ function GetTokenInformation-TokenIsRestricted
 
 function GetTokenInformation-MaxTokenInfoClass
 {
+    <#
+    .SYNOPSIS
+
+    .PARAMETER TokenHandle
+
+    A handle to an access token from which information is retrieved. If TokenInformationClass specifies TokenSource, the handle must have TOKEN_QUERY_SOURCE access. For all other TokenInformationClass values, the handle must have TOKEN_QUERY access.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+    
+    .LINK
+
+    .EXAMPLE
+    #>
+
     param
     (
         [Parameter(Mandatory = $true)]

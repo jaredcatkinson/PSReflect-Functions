@@ -1,45 +1,46 @@
 function WTSOpenServerEx {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Opens a handle to the specified Remote Desktop Session Host (RD Session Host)
-server or Remote Desktop Virtualization Host (RD Virtualization Host) server
+    Opens a handle to the specified Remote Desktop Session Host (RD Session Host)
+    server or Remote Desktop Virtualization Host (RD Virtualization Host) server
 
-Note: only members of the Administrators or Account Operators local group
-can successfully execute this functionality on a remote target.
+    Note: only members of the Administrators or Account Operators local group
+    can successfully execute this functionality on a remote target.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the WTSOpenServerEx Win32 API call to open up a handle
+    to the Remote Desktop Session Host.
 
-This function will execute the WTSOpenServerEx Win32 API call to open up a handle
-to the Remote Desktop Session Host.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to open the handle to (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to open the handle to (also accepts IP addresses).
-Defaults to 'localhost'.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
-(func wtsapi32 WTSOpenServerEx ([IntPtr]) @(
-    [String]        # _In_ LPTSTR pServerName
-))
+    (func wtsapi32 WTSOpenServerEx ([IntPtr]) @(
+        [String]        # _In_ LPTSTR pServerName
+    ) -EntryPoint WTSOpenServerEx)
 
-.OUTPUTS
+    .OUTPUTS
 
-IntPtr
+    IntPtr
 
-A handle to the specified server.
+    A handle to the specified server.
 
-.EXAMPLE
+    .LINK
 
-.LINK
+    https://msdn.microsoft.com/en-us/library/ee621021(v=vs.85).aspx
 
-https://msdn.microsoft.com/en-us/library/ee621021(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [OutputType([IntPtr])]
     [CmdletBinding()]

@@ -40,12 +40,20 @@
     
     If lpAddress is not NULL, the function allocates all pages that contain one or more bytes in the range from lpAddress to lpAddress+dwSize. This means, for example, that a 2-byte range that straddles a page boundary causes the function to allocate both pages.
 
+    .PARAMETER AllocationType
+
+    The type of memory allocation. 
+
+    .PARAMETER Protect
+
+    The memory protection for the region of pages to be allocated.
+
     .NOTES
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
-    Optional Dependencies: None
+    Required Dependencies: PSReflect
+    Optional Dependencies: MEMORY_ALLOCATION_TYPE (Enumeration), MEMORY_PROTECTION (Enumeration)
 
     (func kernel32 VirtualAllocEx ([IntPtr]) @(
         [IntPtr],                                  # _In_ HANDLE hProcess
@@ -71,10 +79,18 @@
 
         [Parameter(Mandatory = $true)]
         [UInt32]
-        $Size
+        $Size,
+
+        [Parameter(Mandatory = $true)]
+        [UInt32]
+        $AllocationType = 0x3000,
+
+        [Parameter(Mandatory = $true)]
+        [UInt32]
+        $Protect = 0x04
     )
 
-    $RemoteMemAddr = $Kernel32::VirtualAllocEx($ProcessHandle, [IntPtr]::Zero, $Size, 0x3000, 0x04)
+    $RemoteMemAddr = $Kernel32::VirtualAllocEx($ProcessHandle, [IntPtr]::Zero, $Size, $AllocationType, $Protect)
 
     if (-not($RemoteMemAddr))
     {

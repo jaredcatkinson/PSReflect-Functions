@@ -18,13 +18,13 @@
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
-    Optional Dependencies: None
+    Required Dependencies: PSReflect
+    Optional Dependencies: TOKEN_ACCESS (Enumeration)
 
     (func advapi32 OpenProcessToken ([bool]) @(
-      [IntPtr],                #_In_  HANDLE  ProcessHandle
-      [UInt32],                #_In_  DWORD   DesiredAccess
-      [IntPtr].MakeByRefType() #_Out_ PHANDLE TokenHandle
+        [IntPtr],                #_In_  HANDLE  ProcessHandle
+        [UInt32],                #_In_  DWORD   DesiredAccess
+        [IntPtr].MakeByRefType() #_Out_ PHANDLE TokenHandle
     ) -EntryPoint OpenProcessToken -SetLastError)
         
     .LINK

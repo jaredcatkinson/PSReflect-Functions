@@ -19,14 +19,14 @@
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
+    Required Dependencies: PSReflect
     Optional Dependencies: None
 
     (func kernel32 QueryFullProcessImageName ([bool]) @(
-      [IntPtr]                                     #_In_    HANDLE hProcess
-      [UInt32]                                     #_In_    DWORD  dwFlags,
-      [System.Text.StringBuilder]                  #_Out_   LPTSTR lpExeName,
-      [UInt32].MakeByRefType()                     #_Inout_ PDWORD lpdwSize
+      [IntPtr]                    #_In_    HANDLE hProcess
+      [UInt32]                    #_In_    DWORD  dwFlags,
+      [System.Text.StringBuilder] #_Out_   LPTSTR lpExeName,
+      [UInt32].MakeByRefType()    #_Inout_ PDWORD lpdwSize
     ) -EntryPoint QueryFullProcessImageName -SetLastError)
         
     .LINK

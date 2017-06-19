@@ -1,58 +1,54 @@
 function NetConnectionEnum {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Lists all connections made to a shared resource on the server or all connections
-established from a particular computer.
-Note: this requires admin rights on the remote system.
+    Lists all connections made to a shared resource on the server or all connections
+    established from a particular computer.
+    Note: this requires admin rights on the remote system.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetConnectionEnum Win32API call to query
+    a given host for open connections.
 
-This function will execute the NetConnectionEnum Win32API call to query
-a given host for open connections.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to query for connections (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to query for connections (also accepts IP addresses).
-Defaults to 'localhost'.
+    .PARAMETER ShareName
 
-.PARAMETER ShareName
+    Specifies the share name to query connections for. Defaults to 'C$'.
 
-Specifies the share name to query connections for. Defaults to 'C$'.
+    .PARAMETER Level
 
-.PARAMETER Level
+    Specifies the level of information to query from NetConnectionEnum.
+    Default of 1. Affects the result structure returned.
 
-Specifies the level of information to query from NetConnectionEnum.
-Default of 1. Affects the result structure returned.
-
-.NOTES
+    .NOTES
     
-    (func netapi32 NetConnectionEnum ([Int]) @(
-        [String],                   # _In_    LMSTR   servername
-        [String],                   # _In_    LMSTR   qualifier
-        [Int],                      # _In_    LMSTR   qualifier
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect, NetApiBufferFree (Function)
+    Optional Dependencies: None
+
+    (func netapi32 NetConnectionEnum ([Int32]) @(
+        [string],                   # _In_    LMSTR   servername
+        [string],                   # _In_    LMSTR   qualifier
+        [Int32],                    # _In_    DWORD   level
         [IntPtr].MakeByRefType(),   # _Out_   LPBYTE  *bufptr
-        [Int],                      # _In_    DWORD   prefmaxlen
+        [Int32],                    # _In_    DWORD   prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD totalentries
-        [Int32].MakeByRefType())    # _Inout_ LPDWORD resume_handle
-    )
+        [Int32].MakeByRefType()     # _Inout_ LPDWORD resume_handle
+    ) -EntryPoint NetConnectionEnum)
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    )
+    .LINK
 
-.EXAMPLE
+    https://msdn.microsoft.com/en-us/library/windows/desktop/bb525376(v=vs.85).aspx
 
-
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/bb525376(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(
@@ -111,7 +107,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb525376(v=vs.85).aspx
                 }
 
                 # free up the result buffer
-                $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+                NetApiBufferFree -Buffer $PtrInfo
             }
             else {
                 Write-Verbose "[NetConnectionEnum] Error: $(([ComponentModel.Win32Exception] $Result).Message)"

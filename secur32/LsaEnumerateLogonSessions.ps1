@@ -13,7 +13,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: LsaNtStatusToWinError
+    Required Dependencies: PSReflect, LsaNtStatusToWinError (Function)
     Optional Dependencies: None
 
     (func secur32 LsaEnumerateLogonSessions ([UInt32]) @(

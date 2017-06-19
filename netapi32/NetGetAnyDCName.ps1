@@ -1,46 +1,42 @@
 function NetGetAnyDCName {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Returns the name of any domain controller (DC) for a domain that is
-directly trusted by the specified server
+    Returns the name of any domain controller (DC) for a domain that is
+    directly trusted by the specified server
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetGetAnyDCName Win32API call to return any
+    domain controller the a domain/server specified.
 
-This function will execute the NetGetAnyDCName Win32API call to return any
-domain controller the a domain/server specified.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to query the DC for (also accepts IP addresses).
 
-Specifies the hostname to query the DC for (also accepts IP addresses).
+    .PARAMETER DomainName
 
-.PARAMETER DomainName
+    The domain the ComputerName resides in to enumerate a domain controller for.
 
-The domain the ComputerName resides in to enumerate a domain controller for.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect, NetApiBufferFree (Function)
+    Optional Dependencies: None
 
-    (func netapi32 NetGetAnyDCName ([Int]) @(
-        [String],                   # _In_  LPCWSTR servername
-        [String],                   # _In_  LPCWSTR domainname
+    (func netapi32 NetGetAnyDCName ([Int32]) @(
+        [string],                   # _In_  LPCWSTR servername
+        [string],                   # _In_  LPCWSTR domainname
         [IntPtr].MakeByRefType()    # _Out_ LPBYTE  *bufptr
     ) -EntryPoint NetGetAnyDCName)
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    )
+    .LINK
 
-.EXAMPLE
+    https://msdn.microsoft.com/en-us/library/windows/desktop/aa370419(v=vs.85).aspx
 
-
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/aa370419(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(
@@ -77,6 +73,6 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370419(v=vs.85).aspx
             Throw "[NetGetAnyDCName] Error enumerating site for '$Computer' : $(([ComponentModel.Win32Exception]$Result).Message)"
         }
 
-        $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+        NetApiBufferFree -Buffer $PtrInfo
     }
 }

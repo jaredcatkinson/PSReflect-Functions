@@ -17,13 +17,13 @@
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: MEMORYBASICINFORMATION (Struct)
+    Required Dependencies: PSReflect, MEMORY_BASIC_INFORMATION (Structure)
     Optional Dependencies: None
 
     (func kernel32 VirtualQueryEx ([Int32]) @(
         [IntPtr],                                  #_In_     HANDLE                    hProcess,
         [IntPtr],                                  #_In_opt_ LPCVOID                   lpAddress,
-        $MEMORYBASICINFORMATION.MakeByRefType(),   #_Out_    PMEMORY_BASIC_INFORMATION lpBuffer,
+        $MEMORY_BASIC_INFORMATION.MakeByRefType(), #_Out_    PMEMORY_BASIC_INFORMATION lpBuffer,
         [UInt32]                                   #_In_     SIZE_T                    dwLength
     ) -EntryPoint VirtualQueryEx -SetLastError)
         
@@ -45,8 +45,8 @@
         $BaseAddress
     )
     
-    $memory_basic_info = [Activator]::CreateInstance($MEMORYBASICINFORMATION)
-    $Success = $Kernel32::VirtualQueryEx($ProcessHandle, $BaseAddress, [Ref]$memory_basic_info, $MEMORYBASICINFORMATION::GetSize()); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $memory_basic_info = [Activator]::CreateInstance($MEMORY_BASIC_INFORMATION)
+    $Success = $Kernel32::VirtualQueryEx($ProcessHandle, $BaseAddress, [Ref]$memory_basic_info, $MEMORY_BASIC_sINFORMATION::GetSize()); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $Success) 
     {

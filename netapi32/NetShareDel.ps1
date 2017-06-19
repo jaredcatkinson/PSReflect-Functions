@@ -1,28 +1,29 @@
 function NetShareDel {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Deletes share from the local (or a remote) machine.
+    Deletes share from the local (or a remote) machine.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetShareDel Win32API call to delete
+    a share on the specified host given at specified path.
 
-This function will execute the NetShareDel Win32API call to delete
-a share on the specified host given at specified path.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to delete the share from (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to delete the share from (also accepts IP addresses).
-Defaults to 'localhost'.
+    .PARAMETER ShareName
 
-.PARAMETER ShareName
+    The name of the share to delete.
 
-The name of the share to delete.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
     (func netapi32 NetShareDel ([Int]) @(
         [String],                   # _In_  LPWSTR  servername
@@ -30,13 +31,12 @@ The name of the share to delete.
         [Int]                       # _In_  DWORD   reserved
     ) -EntryPoint NetShareDel)
 
-.EXAMPLE
+    .LINK
 
+    https://msdn.microsoft.com/en-us/library/windows/desktop/bb525386(v=vs.85).aspx
 
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/bb525386(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(

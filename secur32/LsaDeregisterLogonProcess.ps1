@@ -9,11 +9,15 @@
 
     If your logon application references the connection handle after calling the LsaDeregisterLogonProcess function, unexpected behavior can result.
     
+    .PARAMETER LsaHandle
+
+    Handle obtained from a previous call to LsaRegisterLogonProcess or LsaConnectUntrusted.
+
     .NOTES
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: LsaNtStatusToWinError
+    Required Dependencies: PSReflect, LsaNtStatusToWinError (Function)
     Optional Dependencies: None
 
     (func secur32 LsaDeregisterLogonProcess ([UInt32]) @(

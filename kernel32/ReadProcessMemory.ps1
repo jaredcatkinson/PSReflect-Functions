@@ -26,13 +26,16 @@
     .NOTES
     
     Author - Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
     (func kernel32 ReadProcessMemory ([Bool]) @(
-        [IntPtr],                                  # _In_ HANDLE hProcess
-        [IntPtr],                                  # _In_ LPCVOID lpBaseAddress
-        [Byte[]],                                  # _Out_ LPVOID  lpBuffer
-        [Int],                                     # _In_ SIZE_T nSize
-        [Int].MakeByRefType()                      # _Out_ SIZE_T *lpNumberOfBytesRead
+        [IntPtr],             # _In_ HANDLE hProcess
+        [IntPtr],             # _In_ LPCVOID lpBaseAddress
+        [Byte[]],             # _Out_ LPVOID  lpBuffer
+        [Int],                # _In_ SIZE_T nSize
+        [Int].MakeByRefType() # _Out_ SIZE_T *lpNumberOfBytesRead
     ) -EntryPoint ReadProcessMemory -SetLastError)
         
     .LINK

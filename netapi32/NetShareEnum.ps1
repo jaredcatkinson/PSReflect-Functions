@@ -1,52 +1,48 @@
 function NetShareEnum {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Returns open shares on the local (or a remote) machine.
-Note: anything above level 2 requires admin rights on a remote system.
+    Returns open shares on the local (or a remote) machine.
+    Note: anything above level 2 requires admin rights on a remote system.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetShareEnum Win32API call to query
+    a given host for open shares. This is a replacement for "net share \\hostname".
 
-This function will execute the NetShareEnum Win32API call to query
-a given host for open shares. This is a replacement for "net share \\hostname".
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to query for shares (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to query for shares (also accepts IP addresses).
-Defaults to 'localhost'.
+    .PARAMETER Level
 
-.PARAMETER Level
+    Specifies the level of information to query from NetShareEnum.
+    Default of 1. Affects the result structure returned.
 
-Specifies the level of information to query from NetShareEnum.
-Default of 1. Affects the result structure returned.
+    .NOTES
 
-.NOTES
-    
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect, NetApiBufferFree (Function)
+    Optional Dependencies: None
+
     (func netapi32 NetShareEnum ([Int]) @(
         [String],                                   # _In_    LPWSTR  servername
-        [Int],                                      # _In_    DWORD   level
+        [Int32],                                    # _In_    DWORD   level
         [IntPtr].MakeByRefType(),                   # _Out_   LPBYTE  *bufptr
-        [Int],                                      # _In_    DWORD   prefmaxlen
+        [Int32],                                    # _In_    DWORD   prefmaxlen
         [Int32].MakeByRefType(),                    # _Out_   LPDWORD entriesread
         [Int32].MakeByRefType(),                    # _Out_   LPDWORD totalentries
         [Int32].MakeByRefType()                     # _Inout_ LPDWORD resume_handle
     ) -EntryPoint NetShareEnum)
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    )
+    .LINK
 
-.EXAMPLE
+    https://msdn.microsoft.com/en-us/library/windows/desktop/bb525387(v=vs.85).aspx
 
-
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/bb525387(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(
@@ -108,7 +104,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb525387(v=vs.85).aspx
                 }
 
                 # free up the result buffer
-                $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+                NetApiBufferFree -Buffer $PtrInfo
             }
             else {
                 Write-Verbose "[NetShareEnum] Error: $(([ComponentModel.Win32Exception] $Result).Message)"

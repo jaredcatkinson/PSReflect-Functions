@@ -28,8 +28,8 @@
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
-    Optional Dependencies: None
+    Required Dependencies: PSReflect
+    Optional Dependencies: $TOKEN_ACCESS (Enumeration)
 
     (func advapi32 OpenThreadToken ([bool]) @(
       [IntPtr],                #_In_  HANDLE  ThreadHandle

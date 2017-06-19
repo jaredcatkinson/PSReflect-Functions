@@ -13,12 +13,12 @@
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
+    Required Dependencies: PSReflect
     Optional Dependencies: None
 
     (func kernel32 Thread32First ([bool]) @(
-        [IntPtr],                                  #_In_    HANDLE          hSnapshot,
-        $THREADENTRY32.MakeByRefType()             #_Inout_ LPTHREADENTRY32 lpte
+        [IntPtr],                      #_In_    HANDLE          hSnapshot
+        $THREADENTRY32.MakeByRefType() #_Inout_ LPTHREADENTRY32 lpte
     ) -EntryPoint Thread32First -SetLastError)
         
     .LINK

@@ -17,18 +17,18 @@
     
     .PARAMETER ExitCode
     
-    The exit code for the thread.
+    The exit code for the thread. This thread's exit code will be set to this value upon termination.
 
     .NOTES
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
+    Required Dependencies: PSReflect
     Optional Dependencies: None
 
     (func kernel32 TerminateThread ([bool]) @(
-        [IntPtr],                                  # _InOut_ HANDLE hThread
-        [UInt32]                                   # _In_ DWORD dwExitCode
+        [IntPtr], # _InOut_ HANDLE hThread
+        [UInt32]  # _In_ DWORD dwExitCode
     ) -EntryPoint TerminateThread -SetLastError)
         
     .LINK

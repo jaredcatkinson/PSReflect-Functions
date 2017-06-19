@@ -6,10 +6,6 @@ Returns session information for the local (or a remote) machine.
 Note: administrative rights needed for newer Windows OSes for
 query levels above 10.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
-
 .DESCRIPTION
 
 This function will execute the NetSessionEnum Win32API call to query
@@ -27,28 +23,28 @@ Default of 10. Affects the result structure returned.
 
 .NOTES
 
-    (func netapi32 NetSessionEnum ([Int]) @(
-        [String],                   # _In_    LPWSTR  servername
-        [String],                   # _In_    LPWSTR  UncClientName
-        [String],                   # _In_    LPWSTR  username
-        [Int],                      # _In_    DWORD   level
-        [IntPtr].MakeByRefType(),   # _Out_   LPBYTE  *bufptr
-        [Int],                      # _In_    DWORD   prefmaxlen
-        [Int32].MakeByRefType(),    # _Out_   LPDWORD entriesread
-        [Int32].MakeByRefType(),    # _Out_   LPDWORD totalentries
-        [Int32].MakeByRefType()     # _Inout_ LPDWORD resume_handle
-    ) -EntryPoint NetSessionEnum)
+Author: Will Schroeder (@harmj0y)  
+License: BSD 3-Clause  
+Required Dependencies: PSReflect, NetApiBufferFree (Function)
+Optional Dependencies: None
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    )
-
-.EXAMPLE
-
+(func netapi32 NetSessionEnum ([Int]) @(
+    [String],                   # _In_    LPWSTR  servername
+    [String],                   # _In_    LPWSTR  UncClientName
+    [String],                   # _In_    LPWSTR  username
+    [Int],                      # _In_    DWORD   level
+    [IntPtr].MakeByRefType(),   # _Out_   LPBYTE  *bufptr
+    [Int],                      # _In_    DWORD   prefmaxlen
+    [Int32].MakeByRefType(),    # _Out_   LPDWORD entriesread
+    [Int32].MakeByRefType(),    # _Out_   LPDWORD totalentries
+    [Int32].MakeByRefType()     # _Inout_ LPDWORD resume_handle
+) -EntryPoint NetSessionEnum)
 
 .LINK
 
 https://msdn.microsoft.com/en-us/library/windows/desktop/bb525382(v=vs.85).aspx
+
+.EXAMPLE
 #>
 
     [CmdletBinding()]
@@ -110,7 +106,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb525382(v=vs.85).aspx
                 }
 
                 # free up the result buffer
-                $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+                NetApiBufferFree -Buffer $PtrInfo
             }
             else {
                 Write-Verbose "[NetSessionEnum] Error: $(([ComponentModel.Win32Exception] $Result).Message)"

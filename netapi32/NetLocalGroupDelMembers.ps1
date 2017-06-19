@@ -1,48 +1,48 @@
 function NetLocalGroupDelMembers {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Deletes a specified member from a specific local group on the local (or remote) machine.
+    Deletes a specified member from a specific local group on the local (or remote) machine.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetLocalGroupDelMembers Win32API call to delete
+    a specified member from the specified local group on a specified host.
 
-This function will execute the NetLocalGroupDelMembers Win32API call to delete
-a specified member from the specified local group on a specified host.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to delete the local group member from (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to delete the local group member from (also accepts IP addresses).
-Defaults to 'localhost'.
+    .PARAMETER MemberName
 
-.PARAMETER MemberName
+    The member to delete from the local group, in COMPUTER\member or DOMAIN\member syntax.
 
-The member to delete from the local group, in COMPUTER\member or DOMAIN\member syntax.
+    .PARAMETER GroupName
 
-.PARAMETER GroupName
+    The local group name to delete the member from. If not given, it defaults to "Administrators".
 
-The local group name to delete the member from. If not given, it defaults to "Administrators".
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
-    (func netapi32 NetLocalGroupDelMembers ([Int]) @(
+    (func netapi32 NetLocalGroupDelMembers ([Int32]) @(
         [String],                   # _In_ LPCWSTR servername
         [String],                   # _In_ LPCWSTR groupname
-        [Int],                      # _In_ DWORD   level
+        [Int32],                    # _In_ DWORD   level
         [IntPtr],                   # _In_ LPBYTE  buf
-        [Int]                       # _In_ DWORD   totalentries
+        [Int32]                     # _In_ DWORD   totalentries
     ) -EntryPoint NetLocalGroupDelMembers)
 
-.EXAMPLE
+    .LINK
 
+    https://msdn.microsoft.com/en-us/library/windows/desktop/aa370439(v=vs.85).aspx
 
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/aa370439(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(

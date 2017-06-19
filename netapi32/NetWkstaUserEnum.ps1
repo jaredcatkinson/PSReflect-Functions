@@ -1,52 +1,47 @@
 function NetWkstaUserEnum {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Returns users logged on the local (or a remote) machine.
-Note: administrative rights needed for newer Windows OSes.
+    Returns users logged on the local (or a remote) machine.
+    Note: administrative rights needed for newer Windows OSes.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the NetWkstaUserEnum Win32API call to query
+    a given host for actively logged on users.
 
-This function will execute the NetWkstaUserEnum Win32API call to query
-a given host for actively logged on users.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to query for logged on users (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-Specifies the hostname to query for logged on users (also accepts IP addresses).
-Defaults to 'localhost'.
+    .PARAMETER Level
 
-.PARAMETER Level
+    Specifies the level of information to query from NetWkstaUserEnum.
+    Default of 1. Affects the result structure returned.
 
-Specifies the level of information to query from NetWkstaUserEnum.
-Default of 1. Affects the result structure returned.
-
-.NOTES
+    .NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect, NetApiBufferFree (Function)
+    Optional Dependencies: None
 
     (func netapi32 NetWkstaUserEnum ([Int]) @(
         [String],                   # _In_    LPWSTR  servername
-        [Int],                      # _In_    DWORD   level
+        [Int32],                    # _In_    DWORD   level
         [IntPtr].MakeByRefType(),   # _Out_   LPBYTE  *bufptr
-        [Int],                      # _In_    DWORD   prefmaxlen
+        [Int32],                    # _In_    DWORD   prefmaxlen
         [Int32].MakeByRefType(),    # _Out_   LPDWORD entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD totalentries
         [Int32].MakeByRefType()     # _Inout_ LPDWORD resumehandle
     ) -EntryPoint NetWkstaUserEnum)
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
-        [IntPtr]    # _In_ LPVOID Buffer
-    )
+    .LINK
 
-.EXAMPLE
+    https://msdn.microsoft.com/en-us/library/windows/desktop/aa370669(v=vs.85).aspx
 
-
-.LINK
-
-https://msdn.microsoft.com/en-us/library/windows/desktop/aa370669(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(
@@ -101,7 +96,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa370669(v=vs.85).aspx
                 }
 
                 # free up the result buffer
-                $Null = $Netapi32::NetApiBufferFree($PtrInfo)
+                NetApiBufferFree -Buffer $PtrInfo
             }
             else {
                 Write-Verbose "[NetWkstaUserEnum] Error: $(([ComponentModel.Win32Exception] $Result).Message)"

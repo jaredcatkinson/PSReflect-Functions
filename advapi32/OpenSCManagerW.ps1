@@ -1,48 +1,49 @@
 function OpenSCManagerW
 {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Tests if the current user has administrative access to the local (or a remote) machine.
+    Tests if the current user has administrative access to the local (or a remote) machine. 
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect  
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will use the OpenSCManagerW Win32API call to establish
+    a handle to the remote host. If this succeeds, the current user context
+    has local administrator acess to the target. The retunred value is
+    a handle to the specified service control manager database.
 
-This function will use the OpenSCManagerW Win32API call to establish
-a handle to the remote host. If this succeeds, the current user context
-has local administrator acess to the target. The retunred value is
-a handle to the specified service control manager database.
+    .PARAMETER ComputerName
 
-.PARAMETER ComputerName
+    Specifies the hostname to check for local admin access (also accepts IP addresses).
+    If null, then the local machine is used.
 
-Specifies the hostname to check for local admin access (also accepts IP addresses).
-If null, then the local machine is used.
+    .PARAMETER DesiredAccess
 
-.PARAMETER DesiredAccess
+    The access to the service control manager. One of 'ALL_ACCESS', 'CREATE_SERVICE',
+    'CONNECT', 'ENUMERATE_SERVICE', 'LOCK', 'MODIFY_BOOT_CONFIG', ir 'QUERY_LOCK_STATUS'.
 
-The access to the service control manager. One of 'ALL_ACCESS', 'CREATE_SERVICE',
-'CONNECT', 'ENUMERATE_SERVICE', 'LOCK', 'MODIFY_BOOT_CONFIG', ir 'QUERY_LOCK_STATUS'.
+    Default of 'ALL_ACCESS'.
 
-Default of 'ALL_ACCESS'.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
-(func advapi32 OpenSCManagerW ([IntPtr]) @(
-    [String],       # _In_opt_ LPCTSTR lpMachineName
-    [String],       # _In_opt_ LPCTSTR lpDatabaseName
-    [Int]           # _In_     DWORD   dwDesiredAccess
-) -EntryPoint OpenSCManagerW -SetLastError)
+    (func advapi32 OpenSCManagerW ([IntPtr]) @(
+        [String],       # _In_opt_ LPCTSTR lpMachineName
+        [String],       # _In_opt_ LPCTSTR lpDatabaseName
+        [Int]           # _In_     DWORD   dwDesiredAccess
+    ) -EntryPoint OpenSCManagerW -SetLastError)
 
-.LINK
+    .LINK
 
-https://msdn.microsoft.com/en-us/library/windows/desktop/ms684323(v=vs.85).aspx
+    https://msdn.microsoft.com/en-us/library/windows/desktop/ms684323(v=vs.85).aspx
 
-.EXAMPLE
+    .EXAMPLE
 
-#>
+    #>
     
     [OutputType([IntPtr])]
     [CmdletBinding()]

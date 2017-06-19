@@ -1,39 +1,40 @@
 function WTSEnumerateSessionsEx {
-<#
-.SYNOPSIS
+    <#
+    .SYNOPSIS
 
-Retrieves a list of sessions on a specified Remote Desktop Session Host (RD Session Host)
-server or Remote Desktop Virtualization Host (RD Virtualization Host) server.
+    Retrieves a list of sessions on a specified Remote Desktop Session Host (RD Session Host)
+    server or Remote Desktop Virtualization Host (RD Virtualization Host) server.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    .DESCRIPTION
 
-.DESCRIPTION
+    This function will execute the WTSEnumerateSessionsEx Win32API call to 
+    enumerate a given RD session host for sessions.
 
-This function will execute the WTSEnumerateSessionsEx Win32API call to 
-enumerate a given RD session host for sessions.
+    .PARAMETER Handle
 
-.PARAMETER Handle
+    Handle to the RD session host to query session information for.
 
-Handle to the RD session host to query session information for.
+    .NOTES
 
-.NOTES
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
 
-(func wtsapi32 WTSEnumerateSessionsEx ([Int]) @(
-    [IntPtr],                   # _In_    HANDLE              hServer
-    [Int32].MakeByRefType(),    # _Inout_ DWORD               *pLevel
-    [Int],                      # _In_    DWORD               Filter
-    [IntPtr].MakeByRefType(),   # _Out_   PWTS_SESSION_INFO_1 *ppSessionInfo
-    [Int32].MakeByRefType()     # _Out_   DWORD               *pCount
-) -EntryPoint WTSEnumerateSessionsEx -SetLastError)
+    (func wtsapi32 WTSEnumerateSessionsEx ([Int]) @(
+        [IntPtr],                   # _In_    HANDLE              hServer
+        [Int32].MakeByRefType(),    # _Inout_ DWORD               *pLevel
+        [Int],                      # _In_    DWORD               Filter
+        [IntPtr].MakeByRefType(),   # _Out_   PWTS_SESSION_INFO_1 *ppSessionInfo
+        [Int32].MakeByRefType()     # _Out_   DWORD               *pCount
+    ) -EntryPoint WTSEnumerateSessionsEx -SetLastError)
 
-.EXAMPLE
+    .LINK
 
-.LINK
+    https://msdn.microsoft.com/en-us/library/ee621014(v=vs.85).aspx
 
-https://msdn.microsoft.com/en-us/library/ee621014(v=vs.85).aspx
-#>
+    .EXAMPLE
+    #>
 
     [CmdletBinding()]
     Param(

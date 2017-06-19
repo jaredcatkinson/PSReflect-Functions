@@ -26,7 +26,7 @@
     Required Dependencies: PSReflect
     Optional Dependencies: None
 
-    (func netapi32 NetApiBufferFree ([Int]) @(
+    (func netapi32 NetApiBufferFree ([Int32]) @(
         [IntPtr]    # _In_ LPVOID Buffer
     ) -EntryPoint NetApiBufferFree)
 

@@ -344,6 +344,38 @@
         [Int32].MakeByRefType() # out bool PreviousValue
     ) -EntryPoint RtlAdjustPrivilege),
     #endregion ntdll
+    #region samlib
+    (func samlib SamCloseHandle ([Int32]) @(
+        [IntPtr] #_In_ SAM_HANDLE SamHandle
+    ) -EntryPoint SamCloseHandle),
+
+    (func samlib SamConnect ([Int32]) @(
+        $UNICODE_STRING.MakeByRefType(), #_Inout_opt_ PUNICODE_STRING    ServerName
+        [IntPtr].MakeByRefType(),        #_Out_       PSAM_HANDLE        ServerHandle
+        [Int32],                         #_In_        ACCESS_MASK        DesiredAccess
+        [bool]                           #_In_        POBJECT_ATTRIBUTES ObjectAttributes
+    ) -EntryPoint SamConnect),
+
+    (func samlib SamOpenDomain ([Int32]) @(
+        [IntPtr],                #_In_ SAM_HANDLE  ServerHandle
+        [Int32],                 #_In_ ACCESS_MASK DesiredAccess
+        [byte[]],                #_In_ PSID        DomainId
+        [IntPtr].MakeByRefType() #_Out_ PSAM_HANDLE DomainHandle
+    ) -EntryPoint SamOpenDomain),
+
+    (func samlib SamOpenUser ([Int32]) @(
+        [IntPtr],                #_In_  SAM_HANDLE  DomainHandle
+        [Int32],                 #_In_  ACCESS_MASK DesiredAccess
+        [Int32],                 #_In_  ULONG       UserId
+        [IntPtr].MakeByRefType() #_Out_ PSAM_HANDLE UserHandle
+    ) -EntryPoint SamOpenUser),
+
+    (func samlib SamSetInformationUser ([Int32]) @(
+        [IntPtr], #_In_ SAM_HANDLE             UserHandle
+        [Int32],  #_In_ USER_INFORMATION_CLASS UserInformationClass
+        [IntPtr]  #_In_ PVOID                  Buffer
+    ) -EntryPoint SamSetInformationUser)
+    #endregion samlib    
     #region secur32
     (func secur32 LsaCallAuthenticationPackage ([UInt32]) @(
         [IntPtr],                 #_In_  HANDLE    LsaHandle
@@ -410,7 +442,7 @@
         [Int32],  #_In_ WTS_TYPE_CLASS WTSTypeClass
         [IntPtr], #_In_ PVOID          pMemory
         [Int32]   #_In_ ULONG          NumberOfEntries
-    ) -EntryPoint WTSFreeMemoryEx),
+    ) -EntryPoint WTSFreeMemoryEx -SetLastError),
 
     (func wtsapi32 WTSOpenServerEx ([IntPtr]) @(
         [String] #_In_ LPTSTR pServerName
@@ -434,5 +466,6 @@ $kernel32 = $Types['kernel32']
 $mpr = $Types['Mpr']
 $netapi32 = $Types['netapi32']
 $ntdll = $Types['ntdll']
+$samlib = $Types['samlib']
 $secur32 = $Types['secur32']
 $wtsapi32 = $Types['wtsapi32']

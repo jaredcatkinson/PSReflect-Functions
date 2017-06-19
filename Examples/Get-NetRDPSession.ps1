@@ -1,50 +1,51 @@
-function Get-NetRDPSession {
-<#
-.SYNOPSIS
+function Get-NetRDPSession 
+{
+    <#
+    .SYNOPSIS
 
-Returns remote desktop/session information for the local (or a remote) machine.
+    Returns remote desktop/session information for the local (or a remote) machine.
 
-Note: only members of the Administrators or Account Operators local group
-can successfully execute this functionality on a remote target.
+    Note: only members of the Administrators or Account Operators local group
+    can successfully execute this functionality on a remote target.
 
-Author: Will Schroeder (@harmj0y)  
-License: BSD 3-Clause  
-Required Dependencies: PSReflect
+    Author: Will Schroeder (@harmj0y)  
+    License: BSD 3-Clause  
+    Required Dependencies: PSReflect
 
-.DESCRIPTION
+    .DESCRIPTION
 
-This function will execute the WTSEnumerateSessionsEx and WTSQuerySessionInformation
-Win32API calls to query a given RDP remote service for active sessions and originating
-IPs. This is a replacement for qwinsta.
+    This function will execute the WTSEnumerateSessionsEx and WTSQuerySessionInformation
+    Win32API calls to query a given RDP remote service for active sessions and originating
+    IPs. This is a replacement for qwinsta.
 
-.PARAMETER ComputerName
+    .PARAMETER ComputerName
 
-Specifies the hostname to query for active sessions (also accepts IP addresses).
-Defaults to 'localhost'.
+    Specifies the hostname to query for active sessions (also accepts IP addresses).
+    Defaults to 'localhost'.
 
-.EXAMPLE
+    .EXAMPLE
 
-Get-NetRDPSession
+    Get-NetRDPSession
 
-Returns active RDP/terminal sessions on the local host.
+    Returns active RDP/terminal sessions on the local host.
 
-.EXAMPLE
+    .EXAMPLE
 
-Get-NetRDPSession -ComputerName "sqlserver"
+    Get-NetRDPSession -ComputerName "sqlserver"
 
-Returns active RDP/terminal sessions on the 'sqlserver' host.
+    Returns active RDP/terminal sessions on the 'sqlserver' host.
 
-.OUTPUTS
+    .OUTPUTS
 
-RDPSessionInfo
+    RDPSessionInfo
 
-A PSCustomObject representing a combined WTS_SESSION_INFO_1 and WTS_CLIENT_ADDRESS structure,
-with the ComputerName added.
+    A PSCustomObject representing a combined WTS_SESSION_INFO_1 and WTS_CLIENT_ADDRESS structure,
+    with the ComputerName added.
 
-.LINK
+    .LINK
 
-https://msdn.microsoft.com/en-us/library/aa383861(v=vs.85).aspx
-#>
+    https://msdn.microsoft.com/en-us/library/aa383861(v=vs.85).aspx
+    #>
 
     [OutputType('RDPSessionInfo')]
     [CmdletBinding()]

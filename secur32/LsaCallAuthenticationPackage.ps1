@@ -10,7 +10,6 @@
     .DESCRIPTION
 
     Logon applications can call LsaCallAuthenticationPackage to communicate with an authentication package. There are several reasons why an application may do this:
-    
     - To implement multiple-message authentication protocols, such as the NTLM Challenge-Response protocol.
     - To pass state change information to the authentication package. For example, the NTLM might notify the MSV1_0 package that a previously unreachable domain controller is now reachable. The authentication package would then re-logon any users logged on to that domain controller.
     

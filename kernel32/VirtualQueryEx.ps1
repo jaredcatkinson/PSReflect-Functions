@@ -17,7 +17,7 @@
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: PSReflect, MEMORY_BASIC_INFORMATION (Structure)
+    Required Dependencies: PSReflect, MEMORY_BASIC_INFORMATION (Structure), MEMORY_PROTECTION (Enumeration), MEMORY_STATE (Enumeration), MEMORY_TYPE (Enumeration)
     Optional Dependencies: None
 
     (func kernel32 VirtualQueryEx ([Int32]) @(
@@ -46,7 +46,7 @@
     )
     
     $memory_basic_info = [Activator]::CreateInstance($MEMORY_BASIC_INFORMATION)
-    $Success = $Kernel32::VirtualQueryEx($ProcessHandle, $BaseAddress, [Ref]$memory_basic_info, $MEMORY_BASIC_sINFORMATION::GetSize()); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $Success = $Kernel32::VirtualQueryEx($ProcessHandle, $BaseAddress, [Ref]$memory_basic_info, $MEMORY_BASIC_INFORMATION::GetSize()); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $Success) 
     {

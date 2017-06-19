@@ -35,8 +35,8 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: PSReflect
-    Optional Dependencies: MEMORY_PROTECTION (Enumeration)
+    Required Dependencies: PSReflect, MEMORY_PROTECTION (Enumeration)
+    Optional Dependencies: None
 
     (func kernel32 VirtualProtectEx ([bool]) @(
         [IntPtr],                #_In_  HANDLE hProcess

@@ -79,10 +79,16 @@
             {
                 <#
                 The buffer receives a TOKEN_GROUPS structure that contains the group accounts associated with the token.
-                    TOKEN_GROUP (Structure)
+                    TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                Write-Output $TokenPtr
+                $TokenGroups = ($TokenPtr -as $TOKEN_GROUPS)
+                for($i = 0; $i -lt $TokenGroups.GroupCount; $i++)
+                {
+
+                }
+
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenPrivileges
             {
@@ -95,6 +101,8 @@
                 $TokenPrivileges = $TokenPtr -as $TOKEN_PRIVILEGES
                 $sb = New-Object System.Text.StringBuilder
 
+                Write-Output $TokenPrivileges
+                <#
                 for($i=0; $i -lt $TokenPrivileges.PrivilegeCount; $i++) 
                 {
                     if((($TokenPrivileges.Privileges[$i].Attributes -as $LuidAttributes) -band $LuidAttributes::SE_PRIVILEGE_ENABLED) -eq $LuidAttributes::SE_PRIVILEGE_ENABLED)
@@ -102,8 +110,9 @@
                         $sb.Append(", $($TokenPrivileges.Privileges[$i].Luid.LowPart.ToString())") | Out-Null  
                     }
                 }
+                #>
 
-                Write-Output $sb.ToString().TrimStart(', ')
+                #Write-Output $sb.ToString().TrimStart(', ')
             }
             TokenOwner
             {
@@ -129,16 +138,17 @@
                 The buffer receives a TOKEN_PRIMARY_GROUP structure that contains the default primary group SID for newly created objects.
                     TOKEN_PRIMARY_GROUP (Structure)
                 #>
-
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenDefaultDacl
             {
                 <#
                 The buffer receives a TOKEN_DEFAULT_DACL structure that contains the default DACL for newly created objects.
                     TOKEN_DEFAULT_DACL (Structure)
+                    ACL (Structure)
                 #>
-                Write-Output $TokenPtr
+                $Dacl = $TokenPtr -as $TOKEN_DEFAULT_DACL
+                Write-Output $Dacl.DefaultDacl
             }
             TokenSource
             {
@@ -178,7 +188,21 @@
                     TOKEN_TYPE (Enumeration)
                     SECURITY_IMPERSONATION_LEVEL (Enumeration)
                 #>
-                Write-Output $TokenPtr
+                $TokenStats = $TokenPtr -as $TOKEN_STATISTICS
+
+                $obj = New-Object -TypeName psobject
+
+                $obj | Add-Member -MemberType NoteProperty -Name TokenId -Value $TokenStats.TokenId.LowPart
+                $obj | Add-Member -MemberType NoteProperty -Name AuthenticationId -Value $TokenStats.AuthenticationId.LowPart
+                $obj | Add-Member -MemberType NoteProperty -Name TokenType -Value $TokenStats.TokenType
+                $obj | Add-Member -MemberType NoteProperty -Name ImpersonationLevel -Value $TokenStats.ImpersonationLevel
+                $obj | Add-Member -MemberType NoteProperty -Name DynamicCharged -Value $TokenStats.DynamicCharged
+                $obj | Add-Member -MemberType NoteProperty -Name DynamicAvailable -Value $TokenStats.DynamicAvailable
+                $obj | Add-Member -MemberType NoteProperty -Name GroupCount -Value $TokenStats.GroupCount
+                $obj | Add-Member -MemberType NoteProperty -Name PrivilegeCount -Value $TokenStats.PrivilegeCount
+                $obj | Add-Member -MemberType NoteProperty -Name ModifiedId -Value $TokenStats.ModifiedId.LowPart
+                
+                Write-Output $obj
             }
             TokenRestrictedSids
             {
@@ -187,7 +211,7 @@
                     TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenSessionId
             {
@@ -206,12 +230,12 @@
                     SID_AND_ATTRIBUTES (Structure)
                     LUID (Structure)
                 #>
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenSandBoxInert
             {
                 # The buffer receives a DWORD value that is nonzero if the token includes the SANDBOX_INERT flag.
-                Write-Output $TokenPtr
+                Write-Output (0 -ne ([System.Runtime.InteropServices.Marshal]::ReadInt32($TokenPtr)))
             }
             TokenOrigin
             {
@@ -231,7 +255,7 @@
                 The buffer receives a TOKEN_ELEVATION_TYPE value that specifies the elevation level of the token.
                     TOKEN_ELEVATION_TYPE (Enumeration)
                 #>
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenLinkedToken
             {
@@ -239,7 +263,7 @@
                 The buffer receives a TOKEN_LINKED_TOKEN structure that contains a handle to another token that is linked to this token.
                     TOKEN_LINKED_TOKEN (Structure)
                 #>
-                Write-Output $TokenPtr
+                Write-Output ($TokenPtr -as $TOKEN_LINKED_TOKEN).LinkedToken
             }
             TokenElevation
             {
@@ -247,12 +271,12 @@
                 The buffer receives a TOKEN_ELEVATION structure that specifies whether the token is elevated.                                    
                     TOKEN_ELEVATION (Structure)
                 #>
-                Write-Output $TokenPtr
+                Write-Output (($TokenPtr -as $TOKEN_ELEVATION).TokenIsElevated -ne 0)
             }
             TokenHasRestrictions
             {
                 # The buffer receives a DWORD value that is nonzero if the token has ever been filtered.
-                Write-Output $TokenPtr
+                Write-Output (0 -ne ([System.Runtime.InteropServices.Marshal]::ReadInt32($TokenPtr)))
             }
             TokenAccessInformation
             {
@@ -268,17 +292,17 @@
                     SECURITY_IMPERSONATION_LEVEL (Enumeration)
                     TOKEN_MANDATORY_POLICY (Structure)
                 #>
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenVirtualizationAllowed
             {
                 # The buffer receives a DWORD value that is nonzero if virtualization is allowed for the token.
-                Write-Output $TokenPtr
+                Write-Output (0 -ne ([System.Runtime.InteropServices.Marshal]::ReadInt32($TokenPtr)))
             }
             TokenVirtualizationEnabled
             {
-                # The buffer receives a DWORD value that is nonzero if virtualization is allowed for the token.
-                Write-Output $TokenPtr
+                # The buffer receives a DWORD value that is nonzero if virtualization is enabled for the token.
+                Write-Output (0 -ne ([System.Runtime.InteropServices.Marshal]::ReadInt32($TokenPtr)))
             }
             TokenIntegrityLevel
             {
@@ -327,15 +351,17 @@
             TokenUIAccess
             {
                 # The buffer receives a DWORD value that is nonzero if the token has the UIAccess flag set.
-                Write-Output $TokenPtr
+                Write-Output (0 -ne ([System.Runtime.InteropServices.Marshal]::ReadInt32($TokenPtr)))
             }
             TokenMandatoryPolicy
             {
                 <#
                 The buffer receives a TOKEN_MANDATORY_POLICY structure that specifies the token's mandatory integrity policy.
                     TOKEN_MANDATORY_POLICY
+                    TOKENMANDATORYPOLICY
                 #>
-                Write-Output $TokenPtr
+                $MandatoryPolicy = $TokenPtr -as $TOKEN_MANDATORY_POLICY
+                Write-Output $MandatoryPolicy.Policy
             }
             TokenLogonSid
             {
@@ -344,12 +370,12 @@
                     TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenIsAppContainer
             {
                 # The buffer receives a DWORD value that is nonzero if the token is an app container token. Any callers who check the TokenIsAppContainer and have it return 0 should also verify that the caller token is not an identify level impersonation token. If the current token is not an app container but is an identity level token, you should return AccessDenied.
-                Write-Output $TokenPtr
+                Write-Output (0 -ne ([System.Runtime.InteropServices.Marshal]::ReadInt32($TokenPtr)))
             }
             TokenCapabilities
             {
@@ -358,7 +384,7 @@
                     TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenAppContainerSid
             {
@@ -366,12 +392,12 @@
                 The buffer receives a TOKEN_APPCONTAINER_INFORMATION structure that contains the AppContainerSid associated with the token. If the token is not associated with an app container, the TokenAppContainer member of the TOKEN_APPCONTAINER_INFORMATION structure points to NULL.
                     TOKEN_APPCONTAINER_INFORMATION (Structure)
                 #>
-                Write-Output $TokenPtr
+                Write-Output ($TokenPtr -as $TOKEN_APPCONTAINER_INFORMATION)
             }
             TokenAppContainerNumber
             {
                 # The buffer receives a DWORD value that includes the app container number for the token. For tokens that are not app container tokens, this value is zero.
-                Write-Output $TokenPtr
+                Write-Output [System.Runtime.InteropServices.Marshal]::ReadInt32($TokenPtr)
             }
             TokenUserClaimAttributes
             {
@@ -382,7 +408,7 @@
                     CLAIM_SECURITY_ATTRIBUTE_FQBN_VALUE (Structure)
                     CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_VALUE (Structure)
                 #>
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenDeviceClaimAttributes
             {
@@ -393,7 +419,7 @@
                     CLAIM_SECURITY_ATTRIBUTE_FQBN_VALUE (Structure)
                     CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_VALUE (Structure)
                 #>
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenDeviceGroups
             {
@@ -402,7 +428,8 @@
                     TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                Write-Output $TokenPtr
+                #Write-Output ($TokenPtr -as $TOKEN_GROUPS)
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenRestrictedDeviceGroups
             {
@@ -411,7 +438,7 @@
                     TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                Write-Output $TokenPtr
+                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
         }
 

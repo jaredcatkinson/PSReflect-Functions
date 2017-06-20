@@ -3,9 +3,11 @@
     <#
     .SYNOPSIS
 
-    .DESCRIPTION
+    Closes a Sam Handle returned from the SamConnect function.
 
     .PARAMETER SamHandle
+
+    A handle to the SAM database.
 
     .NOTES
 
@@ -17,8 +19,6 @@
     (func samlib SamCloseHandle ([Int32]) @(
         [IntPtr] #_In_ SAM_HANDLE SamHandle
     ) -EntryPoint SamCloseHandle)
-
-    .LINK
 
     .EXAMPLE
     #>

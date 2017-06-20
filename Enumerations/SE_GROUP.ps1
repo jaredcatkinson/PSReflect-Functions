@@ -1,0 +1,11 @@
+﻿$SE_GROUP = psenum $Module SE_GROUP UInt32 @{
+    MANDATORY          = 0x00000001
+    ENABLED_BY_DEFAULT = 0x00000002
+    ENABLED            = 0x00000004
+    OWNER              = 0x00000008
+    USE_FOR_DENY_ONLY  = 0x00000010
+    INTEGRITY          = 0x00000020
+    INTEGRITY_ENABLED  = 0x00000040
+    RESOURCE           = 0x20000000
+    LOGON_ID           = 3221225472
+} -Bitfield

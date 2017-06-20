@@ -8,7 +8,10 @@ Get-ChildItem "$($PSScriptRoot)\Enumerations\*" -Include '*.ps1' |
 
 Write-Host "Loading Structures"
 Get-ChildItem "$($PSScriptRoot)\Structures\*" -Include '*.ps1' |
+    ? {$_.Name -ne "TOKEN_ACCESS_INFORMATION.ps1"} |
     % {. $_.FullName}
+
+. "$($PSScriptRoot)\Structures\TOKEN_ACCESS_INFORMATION.ps1"
 
 Write-Host "Loading API Functions Definitions"
 . "$($PSScriptRoot)\FunctionDefinitions.ps1"

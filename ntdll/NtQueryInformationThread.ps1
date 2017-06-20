@@ -66,39 +66,39 @@
     {
         ThreadBasicInformation
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadTimes
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadPriority
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadBasePriority
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadAffinityMask
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadImpersonationToken
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadDescriptorTableEntry
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadEnableAlignmentFaultFixup
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadEventPair_Reusable
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadQuerySetWin32StartAddress
         {
@@ -106,159 +106,159 @@
         }
         ThreadZeroTlsCell
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadPerformanceCount
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadAmILastThread
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadIdealProcessor
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadPriorityBoost
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadSetTlsArrayAddress
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadIsIoPending
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadHideFromDebugger
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadBreakOnTermination
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadSwitchLegacyState
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadIsTerminated
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadLastSystemCall
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadIoPriority
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadCycleTime
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadPagePriority
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadActualBasePriority
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadTebInformation
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadCSwitchMon
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadCSwitchPmu
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadWow64Context
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadGroupInformation
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadUmsInformation
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadCounterProfiling
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadIdealProcessorEx
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadCpuAccountingInformation
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadSuspendCount
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadHeterogeneousCpuPolicy
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadContainerId
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadNameInformation
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadSelectedCpuSets
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadSystemThreadInformation
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadActualGroupAffinity
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadDynamicCodePolicyInfo
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadExplicitCaseSensitivity
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadWorkOnBehalfTicket
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadSubsystemInformation
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadDbgkWerReportActive
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         ThreadAttachContainer
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
         MaxThreadInfoClass
         {
-
+            throw [System.NotImplementedException]"The $($ThreadInformationClass) class is not implemented yet."
         }
     }
 }

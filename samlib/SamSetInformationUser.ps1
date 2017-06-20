@@ -51,71 +51,71 @@
     {
         UserGeneralInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserPreferencesInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserLogonInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserLogonHoursInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserAccountInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserNameInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserAccountNameInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserFullNameInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserPrimaryGroupInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserHomeInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserScriptInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserProfileInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserAdminCommentInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserWorkStationsInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserSetPasswordInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserControlInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserExpiresInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserInternal1Information
         {
@@ -151,47 +151,47 @@
         }
         UserInternal2Information
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserParametersInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserAllInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserInternal3Information
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserInternal4Information
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserInternal5Information
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserInternal4InformationNew
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserInternal5InformationNew
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserInternal6Information
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserExtendedInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
         UserLogonUIInformation
         {
-
+            throw [System.NotImplementedException]"The $($UserInformationClass) Class is not implemented yet."
         }
     }
 

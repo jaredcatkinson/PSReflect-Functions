@@ -438,6 +438,13 @@
       [UInt32]                  #_In_        DWORD     dwFlags        
     ) -EntryPoint CryptCATAdminAcquireContext -SetLastError),
 
+    (func wintrust CryptCATAdminAddCatalog ([IntPtr]) @(
+        [IntPtr],               # _In_ HCATADMIN hCatAdmin,
+        [String],               # _In_ WCHAR     *pwszCatalogFile,
+        [IntPtr],               # _In_ WCHAR     *pwszSelectBaseName,
+        [UInt32]                # _In_ DWORD     dwFlags
+    ) -EntryPoint CryptCATAdminAddCatalog -SetLastError -Charset Unicode),
+
     (func wintrust CryptCATAdminCalcHashFromFileHandle ([bool]) @(
         [IntPtr],                 #_In_    HANDLE hFile
         [UInt32].MakeByRefType(), #_Inout_ DWORD  *pcbHash

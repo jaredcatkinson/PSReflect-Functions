@@ -429,7 +429,7 @@
         $LSA_STRING.MakeByRefType(), #_In_  PLSA_STRING           LogonProcessName,
         [IntPtr].MakeByRefType(),    #_Out_ PHANDLE               LsaHandle,
         [UInt64].MakeByRefType()     #_Out_ PLSA_OPERATIONAL_MODE SecurityMode
-    ) -EntryPoint LsaRegisterLogonProcess)
+    ) -EntryPoint LsaRegisterLogonProcess),
     #endregion secur32
     #region wintrust
     (func wintrust CryptCATAdminAcquireContext ([bool]) @(
@@ -472,7 +472,7 @@
 
     (func wintrust WinVerifyTrust ([Int32]) @(
         [IntPtr], #_In_ HWND   hWnd,
-        [Guid].MakeByRefType(),   #_In_ GUID   *pgActionID,
+        [Guid],   #_In_ GUID   *pgActionID,
         $WINTRUST_DATA.MakeByRefType()  #_In_ LPVOID pWVTData
     ) -EntryPoint WinVerifyTrust -Charset Unicode),
     #endregion wintrust

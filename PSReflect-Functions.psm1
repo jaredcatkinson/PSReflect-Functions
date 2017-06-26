@@ -8,7 +8,7 @@ Get-ChildItem "$($PSScriptRoot)\Enumerations\*" -Include '*.ps1' |
 
 # Loading Structures
 Get-ChildItem "$($PSScriptRoot)\Structures\*" -Include '*.ps1' |
-    ? {$_.Name -ne "TOKEN_ACCESS_INFORMATION.ps1" -and $_.Name -ne "CLAIM_SECURITY_ATTRIBUTES_INFORMATION.ps1" -and $_.Name -ne "WINTRUST_DATA"} |
+    ? {$_.Name -ne "TOKEN_ACCESS_INFORMATION.ps1" -and $_.Name -ne "CLAIM_SECURITY_ATTRIBUTES_INFORMATION.ps1" -and $_.Name -ne "WINTRUST_DATA.ps1"} |
     % {. $_.FullName}
 
 . "$($PSScriptRoot)\Structures\TOKEN_ACCESS_INFORMATION.ps1"

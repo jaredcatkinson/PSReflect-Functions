@@ -5,7 +5,7 @@ The OBJECT_ATTRIBUTES structure specifies attributes that can be applied to obje
 
 .NOTES
 
-Author: Jared Atkinson (@jaredcatkinson)
+Author: Jared Atkinson (@jaredcatkinson), Brian Reitz (@brian_psu)
 License: BSD 3-Clause
 Required Dependencies: PSReflect
 Optional Dependencies: None
@@ -27,8 +27,8 @@ https://msdn.microsoft.com/en-us/library/windows/hardware/ff557749(v=vs.85).aspx
 $OBJECT_ATTRIBUTES = struct $Module OBJECT_ATTRIBUTES @{
     Length = field 0 UInt32
     RootDirectory = field 1 IntPtr
-    ObjectName = field 2 IntPtr
-    Attributes = field 3 uint
+    ObjectName = field 2 $UNICODE_STRING.MakeByRefType()
+    Attributes = field 3 UInt32
     SecurityDescriptor = field 4 IntPtr
     SecurityQualityOfService = field 5 IntPtr
     }

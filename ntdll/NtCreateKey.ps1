@@ -11,13 +11,17 @@
 
     .PARAMETER DesiredAccess
 
-    .PARAMETER ObjectAttributes
+    Specifies an ACCESS_MASK value that determines the requested access to the object. 
 
-    .PARAMETER TitleIndex
+    .PARAMETER KeyName
+
+    Specifies the full path of the registry key to be created, beginning with \Registry. Passed as the object name to an OBJECT_ATTRIBUTES structure.
 
     .PARAMETER Class
 
     .PARAMETER CreateOptions
+    
+    Specifies the options to apply when creating or opening a key, specified as a compatible combination of the following flags: REG_OPTION_VOLATILE, REG_OPTION_NON_VOLATILE, REG_OPTION_CREATE_LINK, REG_OPTION_BACKUP_RESTORE.
 
     .NOTES
 
@@ -44,23 +48,57 @@
     param
     (
         [Parameter(Mandatory = $true)]
-        [IntPtr]
-        $ThreadHandle,
+        [string]
+        $KeyName,
 
         [Parameter(Mandatory = $true)]
-        [ValidateSet('ThreadBasicInformation','ThreadTimes','ThreadPriority','ThreadBasePriority','ThreadAffinityMask','ThreadImpersonationToken','ThreadDescriptorTableEntry','ThreadEnableAlignmentFaultFixup','ThreadEventPair_Reusable','ThreadQuerySetWin32StartAddress','ThreadZeroTlsCell','ThreadPerformanceCount','ThreadAmILastThread','ThreadIdealProcessor','ThreadPriorityBoost','ThreadSetTlsArrayAddress','ThreadIsIoPending','ThreadHideFromDebugger','ThreadBreakOnTermination','ThreadSwitchLegacyState','ThreadIsTerminated','ThreadLastSystemCall','ThreadIoPriority','ThreadCycleTime','ThreadPagePriority','ThreadActualBasePriority','ThreadTebInformation','ThreadCSwitchMon','ThreadCSwitchPmu','ThreadWow64Context','ThreadGroupInformation','ThreadUmsInformation','ThreadCounterProfiling','ThreadIdealProcessorEx','ThreadCpuAccountingInformation','ThreadSuspendCount','ThreadHeterogeneousCpuPolicy','ThreadContainerId','ThreadNameInformation','ThreadSelectedCpuSets','ThreadSystemThreadInformation','ThreadActualGroupAffinity','ThreadDynamicCodePolicyInfo','ThreadExplicitCaseSensitivity','ThreadWorkOnBehalfTicket','ThreadSubsystemInformation','ThreadDbgkWerReportActive','ThreadAttachContainer','MaxThreadInfoClass')]
         [string]
-        $ThreadInformationClass
+        $DesiredAccess
     )
-    
-    $buf = [System.Runtime.InteropServices.Marshal]::AllocHGlobal([IntPtr]::Size)
 
-    $Success = $Ntdll::NtQueryInformationThread($ThreadHandle, $THREAD_INFORMATION_CLASS::$ThreadInformationClass, $buf, [IntPtr]::Size, [IntPtr]::Zero); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+ <# 	CString csFullKey = CheckRegFullPath(csKey);
+
+	ANSI_STRING asKey;
+	RtlZeroMemory(&asKey,sizeof(asKey));
+	RtlInitAnsiString(&asKey,csFullKey);
+	UNICODE_STRING usKeyName;
+	RtlZeroMemory(&usKeyName,sizeof(usKeyName));
+	RtlAnsiStringToUnicodeString(&usKeyName,&asKey,TRUE);
+	usKeyName.MaximumLength = usKeyName.Length += 2;
+
+	OBJECT_ATTRIBUTES ObjectAttributes;
+	InitializeObjectAttributes(&ObjectAttributes,&usKeyName,OBJ_CASE_INSENSITIVE,m_hMachineReg,NULL);
+    m_dwDisposition = 0;
+	HANDLE hKey = NULL;
+	//
+	// if the key doesn't exist, create it
+	m_NtStatus = NtCreateKey(&hKey, 
+							 KEY_ALL_ACCESS, 
+							 &ObjectAttributes,
+							 0, 
+							 NULL, 
+							 REG_OPTION_NON_VOLATILE, 
+							 &m_dwDisposition);
+#> 
+    # KEY_ALL_ACCESS
+    $KeyName = "\Registry\User\S-1-5-21-922925213-184676331-3052236288-1001\Microsoft\Windows\CurrentVersion\Run"
+    $DesiredAccess = $KEY_ACCESS::KEY_ALL_ACCESS
+
+    # InstantiateObjectAttributes
+    $objectAttribute = [Activator]::CreateInstance($OBJECT_ATTRIBUTES)
+    $objectAttribute.Length = $OBJECT_ATTRIBUTES::GetSize()
+    $objectAttribute.RootDirectory = [IntPtr]::Zero
+    $objectAttribute.ObjectName = $KeyName
+    $objectAttribute.Attributes = 0x00000040
+    $objectAttribute.SecurityDescriptor = [IntPtr]::Zero
+    $objectAttribute.SecurityQualityOfService = [IntPtr]::Zero
+
+    $CreateOptions = $REG_OPTION::REG_OPTION_NON_VOLATILE
+
+    $Success = $ntdll::NtCreateKey($hKey, $DesiredAccess, $objectAttribute, $CreateOptions, 0)
 
     if(-not $Success) 
     {
         Write-Debug "NtQueryInformationThread Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
-    }
-    
     }
 }

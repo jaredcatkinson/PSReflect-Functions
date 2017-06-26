@@ -471,8 +471,8 @@
     ) -EntryPoint CryptCATCatalogInfoFromContext -SetLastError -CharSet Unicode),
 
     (func wintrust WinVerifyTrust ([Int32]) @(
-        [IntPtr], #_In_ HWND   hWnd,
-        [Guid],   #_In_ GUID   *pgActionID,
+        [IntPtr],                       #_In_ HWND   hWnd,
+        [Guid].MakeByRefType(),         #_In_ GUID   *pgActionID,
         $WINTRUST_DATA.MakeByRefType()  #_In_ LPVOID pWVTData
     ) -EntryPoint WinVerifyTrust -Charset Unicode),
     #endregion wintrust

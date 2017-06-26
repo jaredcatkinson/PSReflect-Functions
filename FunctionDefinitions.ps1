@@ -337,6 +337,15 @@
         [IntPtr]  #_Out_opt_ PULONG          ReturnLength
     ) -EntryPoint NtQueryInformationThread),
 
+    (func ntdll NtCreateKey ([Int32]) @(
+    [IntPtr].MakeByRefType(), #_Out_      PHANDLE      KeyHandle,
+    [Int32],                  #_In_       ACCESS_MASK  DesiredAccess,
+    [bool],                   #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
+    $UNICODE_STRING.MakeByRefType(), #_In_opt_   PUNICODE_STRING    Class,
+    [Int32],  #_In_      ULONG           CreateOptions,
+    [IntPtr]  #_Out_opt_ PULONG          Disposition
+    ) -EntryPoint NtCreateKey),
+
     (func ntdll RtlAdjustPrivilege ([UInt32]) @(
         [Int32],                # int Privilege,
         [Bool],                 # bool bEnablePrivilege

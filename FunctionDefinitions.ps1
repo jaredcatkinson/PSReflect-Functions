@@ -434,7 +434,7 @@
     #region wintrust
     (func wintrust CryptCATAdminAcquireContext ([bool]) @(
       [IntPtr].MakeByRefType(), #_Out_       HCATADMIN *phCatAdmin
-      [IntPtr],                 #_In_  const GUID      *pgSubsystem
+      [Guid].MakeByRefType(),   #_In_  const GUID      *pgSubsystem
       [UInt32]                  #_In_        DWORD     dwFlags        
     ) -EntryPoint CryptCATAdminAcquireContext -SetLastError),
 

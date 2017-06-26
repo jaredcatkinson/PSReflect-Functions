@@ -434,9 +434,16 @@
     #region wintrust
     (func wintrust CryptCATAdminAcquireContext ([bool]) @(
       [IntPtr].MakeByRefType(), #_Out_       HCATADMIN *phCatAdmin
-      [IntPtr],                 #_In_  const GUID      *pgSubsystem
+      [Guid].MakeByRefType(),   #_In_  const GUID      *pgSubsystem
       [UInt32]                  #_In_        DWORD     dwFlags        
     ) -EntryPoint CryptCATAdminAcquireContext -SetLastError),
+
+    (func wintrust CryptCATAdminAddCatalog ([IntPtr]) @(
+        [IntPtr],               # _In_ HCATADMIN hCatAdmin,
+        [String],               # _In_ WCHAR     *pwszCatalogFile,
+        [IntPtr],               # _In_ WCHAR     *pwszSelectBaseName,
+        [UInt32]                # _In_ DWORD     dwFlags
+    ) -EntryPoint CryptCATAdminAddCatalog -SetLastError -Charset Unicode),
 
     (func wintrust CryptCATAdminCalcHashFromFileHandle ([bool]) @(
         [IntPtr],                 #_In_    HANDLE hFile

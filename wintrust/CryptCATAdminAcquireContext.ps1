@@ -18,7 +18,7 @@
     
     (func wintrust CryptCATAdminAcquireContext ([bool]) @(
       [IntPtr].MakeByRefType(), #_Out_       HCATADMIN *phCatAdmin
-      [IntPtr],                 #_In_  const GUID      *pgSubsystem
+      [Guid].MakeByRefType(),   #_In_  const GUID      *pgSubsystem
       [UInt32]                  #_In_        DWORD     dwFlags        
     ) -EntryPoint CryptCATAdminAcquireContext -SetLastError)
 
@@ -50,7 +50,7 @@
         WINTRUST_ACTION_TRUSTPROVIDER_TEST {$pgSubsystem = [Guid]::new('573E31F8-DDBA-11d0-8CCB-00C04FC295EE'); break}
     }
 
-    $SUCCESS = $wintrust::CryptCATAdminAcquireContext([ref]$phCatAdmin, $pgSubsystem, 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $SUCCESS = $wintrust::CryptCATAdminAcquireContext([ref]$phCatAdmin, [ref]$pgSubsystem, 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $SUCCESS) 
     {

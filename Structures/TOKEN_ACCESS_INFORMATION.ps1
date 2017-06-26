@@ -92,9 +92,9 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb394726(v=vs.85).aspx
 #>
 
 $TOKEN_ACCESS_INFORMATION = struct $Module TOKEN_ACCESS_INFORMATION @{
-    SidHash            = field 0 $SID_AND_ATTRIBUTES_HASH
-    RestrictedSidHash  = field 1 $SID_AND_ATTRIBUTES_HASH
-    Privileges         = field 2 $TOKEN_PRIVILEGES
+    SidHash            = field 0 IntPtr
+    RestrictedSidHash  = field 1 IntPtr
+    Privileges         = field 2 IntPtr
     AuthenticationId   = field 3 $LUID
     TokenType          = field 4 $TOKEN_TYPE
     ImpersonationLevel = field 5 $SECURITY_IMPERSONATION_LEVEL
@@ -102,7 +102,7 @@ $TOKEN_ACCESS_INFORMATION = struct $Module TOKEN_ACCESS_INFORMATION @{
     Flags              = field 7 UInt32
     AppContainerNumber = field 8 UInt32
     PackageSid         = field 9 IntPtr
-    CapabilitiesHash   = field 10 $SID_AND_ATTRIBUTES_HASH
+    CapabilitiesHash   = field 10 IntPtr
     TrustLevelSid      = field 11 IntPtr
     SecurityAttributes = field 12 IntPtr
 }

@@ -1,4 +1,5 @@
 ﻿$SE_GROUP = psenum $Module SE_GROUP UInt32 @{
+    DISABLED           = 0x00000000
     MANDATORY          = 0x00000001
     ENABLED_BY_DEFAULT = 0x00000002
     ENABLED            = 0x00000004

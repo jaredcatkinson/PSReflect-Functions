@@ -89,6 +89,16 @@
         [IntPtr] #_In_ HANDLE hObject
     ) -EntryPoint CloseHandle -SetLastError),
 
+    (func kernel32 CreateFile ([IntPtr]) @(
+        [string], #_In_     LPCTSTR               lpFileName
+        [UInt32], #_In_     DWORD                 dwDesiredAccess
+        [UInt32], #_In_     DWORD                 dwShareMode
+        [IntPtr], #_In_opt_ LPSECURITY_ATTRIBUTES lpSecurityAttributes
+        [UInt32], #_In_     DWORD                 dwCreationDisposition
+        [UInt32], #_In_     DWORD                 dwFlagsAndAttributes
+        [IntPtr]  #_In_opt_ HANDLE                hTemplateFile
+    ) -EntryPoint CreateFile -SetLastError),
+
     (func kernel32 CreateToolhelp32Snapshot ([IntPtr]) @(
         [UInt32],                                 #_In_ DWORD dwFlags,
         [UInt32]                                  #_In_ DWORD th32ProcessID
@@ -421,6 +431,51 @@
         [UInt64].MakeByRefType()     #_Out_ PLSA_OPERATIONAL_MODE SecurityMode
     ) -EntryPoint LsaRegisterLogonProcess)
     #endregion secur32
+    #region wintrust
+    (func wintrust CryptCATAdminAcquireContext ([bool]) @(
+      [IntPtr].MakeByRefType(), #_Out_       HCATADMIN *phCatAdmin
+      [IntPtr],                 #_In_  const GUID      *pgSubsystem
+      [UInt32]                  #_In_        DWORD     dwFlags        
+    ) -EntryPoint CryptCATAdminAcquireContext -SetLastError),
+
+    (func wintrust CryptCATAdminCalcHashFromFileHandle ([bool]) @(
+        [IntPtr],                 #_In_    HANDLE hFile
+        [UInt32].MakeByRefType(), #_Inout_ DWORD  *pcbHash
+        [byte[]],                 #_In_    BYTE   *pbHash
+        [UInt32]                  #_In_    DWORD  dwFlags
+    ) -EntryPoint CryptCATAdminCalcHashFromFileHandle),
+
+    (func wintrust CryptCATAdminEnumCatalogFromHash ([IntPtr]) @(
+        [IntPtr], #_In_ HCATADMIN hCatAdmin
+        [byte[]], #_In_ BYTE      *pbHash
+        [UInt32], #_In_ DWORD     cbHash
+        [UInt32], #_In_ DWORD     dwFlags
+        [IntPtr]  #_In_ HCATINFO  *phPrevCatInfo
+    ) -EntryPoint CryptCATAdminEnumCatalogFromHash -SetLastError),
+
+    (func wintrust CryptCATAdminReleaseCatalogContext ([bool]) @(
+        [IntPtr], #_In_ HCATADMIN hCatAdmin
+        [IntPtr], #_In_ HCATINFO  hCatInfo
+        [UInt32]  #_In_ DWORD     dwFlags
+    ) -EntryPoint CryptCATAdminReleaseCatalogContext),
+
+    (func wintrust CryptCATAdminReleaseContext ([bool]) @(
+        [IntPtr], #_In_ HCATADMIN hCatAdmin
+        [UInt32]  #_In_ DWORD     dwFlags
+    ) -EntryPoint CryptCATAdminReleaseContext),
+
+    (func wintrust CryptCATCatalogInfoFromContext ([bool]) @(
+        [IntPtr],                      #_In_    HCATINFO     hCatInfo,
+        $CATALOG_INFO.MakeByRefType(), #_Inout_ CATALOG_INFO *psCatInfo,
+        [UInt32]                       #_In_    DWORD        dwFlags
+    ) -EntryPoint CryptCATCatalogInfoFromContext -SetLastError -CharSet Unicode),
+
+    (func wintrust WinVerifyTrust ([Int32]) @(
+        [IntPtr], #_In_ HWND   hWnd,
+        [Guid].MakeByRefType(),   #_In_ GUID   *pgActionID,
+        $WINTRUST_DATA.MakeByRefType()  #_In_ LPVOID pWVTData
+    ) -EntryPoint WinVerifyTrust -Charset Unicode),
+    #endregion wintrust
     #region wtsapi32
     (func wtsapi32 WTSCloseServer ([Int32]) @(
         [IntPtr]    # _In_ HANDLE hServer
@@ -468,4 +523,5 @@ $netapi32 = $Types['netapi32']
 $ntdll = $Types['ntdll']
 $samlib = $Types['samlib']
 $secur32 = $Types['secur32']
+$wintrust = $Types['wintrust']
 $wtsapi32 = $Types['wtsapi32']

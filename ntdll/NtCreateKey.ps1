@@ -3,7 +3,7 @@
     <#
     .SYNOPSIS
 
-    Creates a new registry key or opens an existing one.
+    Creates a new registry key or opens an existing one. Once the driver has finished its manipulations, it must call NtClose to close the handle.
 
     .PARAMETER KeyHandle
 
@@ -27,16 +27,16 @@
 
     Author: Jared Atkinson (@jaredcatkinson), Brian Reitz (@brian_psu)
     License: BSD 3-Clause
-    Required Dependencies: PSReflect, THREADINFOCLASS (Enumeration)
+    Required Dependencies: PSReflect, KEY_ACCESS (Enumeration), OBJECT_ATTRIBUTES (Enumeration), UNICODE_STRING (Enumeration)
     Optional Dependencies: None
 
     (func ntdll NtCreateKey ([Int32]) @(
-    [IntPtr].MakeByRefType(), #_Out_      PHANDLE      KeyHandle,
-    [Int32],                  #_In_       ACCESS_MASK  DesiredAccess,
-    [bool],                   #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
-    $UNICODE_STRING.MakeByRefType(), #_In_opt_   PUNICODE_STRING    Class,
-    [Int32],  #_In_      ULONG           CreateOptions,
-    [IntPtr]  #_Out_opt_ PULONG          Disposition
+    [IntPtr].MakeByRefType(),               #_Out_      PHANDLE      KeyHandle,
+    [Int32],                                #_In_       ACCESS_MASK  DesiredAccess,
+    $OBJECT_ATTRIBUTES.MakeByRefType(),     #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
+    $UNICODE_STRING.MakeByRefType(),        #_In_opt_   PUNICODE_STRING    Class,
+    [Int32],                                #_In_      ULONG           CreateOptions,
+    [IntPtr]                                #_Out_opt_ PULONG          Disposition
     ) -EntryPoint NtCreateKey),      
     .LINK
 
@@ -56,16 +56,8 @@
         $DesiredAccess
     )
 #>
- <# 	CString csFullKey = CheckRegFullPath(csKey);
-
-	ANSI_STRING asKey;
-	RtlZeroMemory(&asKey,sizeof(asKey));
-	RtlInitAnsiString(&asKey,csFullKey);
-	UNICODE_STRING usKeyName;
-	RtlZeroMemory(&usKeyName,sizeof(usKeyName));
-	RtlAnsiStringToUnicodeString(&usKeyName,&asKey,TRUE);
-	usKeyName.MaximumLength = usKeyName.Length += 2;
-
+ <#
+ 	usKeyName.MaximumLength = usKeyName.Length += 2;
 	OBJECT_ATTRIBUTES ObjectAttributes;
 	InitializeObjectAttributes(&ObjectAttributes,&usKeyName,OBJ_CASE_INSENSITIVE,m_hMachineReg,NULL);
     m_dwDisposition = 0;
@@ -79,7 +71,7 @@
 							 NULL, 
 							 REG_OPTION_NON_VOLATILE, 
 							 &m_dwDisposition);
-#> 
+#>
     $KeyHandle = [IntPtr]::Zero
     $KeyName = "\Registry\User\S-1-5-21-922925213-184676331-3052236288-1001\Microsoft\Windows\CurrentVersion\Run"
     $DesiredAccess = $KEY_ACCESS::KEY_ALL_ACCESS

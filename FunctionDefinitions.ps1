@@ -347,14 +347,27 @@
         [IntPtr]  #_Out_opt_ PULONG          ReturnLength
     ) -EntryPoint NtQueryInformationThread),
 
+    (func ntdll NtClose ([Int32]) @(
+        [IntPtr] #_In_      HANDLE          ObjectHandle
+    ) -EntryPoint NtClose),
+
     (func ntdll NtCreateKey ([Int32]) @(
         [IntPtr].MakeByRefType(), #_Out_      PHANDLE      KeyHandle,
         [Int32],                  #_In_       ACCESS_MASK  DesiredAccess,
-        [bool],                   #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
+        $OBJECT_ATTRIBUTES.MakeByRefType(),                   #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
         $UNICODE_STRING.MakeByRefType(), #_In_opt_   PUNICODE_STRING    Class,
         [Int32],  #_In_      ULONG           CreateOptions,
         [IntPtr]  #_Out_opt_ PULONG          Disposition
     ) -EntryPoint NtCreateKey),
+
+    (func ntdll NtSetValueKey ([Int32]) @(
+        [IntPtr],                       #_In_     HANDLE          KeyHandle,
+        $UNICODE_STRING.MakeByRefType(),#_In_     PUNICODE_STRING ValueName,
+        [Int32],                        #_In_opt_ ULONG           TitleIndex,
+        [Int32],                        #_In_     ULONG           Type,
+        [IntPtr],                       #_In_opt_ PVOID           Data,
+        [Int32]                         #_In_     ULONG           DataSize
+    ) -EntryPoint NtSetValueKey),
 
     (func ntdll RtlAdjustPrivilege ([UInt32]) @(
         [Int32],                # int Privilege,
@@ -393,7 +406,7 @@
         [IntPtr], #_In_ SAM_HANDLE             UserHandle
         [Int32],  #_In_ USER_INFORMATION_CLASS UserInformationClass
         [IntPtr]  #_In_ PVOID                  Buffer
-    ) -EntryPoint SamSetInformationUser)
+    ) -EntryPoint SamSetInformationUser),
     #endregion samlib    
     #region secur32
     (func secur32 LsaCallAuthenticationPackage ([UInt32]) @(

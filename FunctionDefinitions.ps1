@@ -426,7 +426,7 @@
     (func secur32 LsaGetLogonSessionData ([UInt32]) @(
         [IntPtr],                #_In_  PLUID                        LogonId,
         [IntPtr].MakeByRefType() #_Out_ PSECURITY_LOGON_SESSION_DATA *ppLogonSessionData
-    ) -EntryPoint LsaGetLogonSessionData)#,
+    ) -EntryPoint LsaGetLogonSessionData),
     
     (func secur32 LsaLookupAuthenticationPackage ([UInt32]) @(
         [IntPtr],                            #_In_  HANDLE      LsaHandle,

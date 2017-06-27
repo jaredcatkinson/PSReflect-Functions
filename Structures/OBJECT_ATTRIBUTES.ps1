@@ -25,10 +25,10 @@ https://msdn.microsoft.com/en-us/library/windows/hardware/ff557749(v=vs.85).aspx
 #>
 
 $OBJECT_ATTRIBUTES = struct $Module OBJECT_ATTRIBUTES @{
-    Length = field 0 UInt32
-    RootDirectory = field 1 IntPtr
-    ObjectName = field 2 $UNICODE_STRING.MakeByRefType()
-    Attributes = field 3 UInt32
-    SecurityDescriptor = field 4 IntPtr
+    Length                   = field 0 UInt32
+    RootDirectory            = field 1 IntPtr
+    ObjectName               = field 2 $UNICODE_STRING.MakeByRefType()
+    Attributes               = field 3 UInt32
+    SecurityDescriptor       = field 4 IntPtr
     SecurityQualityOfService = field 5 IntPtr
     }

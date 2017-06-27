@@ -44,7 +44,7 @@
 
     .EXAMPLE
     #>
-
+<#
     param
     (
         [Parameter(Mandatory = $true)]
@@ -55,7 +55,7 @@
         [string]
         $DesiredAccess
     )
-
+#>
  <# 	CString csFullKey = CheckRegFullPath(csKey);
 
 	ANSI_STRING asKey;
@@ -80,7 +80,7 @@
 							 REG_OPTION_NON_VOLATILE, 
 							 &m_dwDisposition);
 #> 
-    # KEY_ALL_ACCESS
+    $KeyHandle = [IntPtr]::Zero
     $KeyName = "\Registry\User\S-1-5-21-922925213-184676331-3052236288-1001\Microsoft\Windows\CurrentVersion\Run"
     $DesiredAccess = $KEY_ACCESS::KEY_ALL_ACCESS
 
@@ -95,7 +95,7 @@
 
     $CreateOptions = $REG_OPTION::REG_OPTION_NON_VOLATILE
 
-    $Success = $ntdll::NtCreateKey($hKey, $DesiredAccess, $objectAttribute, $CreateOptions, 0)
+    $Success = $ntdll::NtCreateKey([ref]$KeyHandle, $DesiredAccess, $objectAttribute, $CreateOptions, 0)
 
     if(-not $Success) 
     {

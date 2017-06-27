@@ -44,7 +44,7 @@
 
     if(-not $Success) 
     {
-        Write-Debug "ConvertSidToStringSid Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
+        Write-Verbose "ConvertSidToStringSid Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
     
     Write-Output ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($StringPtr))

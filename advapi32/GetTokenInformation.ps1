@@ -83,12 +83,16 @@
                     SID_AND_ATTRIBUTES (Structure)
                 #>
                 $TokenGroups = ($TokenPtr -as $TOKEN_GROUPS)
+
                 for($i = 0; $i -lt $TokenGroups.GroupCount; $i++)
                 {
+                    $obj = New-Object -TypeName psobject
 
+                    $obj | Add-Member -MemberType NoteProperty -Name Sid -Value (ConvertSidToStringSid -SidPointer $TokenGroups.Groups[$i].Sid)
+                    $obj | Add-Member -MemberType NoteProperty -Name Attributes -Value $TokenGroups.Groups[$i].Attributes
+
+                    Write-Output $obj
                 }
-
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
             }
             TokenPrivileges
             {
@@ -99,20 +103,17 @@
                     LuidAttributes (Enumeration)
                 #>
                 $TokenPrivileges = $TokenPtr -as $TOKEN_PRIVILEGES
-                $sb = New-Object System.Text.StringBuilder
-
-                Write-Output $TokenPrivileges
-                <#
-                for($i=0; $i -lt $TokenPrivileges.PrivilegeCount; $i++) 
+                
+                for($i = 0; $i -lt $TokenPrivileges.PrivilegeCount; $i++)
                 {
-                    if((($TokenPrivileges.Privileges[$i].Attributes -as $LuidAttributes) -band $LuidAttributes::SE_PRIVILEGE_ENABLED) -eq $LuidAttributes::SE_PRIVILEGE_ENABLED)
-                    {
-                        $sb.Append(", $($TokenPrivileges.Privileges[$i].Luid.LowPart.ToString())") | Out-Null  
-                    }
+                    $obj = New-Object -TypeName psobject
+                    
+                    $obj | Add-Member -MemberType NoteProperty -Name Privilege -Value $TokenPrivileges.Privileges[$i].Luid.LowPart
+                    $obj | Add-Member -MemberType NoteProperty -Name Attributes -Value $TokenPrivileges.Privileges[$i].Attributes
+                    
+                    Write-Output $obj   
                 }
-                #>
 
-                #Write-Output $sb.ToString().TrimStart(', ')
             }
             TokenOwner
             {
@@ -138,7 +139,7 @@
                 The buffer receives a TOKEN_PRIMARY_GROUP structure that contains the default primary group SID for newly created objects.
                     TOKEN_PRIMARY_GROUP (Structure)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                throw [System.NotImplementedException]"The $($TokenInformationClass) class is not implemented yet."
             }
             TokenDefaultDacl
             {
@@ -211,7 +212,17 @@
                     TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                $TokenGroups = ($TokenPtr -as $TOKEN_GROUPS)
+
+                for($i = 0; $i -lt $TokenGroups.GroupCount; $i++)
+                {
+                    $obj = New-Object -TypeName psobject
+
+                    $obj | Add-Member -MemberType NoteProperty -Name Sid -Value (ConvertSidToStringSid -SidPointer $TokenGroups.Groups[$i].Sid)
+                    $obj | Add-Member -MemberType NoteProperty -Name Attributes -Value $TokenGroups.Groups[$i].Attributes
+
+                    Write-Output $obj
+                }
             }
             TokenSessionId
             {
@@ -230,7 +241,44 @@
                     SID_AND_ATTRIBUTES (Structure)
                     LUID (Structure)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                $GroupsAndPrivs = ($TokenPtr -as $TOKEN_GROUPS_AND_PRIVILEGES)
+                
+                $SidList = New-Object -TypeName 'System.Collections.Generic.List[System.Object]'
+
+                for($i = 0; $i -lt $GroupsAndPrivs.SidCount; $i++)
+                {
+                    $currentPtr = [IntPtr]($GroupsAndPrivs.Sids.ToInt64() + ($SID_AND_ATTRIBUTES::GetSize() * $i))
+                    $SidAndAttr = $currentPtr -as $SID_AND_ATTRIBUTES
+
+                    $obj = New-Object -TypeName psobject
+
+                    $obj | Add-Member -MemberType NoteProperty -Name Sid -Value (ConvertSidToStringSid -SidPointer $SidAndAttr.Sid)
+                    $obj | Add-Member -MemberType NoteProperty -Name Attributes -Value $SidAndAttr.Attributes
+
+                    $SidList.Add($obj)
+                }
+                
+                $PrivList = New-Object -TypeName 'System.Collections.Generic.List[System.Object]'
+
+                for($i = 0; $i -lt $GroupsAndPrivs.PrivilegeCount; $i++)
+                {
+                    $currentPtr = [IntPtr]($GroupsAndPrivs.Privileges.ToInt64() + ($LUID_AND_ATTRIBUTES::GetSize() * $i))
+                    $LuidAndAttr = ($currentPtr -as $LUID_AND_ATTRIBUTES)
+
+                    $obj = New-Object -TypeName psobject
+
+                    $obj | Add-Member -MemberType NoteProperty -Name Privilege -Value $LuidAndAttr.Luid.LowPart
+                    $obj | Add-Member -MemberType NoteProperty -Name Attributes -Value $LuidAndAttr.Attributes
+
+                    $PrivList.Add($obj)
+                }
+
+                $obj = New-Object -TypeName psobject
+
+                $obj | Add-Member -MemberType NoteProperty -Name Sids -Value $SidList.ToArray()
+                $obj | Add-Member -MemberType NoteProperty -Name Privilegs -Value $PrivList.ToArray()
+
+                Write-Output $obj
             }
             TokenSandBoxInert
             {
@@ -255,7 +303,7 @@
                 The buffer receives a TOKEN_ELEVATION_TYPE value that specifies the elevation level of the token.
                     TOKEN_ELEVATION_TYPE (Enumeration)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                Write-Output ([System.Runtime.InteropServices.Marshal]::ReadInt32($TokenPtr) -as $TOKEN_ELEVATION_TYPE)
             }
             TokenLinkedToken
             {
@@ -292,7 +340,26 @@
                     SECURITY_IMPERSONATION_LEVEL (Enumeration)
                     TOKEN_MANDATORY_POLICY (Structure)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                <#
+                $TokenAccessInfo = ($TokenPtr -as $TOKEN_ACCESS_INFORMATION)
+                
+                $obj = New-Object -TypeName psobject
+
+                $obj | Add-Member -MemberType NoteProperty -Name SidHash -Value ($TokenAccessInfo.SidHash -as $SID_AND_ATTRIBUTES_HASH)
+                $obj | Add-Member -MemberType NoteProperty -Name RestrictedSidHash -Value ($TokenAccessInfo.RestrictedSidHash -as $SID_AND_ATTRIBUTES_HASH)
+                $obj | Add-Member -MemberType NoteProperty -Name Privileges -Value ($TokenAccessInfo.Privileges -as $TOKEN_PRIVILEGES)
+                $obj | Add-Member -MemberType NoteProperty -Name AuthenticationId -Value $TokenAccessInfo.AuthenticationId.LowPart
+                $obj | Add-Member -MemberType NoteProperty -Name TokenType -Value $TokenAccessInfo.TokenType
+                $obj | Add-Member -MemberType NoteProperty -Name ImpersonationLevel -Value $TokenAccessInfo.ImpersonationLevel
+                $obj | Add-Member -MemberType NoteProperty -Name AppContainerNumber -Value $TokenAccessInfo.AppContainerNumber
+                $obj | Add-Member -MemberType NoteProperty -Name PackageSid -Value (ConvertSidToStringSid -SidPointer $TokenAccessInfo.PackageSid)
+                $obj | Add-Member -MemberType NoteProperty -Name CapabilitiesHash -Value ($TokenAccessInfo.CapabilitiesHash -as $SID_AND_ATTRIBUTES_HASH)
+                $obj | Add-Member -MemberType NoteProperty -Name TrustLevelSid -Value (ConvertSidToStringSid -SidPointer $TokenAccessInfo.TrustLevelSid)
+
+                Write-Output $obj
+                #>
+
+                throw [System.NotImplementedException]"The $($TokenInformationClass) class is not implemented yet."
             }
             TokenVirtualizationAllowed
             {
@@ -370,7 +437,17 @@
                     TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                $TokenGroups = ($TokenPtr -as $TOKEN_GROUPS)
+
+                for($i = 0; $i -lt $TokenGroups.GroupCount; $i++)
+                {
+                    $obj = New-Object -TypeName psobject
+
+                    $obj | Add-Member -MemberType NoteProperty -Name Sid -Value (ConvertSidToStringSid -SidPointer $TokenGroups.Groups[$i].Sid)
+                    $obj | Add-Member -MemberType NoteProperty -Name Attributes -Value $TokenGroups.Groups[$i].Attributes
+
+                    Write-Output $obj
+                }
             }
             TokenIsAppContainer
             {
@@ -384,7 +461,17 @@
                     TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                $TokenGroups = ($TokenPtr -as $TOKEN_GROUPS)
+
+                for($i = 0; $i -lt $TokenGroups.GroupCount; $i++)
+                {
+                    $obj = New-Object -TypeName psobject
+
+                    $obj | Add-Member -MemberType NoteProperty -Name Sid -Value (ConvertSidToStringSid -SidPointer $TokenGroups.Groups[$i].Sid)
+                    $obj | Add-Member -MemberType NoteProperty -Name Attributes -Value $TokenGroups.Groups[$i].Attributes
+
+                    Write-Output $obj
+                }
             }
             TokenAppContainerSid
             {
@@ -408,7 +495,15 @@
                     CLAIM_SECURITY_ATTRIBUTE_FQBN_VALUE (Structure)
                     CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_VALUE (Structure)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                <#
+                $AttributeInformation = $TokenPtr -as $CLAIM_SECURITY_ATTRIBUTES_INFORMATION
+                
+                if($AttributeInformation.AttributeCount -ne 0)
+                {
+
+                }
+                #>
+                throw [System.NotImplementedException]"The $($TokenInformationClass) class is not implemented yet."
             }
             TokenDeviceClaimAttributes
             {
@@ -419,7 +514,15 @@
                     CLAIM_SECURITY_ATTRIBUTE_FQBN_VALUE (Structure)
                     CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_VALUE (Structure)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                <#
+                $AttributeInformation = $TokenPtr -as $CLAIM_SECURITY_ATTRIBUTES_INFORMATION
+                
+                if($AttributeInformation.AttributeCount -ne 0)
+                {
+
+                }
+                #>
+                throw [System.NotImplementedException]"The $($TokenInformationClass) class is not implemented yet."
             }
             TokenDeviceGroups
             {
@@ -429,7 +532,17 @@
                     SID_AND_ATTRIBUTES (Structure)
                 #>
                 #Write-Output ($TokenPtr -as $TOKEN_GROUPS)
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                $TokenGroups = ($TokenPtr -as $TOKEN_GROUPS)
+
+                for($i = 0; $i -lt $TokenGroups.GroupCount; $i++)
+                {
+                    $obj = New-Object -TypeName psobject
+
+                    $obj | Add-Member -MemberType NoteProperty -Name Sid -Value (ConvertSidToStringSid -SidPointer $TokenGroups.Groups[$i].Sid)
+                    $obj | Add-Member -MemberType NoteProperty -Name Attributes -Value $TokenGroups.Groups[$i].Attributes
+
+                    Write-Output $obj
+                }
             }
             TokenRestrictedDeviceGroups
             {
@@ -438,7 +551,17 @@
                     TOKEN_GROUPS (Structure)
                     SID_AND_ATTRIBUTES (Structure)
                 #>
-                throw [System.NotImplementedException]"The $($TokenInformationClass) Class is not implemented yet."
+                $TokenGroups = ($TokenPtr -as $TOKEN_GROUPS)
+
+                for($i = 0; $i -lt $TokenGroups.GroupCount; $i++)
+                {
+                    $obj = New-Object -TypeName psobject
+
+                    $obj | Add-Member -MemberType NoteProperty -Name Sid -Value (ConvertSidToStringSid -SidPointer $TokenGroups.Groups[$i].Sid)
+                    $obj | Add-Member -MemberType NoteProperty -Name Attributes -Value $TokenGroups.Groups[$i].Attributes
+
+                    Write-Output $obj
+                }
             }
         }
 

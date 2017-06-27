@@ -15,7 +15,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: MIB_IPNETROW (Struct), MIB_IPNET_TYPE (Enum)
+    Required Dependencies: MIB_IPNETROW (Structure), MIB_IPNET_TYPE (Enumeration)
     Optional Dependencies: None
     
     (func iphlpapi GetIpNetTable ([Int32]) @(

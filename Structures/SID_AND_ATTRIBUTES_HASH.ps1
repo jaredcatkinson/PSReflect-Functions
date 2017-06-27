@@ -39,6 +39,6 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb394725(v=vs.85).aspx
 
 $SID_AND_ATTRIBUTES_HASH = struct $Module SID_AND_ATTRIBUTES_HASH @{
     SidCount = field 0 UInt32
-    SidAttr  = field 1 $SID_AND_ATTRIBUTES
-    Hash     = field 2 IntPtr
+    SidAttr  = field 1 IntPtr
+    Hash     = field 2 UIntPtr[] -MarshalAs @('ByValArray', 32)
 }

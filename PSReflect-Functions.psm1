@@ -2,7 +2,7 @@
 
 $Module = New-InMemoryModule -ModuleName PSReflectFunctions
 
-Write-Host "Loading Enumerations"
+# Loading Enumerations
 Get-ChildItem "$($PSScriptRoot)\Enumerations\*" -Include '*.ps1' |
     % {. $_.FullName}
 
@@ -18,10 +18,10 @@ Get-ChildItem "$($PSScriptRoot)\Structures\*" -Include '*.ps1' |
 . "$($PSScriptRoot)\Structures\OBJECT_ATTRIBUTES.ps1"
 . "$($PSScriptRoot)\Structures\TOKEN_ACCESS_INFORMATION.ps1"
 
-Write-Host "Loading API Functions Definitions"
+# Loading API Functions Definitions
 . "$($PSScriptRoot)\FunctionDefinitions.ps1"
 
-Write-Host "Defining API Abstraction Functions"
+# Defining API Abstraction Functions
 Get-ChildItem $PSScriptRoot | 
     ? {$_.PSIsContainer -and ($_.Name -ne 'Enumerations' -and $_.Name -ne 'Structures')} |
     % {Get-ChildItem "$($_.FullName)\*" -Include '*.ps1'} |

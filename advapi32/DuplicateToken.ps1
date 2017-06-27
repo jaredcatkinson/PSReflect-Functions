@@ -21,7 +21,7 @@
     
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: PSReflect, SECURITY_IMPERSONATION_LEVEL (Enum)
+    Required Dependencies: PSReflect, SECURITY_IMPERSONATION_LEVEL (Enumeration)
     Optional Dependencies: None
 
     (func advapi32 DuplicateToken ([bool]) @(

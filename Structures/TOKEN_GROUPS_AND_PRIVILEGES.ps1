@@ -71,12 +71,12 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa379625(v=vs.85).aspx
 $TOKEN_GROUPS_AND_PRIVILEGES = struct $Module TOKEN_GROUPS_AND_PRIVILEGES @{
     SidCount            = field 0 UInt32
     SidLength           = field 1 UInt32
-    Sids                = field 2 $SID_AND_ATTRIBUTES
+    Sids                = field 2 IntPtr
     RestrictedSidCount  = field 3 UInt32
     RestrictedSidLength = field 4 UInt32
-    RestrictedSids      = field 5 $SID_AND_ATTRIBUTES
+    RestrictedSids      = field 5 IntPtr
     PrivilegeCount      = field 6 UInt32
     PrivilegeLength     = field 7 UInt32
-    Privileges          = field 8 $SID_AND_ATTRIBUTES
+    Privileges          = field 8 IntPtr
     AuthenticationId    = field 9 $LUID
 }

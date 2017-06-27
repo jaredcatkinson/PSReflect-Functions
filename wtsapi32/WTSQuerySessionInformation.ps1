@@ -58,7 +58,7 @@
         $SessionId,
         
         [Parameter(Mandatory = $true)]
-        [ValidateSet('WTSInitialProgram','WTSApplicationName','WTSWorkingDirectory','WTSOEMId','WTSSessionId','WTSUserName','WTSWinStationName','WTSDomainName','WTSConnectState','WTSClientBuildNumber','WTSClientName','WTSClientDirectory','WTSClientProductId','WTSClientHardwareId','WTSClientAddress','WTSClientDisplay','WTSClientProtocolType','WTSIdleTime','WTSLogonTime','WTSIncomingBytes','WTSOutgoingBytes','WTSIncomingFrames','WTSOutgoingFrames','WTSClientInfo','WTSSessionInfo','WTSSessionInfoEx','WTSConfigInfo','WTSValidationInfo','WTSSessionAddressV4','WTSIsRemoteSession')]
+        [ValidateSet('WTSInitialProgram','WTSApplicationName','WTSWorkingDirectory','WTSSessionId','WTSUserName','WTSWinStationName','WTSDomainName','WTSConnectState','WTSClientBuildNumber','WTSClientName','WTSClientDirectory','WTSClientProductId','WTSClientHardwareId','WTSClientAddress','WTSClientDisplay','WTSClientProtocolType','WTSIdleTime','WTSLogonTime','WTSIncomingBytes','WTSOutgoingBytes','WTSIncomingFrames','WTSOutgoingFrames','WTSClientInfo','WTSSessionInfo','WTSSessionInfoEx','WTSConfigInfo','WTSSessionAddressV4','WTSIsRemoteSession')]
         [string]
         $WTSInfoClass
     )
@@ -77,123 +77,146 @@
     {
         WTSInitialProgram
         {
-
+            # A null-terminated string that contains the name of the initial program that Remote Desktop Services runs when the user logs on.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($ppBuffer))
         }
         WTSApplicationName
         {
-
+            <#
+            A null-terminated string that contains the published name of the application that the session is running.
+            Windows Server 2008 R2, Windows 7, Windows Server 2008 and Windows Vista:  This value is not supported
+            #>
+            Write-Output ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($ppBuffer))
         }
         WTSWorkingDirectory
         {
-
-        }
-        WTSOEMId
-        {
-
+            # A null-terminated string that contains the default directory used when launching the initial program.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($ppBuffer))
         }
         WTSSessionId
         {
-
+            # A ULONG value that contains the session identifier.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::ReadInt64($ppBuffer))
         }
         WTSUserName
         {
-
+            # A null-terminated string that contains the name of the user associated with the session.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($ppBuffer))
         }
         WTSWinStationName
         {
-
+            <#
+            A null-terminated string that contains the name of the Remote Desktop Services session.
+            Note  Despite its name, specifying this type does not return the window station name. Rather, it returns the name of the Remote Desktop Services session. Each Remote Desktop Services session is associated with an interactive window station. Because the only supported window station name for an interactive window station is "WinSta0", each session is associated with its own "WinSta0" window station.
+            #>
+            Write-Output ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($ppBuffer))
         }
         WTSDomainName
         {
-
+            # A null-terminated string that contains the name of the domain to which the logged-on user belongs.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($ppBuffer))
         }
         WTSConnectState
         {
-
+            <#
+            The session's current connection state.
+                 WTS_CONNECTSTATE_CLASS
+            #>
+            Write-Output ([System.Runtime.InteropServices.Marshal]::ReadInt16($ppBuffer) -as $WTS_CONNECTSTATE_CLASS)
         }
         WTSClientBuildNumber
         {
-
+            # A ULONG value that contains the build number of the client.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::ReadInt64($ppBuffer))
         }
         WTSClientName
         {
-
+            # A null-terminated string that contains the name of the client.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($ppBuffer))
         }
         WTSClientDirectory
         {
-
+            # A null-terminated string that contains the directory in which the client is installed.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($ppBuffer))
         }
         WTSClientProductId
         {
-
+            # A USHORT client-specific product identifier.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::ReadInt16($ppBuffer))
         }
         WTSClientHardwareId
         {
-
+            # A ULONG value that contains a client-specific hardware identifier. This option is reserved for future use. WTSQuerySessionInformation will always return a value of 0.
+            Write-Output ([System.Runtime.InteropServices.Marshal]::ReadInt64($ppBuffer))
         }
         WTSClientAddress
         {
-
+            <#
+            The network type and network address of the client. 
+            The IP address is offset by two bytes from the start of the Address member of the WTS_CLIENT_ADDRESS structure.
+                WTS_CLIENT_ADDRESS
+            #>
         }
         WTSClientDisplay
         {
-
+            <#
+            Information about the display resolution of the client.
+                WTS_CLIENT_DISPLAY
+            #>
         }
         WTSClientProtocolType
         {
-
-        }
-        WTSIdleTime
-        {
-
-        }
-        WTSLogonTime
-        {
-
-        }
-        WTSIncomingBytes
-        {
-
-        }
-        WTSOutgoingBytes
-        {
-
-        }
-        WTSIncomingFrames
-        {
-
-        }
-        WTSOutgoingFrames
-        {
-
+            # A USHORT value that specifies information about the protocol type for the session.
+            $ProtocolType = [System.Runtime.InteropServices.Marshal]::ReadInt16($ppBuffer)
+            switch($ProtocolType)
+            { 
+                0 {Write-Output "Console"; break}
+                1 {Write-Output "Legacy"; break}
+                2 {Write-Output "RDP"; break}
+            }
         }
         WTSClientInfo
         {
-
+            <#
+            Information about a Remote Desktop Connection (RDC) client. 
+                WTSCLIENT
+            #>
         }
         WTSSessionInfo
         {
-
+            <#
+            Information about a client session on a RD Session Host server. 
+                WTSINFO
+            #>
         }
         WTSSessionInfoEx
         {
-
+            <#
+            Extended information about a session on a RD Session Host server. 
+            Windows Server 2008 and Windows Vista:  This value is not supported.
+                WTSINFOEX
+            #>
         }
         WTSConfigInfo
         {
-
-        }
-        WTSValidationInfo
-        {
-
+            <#
+            A WTSCONFIGINFO structure that contains information about the configuration of a RD Session Host server.
+            Windows Server 2008 and Windows Vista:  This value is not supported.
+            #>
         }
         WTSSessionAddressV4
         {
-
+            <#
+            A WTS_SESSION_ADDRESS structure that contains the IPv4 address assigned to the session. If the session does not have a virtual IP address, the WTSQuerySessionInformation function returns ERROR_NOT_SUPPORTED.
+            Windows Server 2008 and Windows Vista:  This value is not supported.
+            #>
         }
         WTSIsRemoteSession
         {
-
+            <#
+            Determines whether the current session is a remote session. The WTSQuerySessionInformation function returns a value of TRUE to indicate that the current session is a remote session, and FALSE to indicate that the current session is a local session. This value can only be used for the local machine, so the hServer parameter of the WTSQuerySessionInformation function must contain WTS_CURRENT_SERVER_HANDLE.
+            Windows Server 2008 and Windows Vista:  This value is not supported.
+            #>
         }
     }
 }

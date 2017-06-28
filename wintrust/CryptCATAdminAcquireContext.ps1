@@ -18,7 +18,7 @@
     
     (func wintrust CryptCATAdminAcquireContext ([bool]) @(
       [IntPtr].MakeByRefType(), #_Out_       HCATADMIN *phCatAdmin
-      [IntPtr],                 #_In_  const GUID      *pgSubsystem
+      [Guid].MakeByRefType(),   #_In_  const GUID      *pgSubsystem
       [UInt32]                  #_In_        DWORD     dwFlags        
     ) -EntryPoint CryptCATAdminAcquireContext -SetLastError)
 
@@ -32,7 +32,7 @@
     param
     (
         [Parameter(Mandatory = $true)]
-        [ValidateSet('NONE','DRIVER_ACTION_VERIFY','HTTPSPROV_ACTION','OFFICESIGN_ACTION_VERIFY','WINTRUST_ACTION_GENERIC_CHAIN_VERIFY','WINTRUST_ACTION_GENERIC_VERIFY_V2','WINTRUST_ACTION_TRUSTPROVIDER_TEST')]
+        [ValidateSet('DRIVER_ACTION_VERIFY','HTTPSPROV_ACTION','OFFICESIGN_ACTION_VERIFY','WINTRUST_ACTION_GENERIC_CHAIN_VERIFY','WINTRUST_ACTION_GENERIC_VERIFY_V2','WINTRUST_ACTION_TRUSTPROVIDER_TEST')]
         [string]
         $Subsystem
     )
@@ -41,7 +41,6 @@
 
     switch($Subsystem)
     {
-        NONE {$pgSubsystem = [IntPtr]::Zero}
         DRIVER_ACTION_VERIFY {$pgSubsystem = [Guid]::new('F750E6C3-38EE-11d1-85E5-00C04FC295EE'); break}
         HTTPSPROV_ACTION {$pgSubsystem = [Guid]::new('573E31F8-AABA-11d0-8CCB-00C04FC295EE'); break}
         OFFICESIGN_ACTION_VERIFY {$pgSubsystem = [Guid]::new('5555C2CD-17FB-11d1-85C4-00C04FC295EE'); break}
@@ -50,7 +49,7 @@
         WINTRUST_ACTION_TRUSTPROVIDER_TEST {$pgSubsystem = [Guid]::new('573E31F8-DDBA-11d0-8CCB-00C04FC295EE'); break}
     }
 
-    $SUCCESS = $wintrust::CryptCATAdminAcquireContext([ref]$phCatAdmin, $pgSubsystem, 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $SUCCESS = $wintrust::CryptCATAdminAcquireContext([ref]$phCatAdmin, [ref]$pgSubsystem, 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $SUCCESS) 
     {

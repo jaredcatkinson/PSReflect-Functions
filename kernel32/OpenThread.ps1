@@ -47,6 +47,7 @@
     .EXAMPLE
     #>
 
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory = $true)]
@@ -54,7 +55,8 @@
         $ThreadId,
         
         [Parameter(Mandatory = $true)]
-        [UInt32]
+        [ValidateSet('THREAD_TERMINATE','THREAD_SUSPEND_RESUME','THREAD_GET_CONTEXT','THREAD_SET_CONTEXT','THREAD_SET_INFORMATION','THREAD_QUERY_INFORMATION','THREAD_SET_THREAD_TOKEN','THREAD_IMPERSONATE','THREAD_DIRECT_IMPERSONATION','THREAD_SET_LIMITED_INFORMATION','THREAD_QUERY_LIMITED_INFORMATION','DELETE','READ_CONTROL','WRITE_DAC','WRITE_OWNER','SYNCHRONIZE','THREAD_ALL_ACCESS')]
+        [string[]]
         $DesiredAccess,
         
         [Parameter()]
@@ -62,11 +64,19 @@
         $InheritHandle = $false
     )
     
-    $hThread = $Kernel32::OpenThread($DesiredAccess, $InheritHandle, $ThreadId); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    # Calculate Desired Access Value
+    $dwDesiredAccess = 0
+    
+    foreach($val in $DesiredAccess)
+    {
+        $dwDesiredAccess = $dwDesiredAccess -bor $THREAD_ACCESS::$val
+    }
+
+    $hThread = $Kernel32::OpenThread($dwDesiredAccess, $InheritHandle, $ThreadId); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if($hThread -eq 0) 
     {
-        Write-Debug "OpenThread Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
+        throw "OpenThread Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
     
     Write-Output $hThread

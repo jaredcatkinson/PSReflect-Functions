@@ -49,6 +49,7 @@
     .EXAMPLE
     #>
 
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory = $true)]
@@ -56,19 +57,28 @@
         $ProcessId,
         
         [Parameter(Mandatory = $true)]
-        [UInt32]
+        [ValidateSet('PROCESS_TERMINATE','PROCESS_CREATE_THREAD','PROCESS_VM_OPERATION','PROCESS_VM_READ','PROCESS_VM_WRITE','PROCESS_DUP_HANDLE','PROCESS_CREATE_PROCESS','PROCESS_SET_QUOTA','PROCESS_SET_INFORMATION','PROCESS_QUERY_INFORMATION','PROCESS_SUSPEND_RESUME','PROCESS_QUERY_LIMITED_INFORMATION','DELETE','READ_CONTROL','WRITE_DAC','WRITE_OWNER','SYNCHRONIZE','PROCESS_ALL_ACCESS')]
+        [string[]]
         $DesiredAccess,
         
         [Parameter()]
         [bool]
         $InheritHandle = $false
     )
-    
-    $hProcess = $Kernel32::OpenProcess($DesiredAccess, $InheritHandle, $ProcessId); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+
+    # Calculate Desired Access Value
+    $dwDesiredAccess = 0
+
+    foreach($val in $DesiredAccess)
+    {
+        $dwDesiredAccess = $dwDesiredAccess -bor $PROCESS_ACCESS::$val
+    }
+
+    $hProcess = $Kernel32::OpenProcess($dwDesiredAccess, $InheritHandle, $ProcessId); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if($hProcess -eq 0) 
     {
-        Write-Debug "OpenProcess Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
+        throw "OpenProcess Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
     
     Write-Output $hProcess

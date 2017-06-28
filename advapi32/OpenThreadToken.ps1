@@ -49,6 +49,7 @@
     .EXAMPLE
     #>
 
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory = $true)]
@@ -56,7 +57,8 @@
         $ThreadHandle,
         
         [Parameter(Mandatory = $true)]
-        [UInt32]
+        [ValidateSet('TOKEN_ASSIGN_PRIMARY','TOKEN_DUPLICATE','TOKEN_IMPERSONATE','TOKEN_QUERY','TOKEN_QUERY_SOURCE','TOKEN_ADJUST_PRIVILEGES','TOKEN_ADJUST_GROUPS','TOKEN_ADJUST_DEFAULT','TOKEN_ADJUST_SESSIONID','DELETE','READ_CONTROL','WRITE_DAC','WRITE_OWNER','SYNCHRONIZE','STANDARD_RIGHTS_REQUIRED','TOKEN_ALL_ACCESS')]
+        [string[]]
         $DesiredAccess,
         
         [Parameter()]
@@ -64,12 +66,19 @@
         $OpenAsSelf = $false   
     )
     
+    # Calculate Desired Access Value
+    $dwDesiredAccess = 0
+
+    foreach($val in $DesiredAccess)
+    {
+        $dwDesiredAccess = $dwDesiredAccess -bor $TOKEN_ACCESS::$val
+    }
+
     $hToken = [IntPtr]::Zero
-    $Success = $Advapi32::OpenThreadToken($ThreadHandle, $DesiredAccess, $OpenAsSelf, [ref]$hToken); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $Success = $Advapi32::OpenThreadToken($ThreadHandle, $dwDesiredAccess, $OpenAsSelf, [ref]$hToken); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $Success) 
     {
-        Write-Debug "OpenThreadToken Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
         throw "OpenThreadToken Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
     

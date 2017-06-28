@@ -74,7 +74,8 @@
     {
         Write-Debug "NtCreateKey Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
+    Write-Output $KeyHandle
 
     # free our memory after allocation
-    [Marshal]::FreeHGlobal($objectAttribute.ObjectName)
+    [System.Runtime.InteropServices.Marshal]::FreeHGlobal($objectAttribute.ObjectName)
 }

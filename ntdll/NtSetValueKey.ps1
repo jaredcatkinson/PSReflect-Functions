@@ -103,7 +103,7 @@ $TitleIndex = 0 # this is always set to 0 according to MSDN
 # "This parameter is reserved. Device and intermediate drivers should set this parameter to zero."
 
     # $KeyHandle, [ref]$pValueName, $TitleIndex, $ValueType, $vData.Buffer, $ValueData.Length
-    $SUCCESS = $ntdll::NtSetValueKey($KeyHandle, [ref]$pValueName, $TitleIndex, $ValueType, $vData.Buffer, $vData.Length); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $SUCCESS = $ntdll::NtSetValueKey($KeyHandle, [ref]$pValueName, $TitleIndex, $RegType, $vData.Buffer, $vData.Length); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $SUCCESS) 
     {
@@ -111,5 +111,6 @@ $TitleIndex = 0 # this is always set to 0 according to MSDN
     }
 
     # free our memory after allocation
-    [Marshal]::FreeHGlobal($pValueName)
+    # Cannot convert argument "hglobal", with value: "UNICODE_STRING", for "FreeHGlobal" to type "System.IntPtr"
+    #[System.Runtime.InteropServices.Marshal]::FreeHGlobal($pValueName)
 }

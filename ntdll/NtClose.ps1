@@ -5,6 +5,10 @@ function NtClose
 
     Closes an object handle (used for NtCreateKey instead of CloseHandle).
 
+    .PARAMETER KeyHandle
+
+    A HANDLE to an open registry key. Use NtCreateKey to get a registry key handle.
+
     .DESCRIPTION
 
     CloseHandle should not be used to close a registry key handle, as documented on MSDN:
@@ -33,10 +37,10 @@ function NtClose
     (
         [Parameter(Mandatory = $true)]
         [IntPtr]
-        $Handle    
+        $KeyHandle    
     )
     
-    $SUCCESS = $ntdll::NtClose($Handle); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $SUCCESS = $ntdll::NtClose($KeyHandle); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $SUCCESS) 
     {

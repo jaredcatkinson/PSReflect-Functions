@@ -58,5 +58,6 @@ function NtDeleteValueKey
     }
 
     # free our memory after allocation
-    [Marshal]::FreeHGlobal($pValueName)
+    # Cannot convert argument "hglobal", with value: "UNICODE_STRING", for "FreeHGlobal" to type "System.IntPtr"
+    # [System.Runtime.InteropServices.Marshal]::FreeHGlobal($pValueName)
 }

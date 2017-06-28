@@ -5,23 +5,9 @@
 
     Creates a new registry key or opens an existing one. Once the driver has finished its manipulations, it must call NtClose to close the handle.
 
-    .PARAMETER KeyHandle
-
-    Pointer to a HANDLE variable that receives a handle to the key.
-
-    .PARAMETER DesiredAccess
-
-    Specifies an ACCESS_MASK value that determines the requested access to the object. 
-
     .PARAMETER KeyName
 
     Specifies the full path of the registry key to be created, beginning with \Registry. Passed as the object name to an OBJECT_ATTRIBUTES structure.
-
-    .PARAMETER Class
-
-    .PARAMETER CreateOptions
-    
-    Specifies the options to apply when creating or opening a key, specified as a compatible combination of the following flags: REG_OPTION_VOLATILE, REG_OPTION_NON_VOLATILE, REG_OPTION_CREATE_LINK, REG_OPTION_BACKUP_RESTORE.
 
     .NOTES
 
@@ -30,67 +16,65 @@
     Required Dependencies: PSReflect, KEY_ACCESS (Enumeration), OBJECT_ATTRIBUTES (Enumeration), UNICODE_STRING (Enumeration)
     Optional Dependencies: None
 
-    (func ntdll NtCreateKey ([Int32]) @(
-    [IntPtr].MakeByRefType(),               #_Out_      PHANDLE      KeyHandle,
-    [Int32],                                #_In_       ACCESS_MASK  DesiredAccess,
-    $OBJECT_ATTRIBUTES.MakeByRefType(),     #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
-    $UNICODE_STRING.MakeByRefType(),        #_In_opt_   PUNICODE_STRING    Class,
-    [Int32],                                #_In_      ULONG           CreateOptions,
-    [IntPtr]                                #_Out_opt_ PULONG          Disposition
-    ) -EntryPoint NtCreateKey),      
+    (func ntdll NtCreateKey ([UInt32]) @(
+        [IntPtr].MakeByRefType(),               #_Out_      PHANDLE      KeyHandle,
+        [Int32],                                #_In_       ACCESS_MASK  DesiredAccess,
+        $OBJECT_ATTRIBUTES.MakeByRefType(),     #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
+        [Int32],                                #_Reserved_ ULONG              TitleIndex,
+        $UNICODE_STRING.MakeByRefType(),        #_In_opt_   PUNICODE_STRING    Class,
+        [Int32],                                #_In_       ULONG           CreateOptions,
+        [IntPtr]                                #_Out_opt_  PULONG          Disposition
+    ) -EntryPoint NtCreateKey),
     .LINK
 
     https://msdn.microsoft.com/en-us/library/windows/hardware/ff566425(v=vs.85).aspx
 
     .EXAMPLE
     #>
-<#
     param
     (
         [Parameter(Mandatory = $true)]
         [string]
-        $KeyName,
-
-        [Parameter(Mandatory = $true)]
-        [string]
-        $DesiredAccess
+        $KeyName
     )
 #>
- <#
- 	usKeyName.MaximumLength = usKeyName.Length += 2;
-	OBJECT_ATTRIBUTES ObjectAttributes;
-	InitializeObjectAttributes(&ObjectAttributes,&usKeyName,OBJ_CASE_INSENSITIVE,m_hMachineReg,NULL);
-    m_dwDisposition = 0;
-	HANDLE hKey = NULL;
-	//
-	// if the key doesn't exist, create it
-	m_NtStatus = NtCreateKey(&hKey, 
-							 KEY_ALL_ACCESS, 
-							 &ObjectAttributes,
-							 0, 
-							 NULL, 
-							 REG_OPTION_NON_VOLATILE, 
-							 &m_dwDisposition);
-#>
     $KeyHandle = [IntPtr]::Zero
-    $KeyName = "\Registry\User\S-1-5-21-922925213-184676331-3052236288-1001\Microsoft\Windows\CurrentVersion\Run"
-    $DesiredAccess = $KEY_ACCESS::KEY_ALL_ACCESS
+    #$KeyName = "\Registry\Machine\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 
-    # InstantiateObjectAttributes
-    $objectAttribute = [Activator]::CreateInstance($OBJECT_ATTRIBUTES)
-    $objectAttribute.Length = $OBJECT_ATTRIBUTES::GetSize()
-    $objectAttribute.RootDirectory = [IntPtr]::Zero
-    $objectAttribute.ObjectName = $KeyName
-    $objectAttribute.Attributes = 0x00000040
+    # Create a UNICODE_STRING for the key name, should be a fully qualified object name
+    $kName = [Activator]::CreateInstance($UNICODE_STRING)
+    $kName.Length = $KeyName.Length * 2
+    $kName.MaximumLength = $KeyName.Length * 2
+    $kName.Buffer = [System.Runtime.InteropServices.Marshal]::StringToCoTaskMemUni($KeyName)
+
+    $DesiredAccess  = $KEY_ACCESS::KEY_ALL_ACCESS
+
+    # InitializeObjectAttributes clone
+    $objectAttribute                = [Activator]::CreateInstance($OBJECT_ATTRIBUTES)
+    $objectAttribute.Length         = $OBJECT_ATTRIBUTES::GetSize()
+    $objectAttribute.RootDirectory  = [IntPtr]::Zero
+    $objectAttribute.Attributes     = $OBJ_ATTRIBUTE::OBJ_CASE_INSENSITIVE
+    $objectAttribute.ObjectName     = [System.Runtime.InteropServices.Marshal]::AllocHGlobal($UNICODE_STRING::GetSize())
+    [System.Runtime.InteropServices.Marshal]::StructureToPtr($kName, $objectAttribute.ObjectName, $true)
+
+    # These are set to NULL for default Security Settings (mirrors the InitializeObjectAttributes macro).
     $objectAttribute.SecurityDescriptor = [IntPtr]::Zero
     $objectAttribute.SecurityQualityOfService = [IntPtr]::Zero
 
-    $CreateOptions = $REG_OPTION::REG_OPTION_NON_VOLATILE
+    $TitleIndex = 0 # this is always set to 0 according to MSDN
+    # "This parameter is reserved. Device and intermediate drivers should set this parameter to zero."
 
-    $Success = $ntdll::NtCreateKey([ref]$KeyHandle, $DesiredAccess, $objectAttribute, $CreateOptions, 0)
+    $Class = [Activator]::CreateInstance($UNICODE_STRING)
+    $CreateOptions = $REG_OPTION::REG_OPTION_NON_VOLATILE
+    $Disposition = [IntPtr]::Zero
+
+    $Success = $ntdll::NtCreateKey([ref]$KeyHandle, $DesiredAccess, [ref]$objectAttribute, $TitleIndex, [ref]$Class, $CreateOptions, $Disposition)
 
     if(-not $Success) 
     {
-        Write-Debug "NtQueryInformationThread Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
+        Write-Debug "NtCreateKey Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
+
+    # free our memory after allocation
+    [Marshal]::FreeHGlobal($objectAttribute.ObjectName)
 }

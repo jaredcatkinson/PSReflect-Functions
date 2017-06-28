@@ -351,14 +351,30 @@
         [IntPtr] #_In_      HANDLE          ObjectHandle
     ) -EntryPoint NtClose),
 
-    (func ntdll NtCreateKey ([Int32]) @(
-        [IntPtr].MakeByRefType(), #_Out_      PHANDLE      KeyHandle,
-        [Int32],                  #_In_       ACCESS_MASK  DesiredAccess,
-        $OBJECT_ATTRIBUTES.MakeByRefType(),                   #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
-        $UNICODE_STRING.MakeByRefType(), #_In_opt_   PUNICODE_STRING    Class,
-        [Int32],  #_In_      ULONG           CreateOptions,
-        [IntPtr]  #_Out_opt_ PULONG          Disposition
+    (func ntdll NtCreateKey ([UInt32]) @(
+        [IntPtr].MakeByRefType(),               #_Out_      PHANDLE      KeyHandle,
+        [Int32],                                #_In_       ACCESS_MASK  DesiredAccess,
+        $OBJECT_ATTRIBUTES.MakeByRefType(),     #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
+        [Int32],                                #_Reserved_ ULONG              TitleIndex,
+        $UNICODE_STRING.MakeByRefType(),        #_In_opt_   PUNICODE_STRING    Class,
+        [Int32],                                #_In_      ULONG           CreateOptions,
+        [IntPtr]                                #_Out_opt_ PULONG          Disposition
     ) -EntryPoint NtCreateKey),
+
+    (func ntdll NtDeleteKey ([UInt32]) @(
+        [IntPtr]                            #_In_ HANDLE KeyHandle
+    ) -EntryPoint NtDeleteKey),
+
+    (func ntdll NtDeleteValueKey ([UInt32]) @(
+        [IntPtr],                           #_In_ HANDLE KeyHandle,
+        $UNICODE_STRING.MakeByRefType()     #_In_ PUNICODE_STRING ValueName
+    ) -EntryPoint NtDeleteValueKey),
+
+    (func ntdll NtOpenKey ([UInt32]) @(
+        [IntPtr],                           #_Out_ PHANDLE KeyHandle,
+        [Int32],                            #_In_  ACCESS_MASK        DesiredAccess,
+        $OBJECT_ATTRIBUTES.MakeByRefType()  # _In_  POBJECT_ATTRIBUTES ObjectAttributes
+    ) -EntryPoint NtOpenKey),
 
     (func ntdll NtSetValueKey ([Int32]) @(
         [IntPtr],                       #_In_     HANDLE          KeyHandle,

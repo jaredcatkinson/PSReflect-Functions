@@ -9,6 +9,10 @@
 
     Specifies the full path of the registry key to be created, beginning with \Registry. Passed as the object name to an OBJECT_ATTRIBUTES structure.
 
+    .PARAMETER DesiredAccess
+
+    Specifies an ACCESS_MASK bitmask for the registry key. Use the constants KeyRead, KeyWrite, KeyExecute, or KeyAllAccess (default).
+    
     .NOTES
 
     Author: Jared Atkinson (@jaredcatkinson), Brian Reitz (@brian_psu)
@@ -30,12 +34,22 @@
     https://msdn.microsoft.com/en-us/library/windows/hardware/ff566425(v=vs.85).aspx
 
     .EXAMPLE
+    
+    $MyKeyHandle = NtCreateKey -KeyName "\Registry\Machine\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+    NtClose -KeyHandle $MyKeyHandle
+
     #>
+
     param
     (
         [Parameter(Mandatory = $true)]
         [string]
-        $KeyName
+        $KeyName,
+
+        [Parameter()]
+        [ValidateSet('KeyRead','KeyWrite','KeyExecute','KeyAllAccess')]
+        [string]
+        $DesiredAccess = 'KeyAllAccess'
     )
 #>
     $KeyHandle = [IntPtr]::Zero
@@ -47,8 +61,12 @@
     $kName.MaximumLength = $KeyName.Length * 2
     $kName.Buffer = [System.Runtime.InteropServices.Marshal]::StringToCoTaskMemUni($KeyName)
 
-    $DesiredAccess  = $KEY_ACCESS::KEY_ALL_ACCESS
-
+    switch($DesiredAccess) {
+        KeyRead      { $DesiredAccess = $KEY_ACCESS::KEY_READ }
+        KeyWrite     { $DesiredAccess = $KEY_ACCESS::KEY_WRITE }
+        KeyExecute   { $DesiredAccess = $KEY_ACCESS::KEY_EXECUTE }
+        KeyAllAccess { $DesiredAccess = $KEY_ACCESS::KEY_ALL_ACCESS }
+    }
     # InitializeObjectAttributes clone
     $objectAttribute                = [Activator]::CreateInstance($OBJECT_ATTRIBUTES)
     $objectAttribute.Length         = $OBJECT_ATTRIBUTES::GetSize()

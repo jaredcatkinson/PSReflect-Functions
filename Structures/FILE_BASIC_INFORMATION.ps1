@@ -1,4 +1,4 @@
-$FILE_BASIC_INFORMATION = struct $Mod _FILE_BASIC_INFORMATION @{
+$FILE_BASIC_INFORMATION = struct $Module _FILE_BASIC_INFORMATION @{
         CreationTime        = field 0 $LARGE_INTEGER
         LastAccessTime      = field 1 $LARGE_INTEGER
         LastWriteTime       = field 2 $LARGE_INTEGER

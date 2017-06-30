@@ -1,4 +1,4 @@
-$TIMEZONEINFORMATION = struct $Mod _TIME_ZONE_INFORMATION @{
+$TIMEZONEINFORMATION = struct $Module _TIME_ZONE_INFORMATION @{
         Bias            =   field 0 Int32 
         StandardName    =   field 1 string
         StandardDate    =   field 2 $SYSTEMTIME

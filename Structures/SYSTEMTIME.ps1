@@ -1,4 +1,4 @@
-$SYSTEMTIME = struct $Mod _SYSTEM_TIME @{
+$SYSTEMTIME = struct $Module _SYSTEM_TIME @{
         wYear         =   field 0 Int16
         wMonth        =   field 1 Int16
         wDayOfWeek    =   field 2 Int16

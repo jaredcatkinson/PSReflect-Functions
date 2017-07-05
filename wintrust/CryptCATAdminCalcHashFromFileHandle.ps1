@@ -37,28 +37,37 @@
         $FileHandle
     )
 
-    $HashLength = 100
+    $HashLength = 0
 
-    $HashBytes = New-Object -TypeName byte[]($HashLength)
+    $SUCCESS = $wintrust::CryptCATAdminCalcHashFromFileHandle($FileHandle, [ref]$HashLength, @(), 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
-    $SUCCESS = $wintrust::CryptCATAdminCalcHashFromFileHandle($FileHandle, [ref]$HashLength, $HashBytes, 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    if(-not $SUCCESS -and $LastError -eq 203)
+    {
+        $HashBytes = New-Object -TypeName byte[]($HashLength)
 
-    if(-not $SUCCESS)
+        $SUCCESS = $wintrust::CryptCATAdminCalcHashFromFileHandle($FileHandle, [ref]$HashLength, $HashBytes, 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+
+        if(-not $SUCCESS)
+        {
+            throw "[CryptCATAdminCalcHashFromFileHandle]: Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
+        }
+
+        $MemberTag = New-Object -TypeName System.Text.StringBuilder
+        for($i = 0; $i -lt $HashLength; $i++)
+        {	
+            $MemberTag.AppendFormat("{0:X2}", $HashBytes[$i]) | Out-Null
+        }
+
+        $obj = New-Object -TypeName psobject
+
+        $obj | Add-Member -MemberType NoteProperty -Name HashBytes -Value $HashBytes
+        $obj | Add-Member -MemberType NoteProperty -Name HashLength -Value $HashLength
+        $obj | Add-Member -MemberType NoteProperty -Name MemberTag -Value $MemberTag.ToString()
+    
+        Write-Output $obj
+    }
+    else
     {
         throw "[CryptCATAdminCalcHashFromFileHandle]: Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
-
-    $MemberTag = New-Object -TypeName System.Text.StringBuilder
-    for($i = 0; $i -lt $HashLength; $i++)
-    {	
-        $MemberTag.AppendFormat("{0:X2}", $HashBytes[$i]) | Out-Null
-    }
-
-    $obj = New-Object -TypeName psobject
-
-    $obj | Add-Member -MemberType NoteProperty -Name HashBytes -Value $HashBytes
-    $obj | Add-Member -MemberType NoteProperty -Name HashLength -Value $HashLength
-    $obj | Add-Member -MemberType NoteProperty -Name MemberTag -Value $MemberTag.ToString()
-    
-    Write-Output $obj
 }

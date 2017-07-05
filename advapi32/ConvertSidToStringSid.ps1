@@ -32,6 +32,8 @@
     .EXAMPLE
     #>
 
+    [OutputType([string])]
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory = $true)]

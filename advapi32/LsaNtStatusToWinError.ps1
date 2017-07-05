@@ -27,6 +27,7 @@
     .EXAMPLE
     #>
 
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory = $true)]

@@ -38,6 +38,8 @@
 
     #>
 
+    [OutputType([IntPtr])]
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory = $true)]

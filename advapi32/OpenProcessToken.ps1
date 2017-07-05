@@ -38,6 +38,7 @@
     .EXAMPLE
     #>
 
+    [OutputType([IntPtr])]
     [CmdletBinding()]
     param
     (

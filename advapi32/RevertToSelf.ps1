@@ -39,6 +39,12 @@
         hunt.local\jared
     #>
 
+    [CmdletBinding()]
+    param
+    (
+
+    )
+
     $SUCCESS = $Advapi32::RevertToSelf(); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
     
     if(-not $SUCCESS)

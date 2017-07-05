@@ -165,6 +165,7 @@ FunctionsToExport = @(
     'WTSQuerySessionInformation',
     'ZwQueryEaFile',
     'ZwSetEaFile',
+    'Get-ArpCache',
     'Get-DigitalSignature'
 )
 

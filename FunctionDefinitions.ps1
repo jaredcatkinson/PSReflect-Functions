@@ -79,9 +79,10 @@
     #endregion advapi32
     #region iphlpapi
     (func iphlpapi GetIpNetTable ([Int32]) @(
-        [IntPtr],                 #_Out_   PMIB_IPNETTABLE pIpNetTable
-        [Int32].MakeByRefType(),  #_Inout_ PULONG          pdwSize
-        [bool]                    #_In_    BOOL            bOrder
+        [IntPtr],                #_Out_   PMIB_IPNETTABLE pIpNetTable
+        #$MIB_IPNETTABLE.MakeByRefType(), #_Out_   PMIB_IPNETTABLE pIpNetTable
+        [Int32].MakeByRefType(), #_Inout_ PULONG          pdwSize
+        [bool]                   #_In_    BOOL            bOrder
     ) -EntryPoint GetIpNetTable),
     #endregion iphlpapi
     #region kernel32
@@ -100,8 +101,8 @@
     ) -EntryPoint CreateFile -SetLastError),
     
     (func kernel32 CreateToolhelp32Snapshot ([IntPtr]) @(
-        [UInt32],                                 #_In_ DWORD dwFlags,
-        [UInt32]                                  #_In_ DWORD th32ProcessID
+        [UInt32], #_In_ DWORD dwFlags,
+        [UInt32]  #_In_ DWORD th32ProcessID
     ) -EntryPoint CreateToolhelp32Snapshot -SetLastError),
     
     (func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess),
@@ -187,7 +188,7 @@
     (func kernel32 VirtualQueryEx ([Int32]) @(
         [IntPtr],                                  #_In_     HANDLE                    hProcess,
         [IntPtr],                                  #_In_opt_ LPCVOID                   lpAddress,
-        $MEMORY_BASIC_INFORMATION.MakeByRefType(),   #_Out_    PMEMORY_BASIC_INFORMATION lpBuffer,
+        $MEMORY_BASIC_INFORMATION.MakeByRefType(), #_Out_    PMEMORY_BASIC_INFORMATION lpBuffer,
         [UInt32]                                   #_In_     SIZE_T                    dwLength
     ) -EntryPoint VirtualQueryEx -SetLastError),
     

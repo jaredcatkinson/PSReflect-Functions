@@ -15,13 +15,13 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: MIB_IPNETROW (Structure), MIB_IPNET_TYPE (Enumeration)
+    Required Dependencies: PSReflect, MIB_IPNETROW (Structure), MIB_IPNET_TYPE (Enumeration)
     Optional Dependencies: None
     
     (func iphlpapi GetIpNetTable ([Int32]) @(
-        [IntPtr],                 #_Out_   PMIB_IPNETTABLE pIpNetTable
-        [Int32].MakeByRefType(),  #_Inout_ PULONG          pdwSize
-        [bool]                    #_In_    BOOL            bOrder
+        $MIB_IPNETTABLE.MakeByRefType(), #_Out_   PMIB_IPNETTABLE pIpNetTable
+        [Int32].MakeByRefType(),         #_Inout_ PULONG          pdwSize
+        [bool]                           #_In_    BOOL            bOrder
     ) -EntryPoint GetIpNetTable)
 
     .LINK
@@ -50,19 +50,29 @@
               10 01-00-5E-00-00-16 224.0.0.22       STATIC
     #>
 
-    $pThrowAway = [IntPtr]::Zero
-    $dwSize = [Int32]0
+    [CmdletBinding()]
+    param
+    (
 
-    # Run the function once to get the size of the MIB_NETTABLE Structure
-    $SUCCESS = $iphlpapi::GetIpNetTable($pThrowAway, [ref]$dwSize, $false)
+    )
+
+    $NO_ERROR = 0
+    $ERROR_INSUFFICIENT_BUFFER = 122
+    $ERROR_NO_DATA = 232
+
+    #$pIpNetTable = [Activator]::CreateInstance($MIB_IPNETTABLE)
+    $dwSize = [Int32]0
     
+    # Run the function once to get the size of the MIB_NETTABLE Structure
+    $SUCCESS = $iphlpapi::GetIpNetTable([IntPtr]::Zero, [ref]$dwSize, $false)
+
     # ERROR_INSUFFICIENT_BUFFER means that $dwSize now contains the size of the stucture
-    if($SUCCESS -eq 122)
+    if($SUCCESS -eq $ERROR_INSUFFICIENT_BUFFER)
     {
         $pIpNetTable = [System.Runtime.InteropServices.Marshal]::AllocHGlobal($dwSize)
         $SUCCESS = $iphlpapi::GetIpNetTable($pIpNetTable, [ref]$dwSize, $false)
         
-        if($SUCCESS -eq 0)
+        if($SUCCESS -eq $NO_ERROR)
         {
             $count = [System.Runtime.InteropServices.Marshal]::ReadInt32($pIpNetTable)
 
@@ -80,6 +90,18 @@
                 Write-Output $obj
             }
         }
+        elseif($SUCCESS -eq $ERROR_NO_DATA)
+        {
+            Write-Output $null
+        }
+        else
+        {
+            throw "[GetIpNetTable] Error: $($SUCCESS)"
+        }
+    }
+    else
+    {
+        throw "[GetIpNetTable] Error: $($SUCCESS)"
     }
 
     [System.Runtime.InteropServices.Marshal]::FreeHGlobal($pIpNetTable)

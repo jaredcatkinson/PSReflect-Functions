@@ -65,15 +65,15 @@
     )
 
     # Calculate dwDesiredAccess
-    $dwDesredAccess = 0
+    [UInt32]$dwDesiredAccess = 0
 
     foreach($val in $DesiredAccess)
     {
-        $dwDesredAccess = $dwDesredAccess -bor $FILE_ACCESS::$val
+        $dwDesiredAccess = $dwDesiredAccess -bor $FILE_ACCESS::$val
     }
 
     # Calculate dwShareMode Value
-    $dwShareMode = 0
+    [UInt32]$dwShareMode = 0
 
     foreach($val in $ShareMode)
     {
@@ -81,7 +81,7 @@
     }
 
     # Calculate dwFlagsAndAttributes Value
-    $dwFlagsAndAttributes = 0
+    [UInt32]$dwFlagsAndAttributes = 0
 
     foreach($val in $FlagsAndAttributes)
     {

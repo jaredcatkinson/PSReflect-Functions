@@ -371,6 +371,15 @@
         $UNICODE_STRING.MakeByRefType()     #_In_ PUNICODE_STRING ValueName
     ) -EntryPoint NtDeleteValueKey),
 
+    (func ntdll NtOpenFile ([UInt32]) @(
+        [IntPtr].MakeByRefType(),           #_Out_ PHANDLE            FileHandle
+        [UInt32],                           #_In_  ACCESS_MASK        DesiredAccess
+        $OBJECT_ATTRIBUTES.MakeByRefType(), #_In_  POBJECT_ATTRIBUTES ObjectAttributes
+        $IO_STATUS_BLOCK.MakeByRefType(),   #_Out_ PIO_STATUS_BLOCK   IoStatusBlock
+        [System.IO.FileShare],              #_In_  ULONG              ShareAccess
+        [UInt32]                            #_In_  ULONG              OpenOptions
+    ) -EntryPoint NtOpenFile),
+
     (func ntdll NtOpenKey ([UInt32]) @(
         [IntPtr],                           #_Out_ PHANDLE KeyHandle,
         [Int32],                            #_In_  ACCESS_MASK        DesiredAccess,

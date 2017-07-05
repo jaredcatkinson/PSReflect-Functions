@@ -101,29 +101,28 @@
                 $hCatAdmin = CryptCATAdminAcquireContext2 -Subsystem DRIVER_ACTION_VERIFY -HashAlgorithm SHA1
                 $Hash,$hashSize,$MemberTag = CryptCATAdminCalcHashFromFileHandle2 -CatalogHandle $hCatAdmin -FileHandle $hFile
                 $hCatInfo = CryptCATAdminEnumCatalogFromHash -CatAdminHandle $hCatAdmin -HashPointer $Hash.HashBytes -HashSize $Hash.HashLength -PreviousCatInfoHandle ([IntPtr]::Zero)
-
-                # If hCatInfo is equal to 0, then we could not find a catalog file containing this file via both SHA256 and SHA1 hash
-                if($hCatInfo -eq 0)
-                {
-                    # We can deem this file as not signed
-                    $isCatalogSigned = $false
-                }
             }
-            
-            # If hCatInfo does not equal 0, then we at least found a Catalog file that contains this hash
-            if($hCatInfo -ne 0)
-            {
-                # Lookup the path of the catalog file that hCatInfo indicates
-                $CatalogFile = CryptCATCatalogInfoFromContext -CatInfoHandle $hCatInfo
-                
-                # Verify that the file's catalog signature is indeed trusted
-                $isCatalogSigned = WinVerifyTrust -Action WINTRUST_ACTION_GENERIC_VERIFY_V2 -CatalogFilePath $CatalogFile -MemberFilePath $FilePath -MemberTag $Hash.MemberTag
-            }
-            
-            # Release the Context from the most recent call to CryptCATAdminAcquireContext2
-            CryptCATAdminReleaseContext -CatAdminHandle $hCatAdmin
         }
         
+        # If hCatInfo does not equal 0, then we at least found a Catalog file that contains this hash
+        if($hCatInfo -ne 0)
+        {
+            # Lookup the path of the catalog file that hCatInfo indicates
+            $CatalogFile = CryptCATCatalogInfoFromContext -CatInfoHandle $hCatInfo
+                
+            # Verify that the file's catalog signature is indeed trusted
+            $isCatalogSigned = WinVerifyTrust -Action WINTRUST_ACTION_GENERIC_VERIFY_V2 -CatalogFilePath $CatalogFile -MemberFilePath $FilePath -MemberTag $Hash.MemberTag
+        }
+        # If hCatInfo is equal to 0, then we could not find a catalog file containing this file via both SHA256 and SHA1 hash
+        else
+        {
+            # We can deem this file as not signed
+            $isCatalogSigned = $false
+        }
+            
+        # Release the Context from the most recent call to CryptCATAdminAcquireContext2
+        CryptCATAdminReleaseContext -CatAdminHandle $hCatAdmin
+
         # Return the results
         $obj = New-Object -TypeName psobject
         $obj | Add-Member -MemberType NoteProperty -Name isAuthenticodeSigned -Value $isAuthenticodeSigned

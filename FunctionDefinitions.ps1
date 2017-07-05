@@ -106,11 +106,20 @@
 
     (func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess),
 
+    (func kernel32 GetProcAddress ([IntPtr]) @(
+        [IntPtr], #_In_ HMODULE hModule
+        [string]  #_In_ LPCSTR  lpProcName
+    ) -EntryPoint GetProcAddress -Charset Ansi -SetLastError),
+
     (func kernel32 GetThreadContextx64 ([bool]) @(
         [IntPtr],                  #_In_    HANDLE    hThread
         $CONTEXT64.MakeByRefType() #_Inout_ LPCONTEXT lpContext
     ) -EntryPoint GetThreadContext -SetLastError),
     
+    (func kernel32 LoadLibrary ([IntPtr]) @(
+        [string] #_In_ LPCTSTR lpFileName
+    ) -EntryPoint LoadLibrary -SetLastError),
+
     (func kernel32 OpenProcess ([IntPtr]) @(
         [UInt32], #_In_ DWORD dwDesiredAccess
         [bool],   #_In_ BOOL  bInheritHandle
@@ -339,14 +348,6 @@
     ) -EntryPoint NetWkstaUserEnum),
     #endregion netapi32
     #region ntdll
-    (func ntdll NtQueryInformationThread ([Int32]) @(
-        [IntPtr], #_In_      HANDLE          ThreadHandle,
-        [Int32],  #_In_      THREADINFOCLASS ThreadInformationClass,
-        [IntPtr], #_Inout_   PVOID           ThreadInformation,
-        [Int32],  #_In_      ULONG           ThreadInformationLength,
-        [IntPtr]  #_Out_opt_ PULONG          ReturnLength
-    ) -EntryPoint NtQueryInformationThread),
-
     (func ntdll NtClose ([Int32]) @(
         [IntPtr] #_In_      HANDLE          ObjectHandle
     ) -EntryPoint NtClose),
@@ -375,6 +376,14 @@
         [Int32],                            #_In_  ACCESS_MASK        DesiredAccess,
         $OBJECT_ATTRIBUTES.MakeByRefType()  # _In_  POBJECT_ATTRIBUTES ObjectAttributes
     ) -EntryPoint NtOpenKey),
+    
+    (func ntdll NtQueryInformationThread ([Int32]) @(
+        [IntPtr], #_In_      HANDLE          ThreadHandle,
+        [Int32],  #_In_      THREADINFOCLASS ThreadInformationClass,
+        [IntPtr], #_Inout_   PVOID           ThreadInformation,
+        [Int32],  #_In_      ULONG           ThreadInformationLength,
+        [IntPtr]  #_Out_opt_ PULONG          ReturnLength
+    ) -EntryPoint NtQueryInformationThread),
 
     (func ntdll NtSetValueKey ([Int32]) @(
         [IntPtr],                       #_In_     HANDLE          KeyHandle,
@@ -483,12 +492,28 @@
         [UInt32]                # _In_ DWORD     dwFlags
     ) -EntryPoint CryptCATAdminAddCatalog -SetLastError -Charset Unicode),
 
+    (func wintrust CryptCATAdminAcquireContext2 ([bool]) @(
+      [IntPtr].MakeByRefType(), #_Out_            HCATADMIN               *phCatAdmin
+      [Guid].MakeByRefType(),   #_In_       const GUID                    *pgSubsystem
+      [IntPtr],                 #_In_opt_         PCWSTR                  pwszHashAlgorithm
+      [IntPtr],                 #_In_opt_         PCCERT_STRONG_SIGN_PARA pStrongHashPolicy
+      [UInt32]                  #_In_             DWORD                   dwFlags        
+    ) -EntryPoint CryptCATAdminAcquireContext2 -SetLastError),
+
     (func wintrust CryptCATAdminCalcHashFromFileHandle ([bool]) @(
         [IntPtr],                 #_In_    HANDLE hFile
         [UInt32].MakeByRefType(), #_Inout_ DWORD  *pcbHash
         [byte[]],                 #_In_    BYTE   *pbHash
         [UInt32]                  #_In_    DWORD  dwFlags
     ) -EntryPoint CryptCATAdminCalcHashFromFileHandle),
+
+    (func wintrust CryptCATAdminCalcHashFromFileHandle2 ([bool]) @(
+        [IntPTr],                 #_In_    HCATADMIN hCatAdmin
+        [IntPtr],                 #_In_    HANDLE    hFile
+        [UInt32].MakeByRefType(), #_Inout_ DWORD     *pcbHash
+        [byte[]],                 #_In_    BYTE      *pbHash
+        [UInt32]                  #_In_    DWORD     dwFlags
+    ) -EntryPoint CryptCATAdminCalcHashFromFileHandle2),
 
     (func wintrust CryptCATAdminEnumCatalogFromHash ([IntPtr]) @(
         [IntPtr], #_In_ HCATADMIN hCatAdmin
@@ -514,6 +539,10 @@
         $CATALOG_INFO.MakeByRefType(), #_Inout_ CATALOG_INFO *psCatInfo,
         [UInt32]                       #_In_    DWORD        dwFlags
     ) -EntryPoint CryptCATCatalogInfoFromContext -SetLastError -CharSet Unicode),
+
+    (func wintrust CryptCATStoreFromHandle ([IntPtr]) @(
+        [IntPtr] #_In_ HANDLE hCatalog
+    ) -EntryPoint CryptCATStoreFromHandle),
 
     (func wintrust WinVerifyTrust ([Int32]) @(
         [IntPtr],                       #_In_ HWND   hWnd,

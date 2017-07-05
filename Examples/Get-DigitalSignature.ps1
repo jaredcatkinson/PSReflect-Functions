@@ -1,8 +1,49 @@
 ﻿function Get-DigitalSignature
 {
+    <#
+    .SYNOPSIS
+
+    Checks the existence and validity of the Authenticode and Catalog signatures of a specified file.
+
+    .DESCRIPTION
+
+    The catalog signature check/validation used by PowerShell's Get-AuthenticodeSignature is built on undocumented Windows API functions that only exist on Windows 8 and newer Operating Systems.
+
+    Get-DigitalSignature is instead built on the wintrust.dll CryptCATAdmin* and WinVerifyTrust functions. These functions allow us to check both Authenticode (embedded) and Catalog signatures on all Operating Systems compatible with PowerShell.
+
+    Additionally, it is possible for files to be both Authenticode and Catalog signed. Many signature checking applications skip one or the other if the first is found to exist.
+
+    .PARAMETER FilePath
+
+    The path of the file for which a Digital Signature should be checked.
+
+    .NOTES
+
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect
+    Optional Dependencies: None
+
+    .EXAMPLE
+    Get-DigitalSignature -FilePath 'C:\Windows\notepad.exe'
+
+    isAuthenticodeSigned isCatalogSigned
+    -------------------- ---------------
+                   False            True
+
+
+    .EXAMPLE
+    Get-DigitalSignature -FilePath 'C:\Program Files\AccessData\FTK Imager\ad_globals.dll'
+
+    isAuthenticodeSigned isCatalogSigned
+    -------------------- ---------------
+                    True           False
+    #>
+
+    [CmdletBinding()]
     param
     (
-        [Parameter()]
+        [Parameter(Mandatory = $true, Position = 0)]
         [string]
         $FilePath
     )
@@ -61,15 +102,21 @@
                 $Hash,$hashSize,$MemberTag = CryptCATAdminCalcHashFromFileHandle2 -CatalogHandle $hCatAdmin -FileHandle $hFile
                 $hCatInfo = CryptCATAdminEnumCatalogFromHash -CatAdminHandle $hCatAdmin -HashPointer $Hash.HashBytes -HashSize $Hash.HashLength -PreviousCatInfoHandle ([IntPtr]::Zero)
 
+                # If hCatInfo is equal to 0, then we could not find a catalog file containing this file via both SHA256 and SHA1 hash
                 if($hCatInfo -eq 0)
                 {
+                    # We can deem this file as not signed
                     $isCatalogSigned = $false
                 }
             }
             
+            # If hCatInfo does not equal 0, then we at least found a Catalog file that contains this hash
             if($hCatInfo -ne 0)
             {
+                # Lookup the path of the catalog file that hCatInfo indicates
                 $CatalogFile = CryptCATCatalogInfoFromContext -CatInfoHandle $hCatInfo
+                
+                # Verify that the file's catalog signature is indeed trusted
                 $isCatalogSigned = WinVerifyTrust -Action WINTRUST_ACTION_GENERIC_VERIFY_V2 -CatalogFilePath $CatalogFile -MemberFilePath $FilePath -MemberTag $Hash.MemberTag
             }
             

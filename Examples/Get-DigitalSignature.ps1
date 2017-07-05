@@ -54,15 +54,8 @@
         # Get a Handle to the requested file
         $hFile = [IO.File]::OpenRead($FilePath).SafeFileHandle.DangerousGetHandle()
 
-        # Check for Authenticode Signature (These are embedded signatures)
-        try
-        {
-            $isAuthenticodeSigned = WinVerifyTrust -FilePath $FilePath -Action WINTRUST_ACTION_GENERIC_VERIFY_V2
-        }
-        catch
-        {
-            
-        }
+        # Check for Authenticode Signature (embedded signature)
+        $isAuthenticodeSigned = WinVerifyTrust -FilePath $FilePath -Action WINTRUST_ACTION_GENERIC_VERIFY_V2
 
         # Check for Catalog Signature
         try

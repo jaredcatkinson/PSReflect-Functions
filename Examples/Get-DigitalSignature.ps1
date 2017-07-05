@@ -52,7 +52,7 @@
     if(Test-Path -Path $FilePath)
     {
         # Get a Handle to the requested file
-        $hFile = CreateFile -FileName $FilePath -DesiredAccess 2147483648 -ShareMode 3 -SecurityAttributes ([IntPtr]::Zero) -CreationDisposition 3 -FlagsAndAttributes 0x80 -TemplateHandle ([IntPtr]::Zero)
+        $hFile = CreateFile -FileName $FilePath -DesiredAccess GENERIC_READ -ShareMode READ,WRITE -SecurityAttributes ([IntPtr]::Zero) -CreationDisposition OPEN_EXISTING -FlagsAndAttributes FILE_ATTRIBUTE_NORMAL -TemplateHandle ([IntPtr]::Zero)
 
         # Check for Authenticode Signature (embedded signature)
         $isAuthenticodeSigned = WinVerifyTrust -FilePath $FilePath -Action WINTRUST_ACTION_GENERIC_VERIFY_V2

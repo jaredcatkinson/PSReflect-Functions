@@ -46,23 +46,15 @@
         $FileHandle
     )
 
-    <#
     $HashLength = 0
 
     $SUCCESS = $wintrust::CryptCATAdminCalcHashFromFileHandle2($CatalogHandle, $FileHandle, [ref]$HashLength, @(), 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
-    Write-Host "SUCCESS: $($SUCCESS)"
-    Write-Host "LastError: $($LastError)"
-
-    if((-not $SUCCESS) -and ($LastError -ne 122))
+    if((-not $SUCCESS) -and ($LastError -ne 203))
     {
         throw "[CryptCATAdminCalcHashFromFileHandle2]: Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
 
-    Write-Host $HashLength
-    #>
-
-    $HashLength = 64
     $HashBytes = New-Object -TypeName Byte[]($HashLength)
 
     $SUCCESS = $wintrust::CryptCATAdminCalcHashFromFileHandle2($CatalogHandle, $FileHandle, [ref]$HashLength, $HashBytes, 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()

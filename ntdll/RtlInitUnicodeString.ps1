@@ -9,7 +9,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
+    Required Dependencies: PSReflect, UNICODE_STRING (Structure)
     Optional Dependencies: None
 
     (func ntdll RtlInitUnicodeString ([void]) @(
@@ -24,6 +24,8 @@
     .EXAMPLE
     #>
 
+    [OutputType([IntPtr])]
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory = $true)]

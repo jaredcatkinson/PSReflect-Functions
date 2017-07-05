@@ -51,17 +51,17 @@
     # Check if the requested file exists
     if(Test-Path -Path $FilePath)
     {
-        # Get a Handle to the requested file
-        $hFile = CreateFile -FileName $FilePath -DesiredAccess GENERIC_READ -ShareMode READ,WRITE -SecurityAttributes ([IntPtr]::Zero) -CreationDisposition OPEN_EXISTING -FlagsAndAttributes FILE_ATTRIBUTE_NORMAL -TemplateHandle ([IntPtr]::Zero)
-
         # Check for Authenticode Signature (embedded signature)
         $isAuthenticodeSigned = WinVerifyTrust -FilePath $FilePath -Action WINTRUST_ACTION_GENERIC_VERIFY_V2
 
         # Check for Catalog Signature
+        # Get a Handle to the requested file
+        $hFile = CreateFile -FileName $FilePath -DesiredAccess GENERIC_READ -ShareMode READ,WRITE -SecurityAttributes ([IntPtr]::Zero) -CreationDisposition OPEN_EXISTING -FlagsAndAttributes FILE_ATTRIBUTE_NORMAL -TemplateHandle ([IntPtr]::Zero)
+        
+        # We will first check to see if this system has CryptCATAdminAcquireContext2
+        # If this function does not exist, then we can assume we are dealing with an older OS version and Catalog V1
         try
         {
-            # We will first check to see if this system has CryptCATAdminAcquireContext2
-            # If this function does not exist, then we can assume we are dealing with an older OS version and Catalog V1
             $hModule = LoadLibrary -ModuleName wintrust
             $ProcAddr = GetProcAddress -ModuleHandle $hModule -FunctionName CryptCATAdminAcquireContext2
         }

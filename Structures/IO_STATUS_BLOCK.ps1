@@ -1,4 +1,4 @@
-$_IO_STATUS_BLOCK = struct $Module _IO_STATUS_BLOCK @{
-        Status      = field 0 Int64 0
-        Pointer     = field 1 IntPtr 0
+$IO_STATUS_BLOCK = struct $Module IO_STATUS_BLOCK @{
+    Status  = field 0 Int64  -Offset 0
+    Pointer = field 1 IntPtr -Offset 0
 } -ExplicitLayout

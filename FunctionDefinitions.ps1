@@ -1,4 +1,4 @@
-﻿$FunctionDefinitions = @(
+﻿$FunctionDefinitions = @( 
     #region advapi32
     (func advapi32 ChangeServiceConfig ([Bool]) @(
         [IntPtr],       # _In_      SC_HANDLE hService
@@ -30,11 +30,11 @@
     ) -EntryPoint DuplicateToken -SetLastError),
 
     (func advapi32 GetTokenInformation ([bool]) @(
-      [IntPtr],                #_In_      HANDLE                  TokenHandle
-      [Int32],                 #_In_      TOKEN_INFORMATION_CLASS TokenInformationClass
-      [IntPtr],                #_Out_opt_ LPVOID                  TokenInformation
-      [UInt32],                #_In_      DWORD                   TokenInformationLength
-      [UInt32].MakeByRefType() #_Out_     PDWORD                  ReturnLength
+        [IntPtr],                #_In_      HANDLE                  TokenHandle
+        [Int32],                 #_In_      TOKEN_INFORMATION_CLASS TokenInformationClass
+        [IntPtr],                #_Out_opt_ LPVOID                  TokenInformation
+        [UInt32],                #_In_      DWORD                   TokenInformationLength
+        [UInt32].MakeByRefType() #_Out_     PDWORD                  ReturnLength
     ) -EntryPoint GetTokenInformation -SetLastError),
 
     (func advapi32 ImpersonateLoggedOnUser ([bool]) @(
@@ -55,9 +55,9 @@
     ) -EntryPoint LsaNtStatusToWinError),
 
     (func advapi32 OpenProcessToken ([bool]) @(
-      [IntPtr],                #_In_  HANDLE  ProcessHandle
-      [UInt32],                #_In_  DWORD   DesiredAccess
-      [IntPtr].MakeByRefType() #_Out_ PHANDLE TokenHandle
+        [IntPtr],                #_In_  HANDLE  ProcessHandle
+        [UInt32],                #_In_  DWORD   DesiredAccess
+        [IntPtr].MakeByRefType() #_Out_ PHANDLE TokenHandle
     ) -EntryPoint OpenProcessToken -SetLastError),
 
     (func advapi32 OpenSCManagerW ([IntPtr]) @(
@@ -67,10 +67,10 @@
     ) -EntryPoint OpenSCManagerW -SetLastError),
 
     (func advapi32 OpenThreadToken ([bool]) @(
-      [IntPtr],                #_In_  HANDLE  ThreadHandle
-      [UInt32],                #_In_  DWORD   DesiredAccess
-      [bool],                  #_In_  BOOL    OpenAsSelf
-      [IntPtr].MakeByRefType() #_Out_ PHANDLE TokenHandle
+        [IntPtr],                #_In_  HANDLE  ThreadHandle
+        [UInt32],                #_In_  DWORD   DesiredAccess
+        [bool],                  #_In_  BOOL    OpenAsSelf
+        [IntPtr].MakeByRefType() #_Out_ PHANDLE TokenHandle
     ) -EntryPoint OpenThreadToken -SetLastError),
 
     (func advapi32 RevertToSelf ([bool]) @(
@@ -88,7 +88,7 @@
     (func kernel32 CloseHandle ([bool]) @(
         [IntPtr] #_In_ HANDLE hObject
     ) -EntryPoint CloseHandle -SetLastError),
-
+    
     (func kernel32 CreateFile ([IntPtr]) @(
         [string], #_In_     LPCTSTR               lpFileName
         [UInt32], #_In_     DWORD                 dwDesiredAccess
@@ -98,19 +98,19 @@
         [UInt32], #_In_     DWORD                 dwFlagsAndAttributes
         [IntPtr]  #_In_opt_ HANDLE                hTemplateFile
     ) -EntryPoint CreateFile -SetLastError),
-
+    
     (func kernel32 CreateToolhelp32Snapshot ([IntPtr]) @(
         [UInt32],                                 #_In_ DWORD dwFlags,
         [UInt32]                                  #_In_ DWORD th32ProcessID
     ) -EntryPoint CreateToolhelp32Snapshot -SetLastError),
-
+    
     (func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess),
-
+    
     (func kernel32 GetProcAddress ([IntPtr]) @(
         [IntPtr], #_In_ HMODULE hModule
         [string]  #_In_ LPCSTR  lpProcName
     ) -EntryPoint GetProcAddress -Charset Ansi -SetLastError),
-
+    
     (func kernel32 GetThreadContextx64 ([bool]) @(
         [IntPtr],                  #_In_    HANDLE    hThread
         $CONTEXT64.MakeByRefType() #_Inout_ LPCONTEXT lpContext
@@ -119,26 +119,26 @@
     (func kernel32 LoadLibrary ([IntPtr]) @(
         [string] #_In_ LPCTSTR lpFileName
     ) -EntryPoint LoadLibrary -SetLastError),
-
+    
     (func kernel32 OpenProcess ([IntPtr]) @(
         [UInt32], #_In_ DWORD dwDesiredAccess
         [bool],   #_In_ BOOL  bInheritHandle
         [UInt32]  #_In_ DWORD dwProcessId
     ) -EntryPoint OpenProcess -SetLastError),
-
+    
     (func kernel32 OpenThread ([IntPtr]) @(
         [UInt32], #_In_ DWORD dwDesiredAccess
         [bool],   #_In_ BOOL  bInheritHandle
         [UInt32]  #_In_ DWORD dwThreadId
     ) -EntryPoint OpenThread -SetLastError),
-
+    
     (func kernel32 QueryFullProcessImageName ([bool]) @(
       [IntPtr],                    #_In_    HANDLE hProcess
       [UInt32],                    #_In_    DWORD  dwFlags,
       [System.Text.StringBuilder], #_Out_   LPTSTR lpExeName,
       [UInt32].MakeByRefType()     #_Inout_ PDWORD lpdwSize
     ) -EntryPoint QueryFullProcessImageName -SetLastError),
-
+    
     (func kernel32 ReadProcessMemory ([Bool]) @(
         [IntPtr],                                  # _In_ HANDLE hProcess
         [IntPtr],                                  # _In_ LPCVOID lpBaseAddress
@@ -146,16 +146,16 @@
         [Int32],                                   # _In_ SIZE_T nSize
         [Int32].MakeByRefType()                    # _Out_ SIZE_T *lpNumberOfBytesRead
     ) -EntryPoint ReadProcessMemory -SetLastError),
-
+    
     (func kernel32 ResumeThread ([UInt32]) @(
         [IntPtr] #_In_ HANDLE hThread
     ) -EntryPoint ResumeThread -SetLastError),
-
+    
     (func kernel32 TerminateThread ([bool]) @(
         [IntPtr],                                  # _InOut_ HANDLE hThread
         [UInt32]                                   # _In_ DWORD dwExitCode
     ) -EntryPoint TerminateThread -SetLastError),
-
+    
     (func kernel32 Thread32First ([bool]) @(
         [IntPtr],                                  #_In_    HANDLE          hSnapshot,
         $THREADENTRY32.MakeByRefType()             #_Inout_ LPTHREADENTRY32 lpte
@@ -168,7 +168,7 @@
         [UInt32],                                  # _In_ DWORD  flAllocationType
         [UInt32]                                   # _In_ DWORD  flProtect
     ) -EntryPoint VirtualAllocEx -SetLastError),
-
+    
     (func kernel32 VirtualFreeEx ([Bool]) @(
         [IntPtr],                                    # _In_ HANDLE hProcess
         [IntPtr],                                    # _In_ LPVOID lpAddress
@@ -183,14 +183,14 @@
         [UInt32],                #_In_  DWORD  flNewProtect
         [IntPtr].MakeByRefType() #_Out_ PDWORD lpflOldProtect
     ) -EntryPoint VirtualProtectEx -SetLastError),
-
+    
     (func kernel32 VirtualQueryEx ([Int32]) @(
         [IntPtr],                                  #_In_     HANDLE                    hProcess,
         [IntPtr],                                  #_In_opt_ LPCVOID                   lpAddress,
         $MEMORY_BASIC_INFORMATION.MakeByRefType(),   #_Out_    PMEMORY_BASIC_INFORMATION lpBuffer,
         [UInt32]                                   #_In_     SIZE_T                    dwLength
     ) -EntryPoint VirtualQueryEx -SetLastError),
-
+    
     (func kernel32 WriteProcessMemory ([Bool]) @(
         [IntPtr],                                  # _In_ HANDLE hProcess
         [IntPtr],                                  # _In_ LPVOID lpBaseAddress
@@ -345,32 +345,32 @@
         [Int32].MakeByRefType(),    # _Out_   LPDWORD entriesread
         [Int32].MakeByRefType(),    # _Out_   LPDWORD totalentries
         [Int32].MakeByRefType()     # _Inout_ LPDWORD resumehandle
-    ) -EntryPoint NetWkstaUserEnum),
+    ) -EntryPoint NetWkstaUserEnum)
     #endregion netapi32
     #region ntdll
     (func ntdll NtClose ([Int32]) @(
         [IntPtr] #_In_      HANDLE          ObjectHandle
     ) -EntryPoint NtClose),
-
+    
     (func ntdll NtCreateKey ([UInt32]) @(
-        [IntPtr].MakeByRefType(),               #_Out_      PHANDLE      KeyHandle,
-        [Int32],                                #_In_       ACCESS_MASK  DesiredAccess,
-        $OBJECT_ATTRIBUTES.MakeByRefType(),     #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
-        [Int32],                                #_Reserved_ ULONG              TitleIndex,
-        $UNICODE_STRING.MakeByRefType(),        #_In_opt_   PUNICODE_STRING    Class,
-        [Int32],                                #_In_      ULONG           CreateOptions,
-        [IntPtr]                                #_Out_opt_ PULONG          Disposition
+        [IntPtr].MakeByRefType(),           #_Out_      PHANDLE      KeyHandle,
+        [Int32],                            #_In_       ACCESS_MASK  DesiredAccess,
+        $OBJECT_ATTRIBUTES.MakeByRefType(), #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
+        [Int32],                            #_Reserved_ ULONG              TitleIndex,
+        $UNICODE_STRING.MakeByRefType(),    #_In_opt_   PUNICODE_STRING    Class,
+        [Int32],                            #_In_      ULONG           CreateOptions,
+        [IntPtr]                            #_Out_opt_ PULONG          Disposition
     ) -EntryPoint NtCreateKey),
-
+    
     (func ntdll NtDeleteKey ([UInt32]) @(
-        [IntPtr]                            #_In_ HANDLE KeyHandle
+        [IntPtr] #_In_ HANDLE KeyHandle
     ) -EntryPoint NtDeleteKey),
-
+    
     (func ntdll NtDeleteValueKey ([UInt32]) @(
-        [IntPtr],                           #_In_ HANDLE KeyHandle,
-        $UNICODE_STRING.MakeByRefType()     #_In_ PUNICODE_STRING ValueName
+        [IntPtr],                       #_In_ HANDLE KeyHandle,
+        $UNICODE_STRING.MakeByRefType() #_In_ PUNICODE_STRING ValueName
     ) -EntryPoint NtDeleteValueKey),
-
+    
     (func ntdll NtOpenFile ([UInt32]) @(
         [IntPtr].MakeByRefType(),           #_Out_ PHANDLE            FileHandle
         [UInt32],                           #_In_  ACCESS_MASK        DesiredAccess
@@ -379,11 +379,11 @@
         [System.IO.FileShare],              #_In_  ULONG              ShareAccess
         [UInt32]                            #_In_  ULONG              OpenOptions
     ) -EntryPoint NtOpenFile),
-
+    
     (func ntdll NtOpenKey ([UInt32]) @(
-        [IntPtr],                           #_Out_ PHANDLE KeyHandle,
-        [Int32],                            #_In_  ACCESS_MASK        DesiredAccess,
-        $OBJECT_ATTRIBUTES.MakeByRefType()  # _In_  POBJECT_ATTRIBUTES ObjectAttributes
+        [IntPtr],                          #_Out_ PHANDLE KeyHandle,
+        [Int32],                           #_In_  ACCESS_MASK        DesiredAccess,
+        $OBJECT_ATTRIBUTES.MakeByRefType() # _In_  POBJECT_ATTRIBUTES ObjectAttributes
     ) -EntryPoint NtOpenKey),
     
     (func ntdll NtQueryInformationThread ([Int32]) @(
@@ -393,40 +393,40 @@
         [Int32],  #_In_      ULONG           ThreadInformationLength,
         [IntPtr]  #_Out_opt_ PULONG          ReturnLength
     ) -EntryPoint NtQueryInformationThread),
-
+    
     (func ntdll NtSetValueKey ([Int32]) @(
-        [IntPtr],                       #_In_     HANDLE          KeyHandle,
-        $UNICODE_STRING.MakeByRefType(),#_In_     PUNICODE_STRING ValueName,
-        [Int32],                        #_In_opt_ ULONG           TitleIndex,
-        [Int32],                        #_In_     ULONG           Type,
-        [IntPtr],                       #_In_opt_ PVOID           Data,
-        [Int32]                         #_In_     ULONG           DataSize
+        [IntPtr],                        #_In_     HANDLE          KeyHandle,
+        $UNICODE_STRING.MakeByRefType(), #_In_     PUNICODE_STRING ValueName,
+        [Int32],                         #_In_opt_ ULONG           TitleIndex,
+        [Int32],                         #_In_     ULONG           Type,
+        [IntPtr],                        #_In_opt_ PVOID           Data,
+        [Int32]                          #_In_     ULONG           DataSize
     ) -EntryPoint NtSetValueKey),
-
+    
     (func ntdll RtlAdjustPrivilege ([UInt32]) @(
         [Int32],                # int Privilege,
         [Bool],                 # bool bEnablePrivilege
         [Bool],                 # bool IsThreadPrivilege
         [Int32].MakeByRefType() # out bool PreviousValue
     ) -EntryPoint RtlAdjustPrivilege),
-
+    
     (func ntdll RtlInitUnicodeString ([void]) @(
         $UNICODE_STRING.MakeByRefType(), #_Inout_  PUNICODE_STRING DestinationString
         [string]                         #_In_opt_ PCWSTR          SourceString
-    ) -EntryPoint RtlInitUnicodeString),
+    ) -EntryPoint RtlInitUnicodeString)
     #endregion ntdll
     #region samlib
     (func samlib SamCloseHandle ([Int32]) @(
         [IntPtr] #_In_ SAM_HANDLE SamHandle
     ) -EntryPoint SamCloseHandle),
-
+    
     (func samlib SamConnect ([Int32]) @(
         $UNICODE_STRING.MakeByRefType(), #_Inout_opt_ PUNICODE_STRING    ServerName
         [IntPtr].MakeByRefType(),        #_Out_       PSAM_HANDLE        ServerHandle
         [Int32],                         #_In_        ACCESS_MASK        DesiredAccess
         [bool]                           #_In_        POBJECT_ATTRIBUTES ObjectAttributes
     ) -EntryPoint SamConnect),
-
+    
     (func samlib SamOpenDomain ([Int32]) @(
         [IntPtr],                #_In_ SAM_HANDLE  ServerHandle
         [Int32],                 #_In_ ACCESS_MASK DesiredAccess
@@ -445,8 +445,8 @@
         [IntPtr], #_In_ SAM_HANDLE             UserHandle
         [Int32],  #_In_ USER_INFORMATION_CLASS UserInformationClass
         [IntPtr]  #_In_ PVOID                  Buffer
-    ) -EntryPoint SamSetInformationUser),
-    #endregion samlib    
+    ) -EntryPoint SamSetInformationUser)
+    #endregion samlib   
     #region secur32
     (func secur32 LsaCallAuthenticationPackage ([UInt32]) @(
         [IntPtr],                 #_In_  HANDLE    LsaHandle
@@ -479,7 +479,7 @@
         [IntPtr],                #_In_  PLUID                        LogonId,
         [IntPtr].MakeByRefType() #_Out_ PSECURITY_LOGON_SESSION_DATA *ppLogonSessionData
     ) -EntryPoint LsaGetLogonSessionData),
-    
+
     (func secur32 LsaLookupAuthenticationPackage ([UInt32]) @(
         [IntPtr],                            #_In_  HANDLE      LsaHandle,
         $LSA_UNICODE_STRING.MakeByRefType(), #_In_  PLSA_STRING PackageName,
@@ -490,7 +490,7 @@
         $LSA_STRING.MakeByRefType(), #_In_  PLSA_STRING           LogonProcessName,
         [IntPtr].MakeByRefType(),    #_Out_ PHANDLE               LsaHandle,
         [UInt64].MakeByRefType()     #_Out_ PLSA_OPERATIONAL_MODE SecurityMode
-    ) -EntryPoint LsaRegisterLogonProcess),
+    ) -EntryPoint LsaRegisterLogonProcess)
     #endregion secur32
     #region wintrust
     (func wintrust CryptCATAdminAcquireContext ([bool]) @(
@@ -522,7 +522,7 @@
     ) -EntryPoint CryptCATAdminCalcHashFromFileHandle),
 
     (func wintrust CryptCATAdminCalcHashFromFileHandle2 ([bool]) @(
-        [IntPTr],                 #_In_    HCATADMIN hCatAdmin
+        [IntPtr],                 #_In_    HCATADMIN hCatAdmin
         [IntPtr],                 #_In_    HANDLE    hFile
         [UInt32].MakeByRefType(), #_Inout_ DWORD     *pcbHash
         [byte[]],                 #_In_    BYTE      *pbHash

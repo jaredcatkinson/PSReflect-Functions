@@ -84,5 +84,3 @@
         throw [System.IO.FileNotFoundException]
     }
 }
-
-Test-DigitalSignature2 -FilePath C:\Windows\notepad.exe

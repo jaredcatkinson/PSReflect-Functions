@@ -31,4 +31,4 @@ $OBJECT_ATTRIBUTES = struct $Module OBJECT_ATTRIBUTES @{
     Attributes               = field 3 UInt32
     SecurityDescriptor       = field 4 IntPtr
     SecurityQualityOfService = field 5 IntPtr
-    }
+}

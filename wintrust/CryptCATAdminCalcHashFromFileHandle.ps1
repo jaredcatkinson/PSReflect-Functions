@@ -19,7 +19,7 @@
     (func wintrust CryptCATAdminCalcHashFromFileHandle ([bool]) @(
         [IntPtr],                 #_In_    HANDLE hFile
         [UInt32].MakeByRefType(), #_Inout_ DWORD  *pcbHash
-        [IntPtr],                 #_In_    BYTE   *pbHash
+        [byte[]],                 #_In_    BYTE   *pbHash
         [UInt32]                  #_In_    DWORD  dwFlags
     ) -EntryPoint CryptCATAdminCalcHashFromFileHandle)
 

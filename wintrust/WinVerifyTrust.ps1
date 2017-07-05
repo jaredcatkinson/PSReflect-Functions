@@ -21,9 +21,9 @@
     Optional Dependencies: None
     
     (func wintrust WinVerifyTrust ([Int32]) @(
-        [IntPtr], #_In_ HWND   hWnd,
-        [Guid].MakeByRefType(),   #_In_ GUID   *pgActionID,
-        $WINTRUST_DATA.MakeByRefType()  #_In_ LPVOID pWVTData
+        [IntPtr],                      #_In_ HWND   hWnd
+        [Guid].MakeByRefType(),        #_In_ GUID   *pgActionID
+        $WINTRUST_DATA.MakeByRefType() #_In_ LPVOID pWVTData
     ) -EntryPoint WinVerifyTrust)
 
     .LINK
@@ -129,7 +129,7 @@
     }
     else
     {
-        if($SUCCESS -eq 0x80096010)
+        if(($SUCCESS -eq 0x80096010) -or ($SUCCESS -eq 0x800b0100))
         {
             Write-Output $false
         }

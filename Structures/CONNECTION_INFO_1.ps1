@@ -1,4 +1,4 @@
-﻿$CONNECTION_INFO_1  = struct $Module CONNECTION_INFO_1 @{
+﻿$CONNECTION_INFO_1 = struct $Module CONNECTION_INFO_1 @{
     coni1_id        = field 0 UInt32
     coni1_type      = field 1 UInt32
     coni1_num_opens = field 2 UInt32

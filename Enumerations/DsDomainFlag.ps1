@@ -1,8 +1,8 @@
 ﻿$DsDomainFlag = psenum $Module DsDomainFlag UInt32 @{
-    IN_FOREST       = 1
-    DIRECT_OUTBOUND = 2
-    TREE_ROOT       = 4
-    PRIMARY         = 8
-    NATIVE_MODE     = 16
-    DIRECT_INBOUND  = 32
+    IN_FOREST       = 0x01
+    DIRECT_OUTBOUND = 0x02
+    TREE_ROOT       = 0x04
+    PRIMARY         = 0x08
+    NATIVE_MODE     = 0x10
+    DIRECT_INBOUND  = 0x20
 } -Bitfield

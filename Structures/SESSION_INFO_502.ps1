@@ -1,4 +1,4 @@
-﻿$SESSION_INFO_502       = struct $Module SESSION_INFO_502 @{
+﻿$SESSION_INFO_502 = struct $Module SESSION_INFO_502 @{
     sesi502_cname       = field 0 String -MarshalAs @('LPWStr')
     sesi502_username    = field 1 String -MarshalAs @('LPWStr')
     sesi502_num_opens   = field 2 UInt32

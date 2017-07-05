@@ -65,18 +65,24 @@
     $HashLength = 64
     $HashBytes = New-Object -TypeName Byte[]($HashLength)
 
-    $SUCCESS = $wintrust::CryptCATAdminCalcHashFromFileHandle2($CatalogHandle, $FileHandle, [ref]$HashLength, $HashBytes, 0)
+    $SUCCESS = $wintrust::CryptCATAdminCalcHashFromFileHandle2($CatalogHandle, $FileHandle, [ref]$HashLength, $HashBytes, 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $SUCCESS)
     {
         throw "[CryptCATAdminCalcHashFromFileHandle2]: Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
 
-    $hex = New-Object -TypeName System.Text.StringBuilder
+    $MemberTag = New-Object -TypeName System.Text.StringBuilder
     for($i = 0; $i -lt $HashLength; $i++)
     {	
-        $hex.AppendFormat("{0:X2}", $HashBytes[$i]) | Out-Null
+        $MemberTag.AppendFormat("{0:X2}", $HashBytes[$i]) | Out-Null
     }
 
-    Write-Output $HashBytes, $HashLength, $hex.ToString()
+    $obj = New-Object -TypeName psobject
+
+    $obj | Add-Member -MemberType NoteProperty -Name HashBytes -Value $HashBytes
+    $obj | Add-Member -MemberType NoteProperty -Name HashLength -Value $HashLength
+    $obj | Add-Member -MemberType NoteProperty -Name MemberTag -Value $MemberTag.ToString()
+    
+    Write-Output $obj
 }

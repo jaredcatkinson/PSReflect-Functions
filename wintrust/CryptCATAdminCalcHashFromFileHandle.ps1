@@ -19,7 +19,7 @@
     (func wintrust CryptCATAdminCalcHashFromFileHandle ([bool]) @(
         [IntPtr],                 #_In_    HANDLE hFile
         [UInt32].MakeByRefType(), #_Inout_ DWORD  *pcbHash
-        [byte[]],                 #_In_    BYTE   *pbHash
+        [IntPtr],                 #_In_    BYTE   *pbHash
         [UInt32]                  #_In_    DWORD  dwFlags
     ) -EntryPoint CryptCATAdminCalcHashFromFileHandle)
 
@@ -37,22 +37,28 @@
         $FileHandle
     )
 
-    $pcbHash = 100
+    $HashLength = 100
 
-    $pbHash = New-Object -TypeName byte[]($pcbHash)
+    $HashBytes = New-Object -TypeName byte[]($HashLength)
 
-    $SUCCESS = $wintrust::CryptCATAdminCalcHashFromFileHandle($FileHandle, [ref]$pcbHash, $pbHash, 0)
+    $SUCCESS = $wintrust::CryptCATAdminCalcHashFromFileHandle($FileHandle, [ref]$HashLength, $HashBytes, 0); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $SUCCESS)
     {
-        throw "[CryptCATAdminCalcHashFromFileHandle]: Unable to release Catalog Admin Handle $($CatAdminHandle)"
+        throw "[CryptCATAdminCalcHashFromFileHandle]: Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
 
-    $hex = New-Object -TypeName System.Text.StringBuilder
-    for($i = 0; $i -lt $pcbHash; $i++)
+    $MemberTag = New-Object -TypeName System.Text.StringBuilder
+    for($i = 0; $i -lt $HashLength; $i++)
     {	
-        $hex.AppendFormat("{0:X2}", $pbHash[$i]) | Out-Null
+        $MemberTag.AppendFormat("{0:X2}", $HashBytes[$i]) | Out-Null
     }
 
-    Write-Output $pbHash, $pcbHash, $hex.ToString()
+    $obj = New-Object -TypeName psobject
+
+    $obj | Add-Member -MemberType NoteProperty -Name HashBytes -Value $HashBytes
+    $obj | Add-Member -MemberType NoteProperty -Name HashLength -Value $HashLength
+    $obj | Add-Member -MemberType NoteProperty -Name MemberTag -Value $MemberTag.ToString()
+    
+    Write-Output $obj
 }

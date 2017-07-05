@@ -409,6 +409,11 @@
         [Bool],                 # bool IsThreadPrivilege
         [Int32].MakeByRefType() # out bool PreviousValue
     ) -EntryPoint RtlAdjustPrivilege),
+
+    (func ntdll RtlInitUnicodeString ([void]) @(
+        $UNICODE_STRING.MakeByRefType(), #_Inout_  PUNICODE_STRING DestinationString
+        [string]                         #_In_opt_ PCWSTR          SourceString
+    ) -EntryPoint RtlInitUnicodeString),
     #endregion ntdll
     #region samlib
     (func samlib SamCloseHandle ([Int32]) @(

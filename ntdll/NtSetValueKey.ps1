@@ -5,7 +5,7 @@ function NtSetValueKey
 
     Creates or replaces a registry key's value entry.
 
-    .PARAMETER Handle
+    .PARAMETER KeyHandle
 
     Pointer to a registry key HANDLE where the value will be written.
 

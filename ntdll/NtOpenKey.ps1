@@ -59,10 +59,10 @@ function NtOpenKey
     $kName.Buffer = [System.Runtime.InteropServices.Marshal]::StringToCoTaskMemUni($KeyName)
 
     switch($DesiredAccess) {
-        KeyRead      { $DesiredAccess = $KEY_ACCESS::KEY_READ }
-        KeyWrite     { $DesiredAccess = $KEY_ACCESS::KEY_WRITE }
-        KeyExecute   { $DesiredAccess = $KEY_ACCESS::KEY_EXECUTE }
-        KeyAllAccess { $DesiredAccess = $KEY_ACCESS::KEY_ALL_ACCESS }
+        KeyRead      { $DesiredAccessMask = $KEY_ACCESS::KEY_READ }
+        KeyWrite     { $DesiredAccessMask = $KEY_ACCESS::KEY_WRITE }
+        KeyExecute   { $DesiredAccessMask = $KEY_ACCESS::KEY_EXECUTE }
+        KeyAllAccess { $DesiredAccessMask = $KEY_ACCESS::KEY_ALL_ACCESS }
     }
     # InitializeObjectAttributes clone
     $objectAttribute                = [Activator]::CreateInstance($OBJECT_ATTRIBUTES)
@@ -76,7 +76,7 @@ function NtOpenKey
     $objectAttribute.SecurityDescriptor = [IntPtr]::Zero
     $objectAttribute.SecurityQualityOfService = [IntPtr]::Zero
 
-    $Success = $ntdll::NtOpenKey([ref]$KeyHandle, $DesiredAccess, [ref]$objectAttribute)
+    $Success = $ntdll::NtOpenKey([ref]$KeyHandle, $DesiredAccessMask, [ref]$objectAttribute)
 
     if(-not $Success) 
     {

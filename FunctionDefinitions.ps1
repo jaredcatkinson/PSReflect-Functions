@@ -371,6 +371,24 @@
         [IntPtr],                       #_In_ HANDLE KeyHandle,
         $UNICODE_STRING.MakeByRefType() #_In_ PUNICODE_STRING ValueName
     ) -EntryPoint NtDeleteValueKey),
+
+    (func ntdll NtEnumerateKey ([UInt32]) @(
+        [IntPtr],                           #_In_      HANDLE                KeyHandle,
+        [UInt32],                           #_In_      ULONG                 Index,
+        $KEY_INFORMATION_CLASS,             #_In_      KEY_INFORMATION_CLASS KeyInformationClass,
+        [IntPtr],                           #_Out_opt_ PVOID                 KeyInformation,
+        [UInt32],                           #_In_      ULONG                 Length,
+        [UInt32].MakeByRefType()            #_Out_     PULONG                ResultLength
+    ) -EntryPoint NtEnumerateKey),
+
+    (func ntdll NtEnumerateValueKey ([UInt32]) @(
+        [IntPtr],                           #_In_      HANDLE                KeyHandle,
+        [UInt32],                           #_In_      ULONG                 Index,
+        $KEY_VALUE_INFORMATION_CLASS,       #_In_      KEY_INFORMATION_CLASS KeyValueInformationClass,
+        [IntPtr],                           #_Out_opt_ PVOID                 KeyValueInformation,
+        [UInt32],                           #_In_      ULONG                 Length,
+        [UInt32].MakeByRefType()            #_Out_     PULONG                ResultLength
+    ) -EntryPoint NtEnumerateValueKey),
     
     (func ntdll NtOpenFile ([UInt32]) @(
         [IntPtr].MakeByRefType(),           #_Out_ PHANDLE            FileHandle
@@ -382,10 +400,27 @@
     ) -EntryPoint NtOpenFile),
     
     (func ntdll NtOpenKey ([UInt32]) @(
-        [IntPtr],                          #_Out_ PHANDLE KeyHandle,
-        [Int32],                           #_In_  ACCESS_MASK        DesiredAccess,
-        $OBJECT_ATTRIBUTES.MakeByRefType() # _In_  POBJECT_ATTRIBUTES ObjectAttributes
+        [IntPtr].MakeByRefType(),           #_Out_ PHANDLE KeyHandle,
+        [Int32],                            #_In_  ACCESS_MASK        DesiredAccess,
+        $OBJECT_ATTRIBUTES.MakeByRefType()  #_In_  POBJECT_ATTRIBUTES ObjectAttributes
     ) -EntryPoint NtOpenKey),
+
+    (func ntdll NtQueryKey ([UInt32]) @(
+        [IntPtr],                           #_In_      HANDLE                KeyHandle,
+        $KEY_INFORMATION_CLASS,             #_In_      KEY_INFORMATION_CLASS KeyInformationClass,
+        [IntPtr],                           #_Out_opt_ PVOID                 KeyInformation,
+        [UInt32],                           #_In_      ULONG                 Length,
+        [UInt32].MakeByRefType()            #_Out_     PULONG                ResultLength
+    ) -EntryPoint NtQueryKey),
+
+    (func ntdll NtQueryValueKey ([UInt32]) @(
+        [IntPtr],                           #_In_      HANDLE                      KeyHandle,
+        $UNICODE_STRING.MakeByRefType(),    #_In_      PUNICODE_STRING             ValueName,
+        $KEY_VALUE_INFORMATION_CLASS,       #_In_      KEY_VALUE_INFORMATION_CLASS KeyValueInformationClass,
+        [IntPtr],                           #_Out_opt_ PVOID                       KeyValueInformation,
+        [UInt32],                           #_In_      ULONG                       Length,
+        [UInt32].MakeByRefType()            #_Out_     PULONG                      ResultLength
+    ) -EntryPoint NtQueryValueKey),
     
     (func ntdll NtQueryInformationThread ([Int32]) @(
         [IntPtr], #_In_      HANDLE          ThreadHandle,

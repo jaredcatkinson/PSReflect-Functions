@@ -62,10 +62,10 @@
     $kName.Buffer = [System.Runtime.InteropServices.Marshal]::StringToCoTaskMemUni($KeyName)
 
     switch($DesiredAccess) {
-        KeyRead      { $DesiredAccess = $KEY_ACCESS::KEY_READ }
-        KeyWrite     { $DesiredAccess = $KEY_ACCESS::KEY_WRITE }
-        KeyExecute   { $DesiredAccess = $KEY_ACCESS::KEY_EXECUTE }
-        KeyAllAccess { $DesiredAccess = $KEY_ACCESS::KEY_ALL_ACCESS }
+        KeyRead      { $DesiredAccessMask = $KEY_ACCESS::KEY_READ }
+        KeyWrite     { $DesiredAccessMask = $KEY_ACCESS::KEY_WRITE }
+        KeyExecute   { $DesiredAccessMask = $KEY_ACCESS::KEY_EXECUTE }
+        KeyAllAccess { $DesiredAccessMask = $KEY_ACCESS::KEY_ALL_ACCESS }
     }
     # InitializeObjectAttributes clone
     $objectAttribute                = [Activator]::CreateInstance($OBJECT_ATTRIBUTES)
@@ -86,7 +86,7 @@
     $CreateOptions = $REG_OPTION::REG_OPTION_NON_VOLATILE
     $Disposition = [IntPtr]::Zero
 
-    $Success = $ntdll::NtCreateKey([ref]$KeyHandle, $DesiredAccess, [ref]$objectAttribute, $TitleIndex, [ref]$Class, $CreateOptions, $Disposition)
+    $Success = $ntdll::NtCreateKey([ref]$KeyHandle, $DesiredAccessMask, [ref]$objectAttribute, $TitleIndex, [ref]$Class, $CreateOptions, $Disposition)
 
     if(-not $Success) 
     {

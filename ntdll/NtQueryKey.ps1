@@ -83,7 +83,7 @@ function NtQueryKey
             KeyNameInformation
             {
                 $KeyNameInformation = $KeyInfoPtr -as $KEY_NAME_INFORMATION
-                Write-Output $KeyFullInformation           
+                Write-Output $KeyNameInformation           
             }
         }
     }

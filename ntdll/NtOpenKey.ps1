@@ -53,10 +53,7 @@ function NtOpenKey
     #$KeyName = "\Registry\Machine\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 
     # Create a UNICODE_STRING for the key name, should be a fully qualified object name
-    $kName = [Activator]::CreateInstance($UNICODE_STRING)
-    $kName.Length = $KeyName.Length * 2
-    $kName.MaximumLength = $KeyName.Length * 2
-    $kName.Buffer = [System.Runtime.InteropServices.Marshal]::StringToCoTaskMemUni($KeyName)
+    $kName = RtlInitUnicodeString -SourceString $KeyName
 
     switch($DesiredAccess) {
         KeyRead      { $DesiredAccessMask = $KEY_ACCESS::KEY_READ }

@@ -21,7 +21,7 @@ function NtEnumerateValueKey
 
     Author: Jared Atkinson (@jaredcatkinson), Brian Reitz (@brian_psu)
     License: BSD 3-Clause
-    Required Dependencies: PSReflect, KEY_INFORMATION_CLASS (Enumeration), KEY_BASIC_INFORMATION, KEY_FULL_INFORMATION, KEY_NODE_INFORMATION, KEY_NAME_INFORMATION (Structures)
+    Required Dependencies: PSReflect, KEY_VALUE_INFORMATION_CLASS (Enumeration), KEY_VALUE_BASIC_INFORMATION, KEY_VALUE_FULL_INFORMATION, KEY_VALUE_PARTIAL_INFORMATION (Structures)
     Optional Dependencies: None
 
     (func ntdll NtEnumerateValueKey ([UInt32]) @(

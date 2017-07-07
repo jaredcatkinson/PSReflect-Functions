@@ -1,0 +1,26 @@
+﻿$SECPKG_FLAG = psenum $Module SECPKG_FLAG UInt32 @{
+    INTEGRITY                = 0x1
+    PRIVACY                  = 0x2
+    TOKEN_ONLY               = 0x4
+    DATAGRAM                 = 0x8
+    CONNECTION               = 0x10
+    MULTI_REQUIRED           = 0x20
+    CLIENT_ONLY              = 0x40
+    EXTENDED_ERROR           = 0x80
+    IMPERSONATION            = 0x100
+    ACCEPT_WIN32_NAME        = 0x200
+    STREAM                   = 0x400
+    NEGOTIABLE               = 0X800
+    GSS_COMPATIBLE           = 0x1000
+    LOGON                    = 0x2000
+    ASCII_BUFFERS            = 0x4000
+    FRAGMENT                 = 0x8000
+    MUTUAL_AUTH              = 0x10000
+    DELEGATION               = 0x20000
+    READONLY_WITH_CHECKSUM   = 0x40000
+    RESTRICTED_TOKENS        = 0x80000
+    NEGO_EXTENDER            = 0x00100000
+    NEGOTIABLE2              = 0x00200000
+    APPCONTAINER_PASSTHROUGH = 0x00400000
+    APPCONTAINER_CHECKS      = 0x00800000
+} -Bitfield

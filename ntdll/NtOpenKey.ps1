@@ -1,13 +1,13 @@
-﻿function NtCreateKey
+function NtOpenKey
 {
     <#
     .SYNOPSIS
 
-    Creates a new registry key or opens an existing one. Once the driver has finished its manipulations, it must call NtClose to close the handle.
+    Opens an existing registry key. Once the driver has finished its manipulations, it must call NtClose to close the handle.
 
     .PARAMETER KeyName
 
-    Specifies the full path of the registry key to be created, beginning with \Registry. Passed as the object name to an OBJECT_ATTRIBUTES structure.
+    Specifies the full path of the registry key to be opened, beginning with \Registry. Passed as the object name to an OBJECT_ATTRIBUTES structure.
 
     .PARAMETER DesiredAccess
 
@@ -17,25 +17,22 @@
 
     Author: Jared Atkinson (@jaredcatkinson), Brian Reitz (@brian_psu)
     License: BSD 3-Clause
-    Required Dependencies: PSReflect, KEY_ACCESS (Enumeration), OBJECT_ATTRIBUTES (Enumeration), UNICODE_STRING (Enumeration)
+    Required Dependencies: PSReflect, KEY_ACCESS (Enumeration), OBJECT_ATTRIBUTES (Enumeration)
     Optional Dependencies: None
 
-    (func ntdll NtCreateKey ([UInt32]) @(
-        [IntPtr].MakeByRefType(),               #_Out_      PHANDLE      KeyHandle,
-        [Int32],                                #_In_       ACCESS_MASK  DesiredAccess,
-        $OBJECT_ATTRIBUTES.MakeByRefType(),     #_In_       POBJECT_ATTRIBUTES ObjectAttributes,
-        [Int32],                                #_Reserved_ ULONG              TitleIndex,
-        $UNICODE_STRING.MakeByRefType(),        #_In_opt_   PUNICODE_STRING    Class,
-        [Int32],                                #_In_       ULONG           CreateOptions,
-        [IntPtr]                                #_Out_opt_  PULONG          Disposition
-    ) -EntryPoint NtCreateKey),
+    (func ntdll NtOpenKey ([UInt32]) @(
+        [IntPtr].MakeByRefType(),           #_Out_ PHANDLE KeyHandle,
+        [Int32],                            #_In_  ACCESS_MASK        DesiredAccess,
+        $OBJECT_ATTRIBUTES.MakeByRefType()  #_In_  POBJECT_ATTRIBUTES ObjectAttributes
+    ) -EntryPoint NtOpenKey),
+
     .LINK
 
-    https://msdn.microsoft.com/en-us/library/windows/hardware/ff566425(v=vs.85).aspx
+    https://msdn.microsoft.com/en-us/library/windows/hardware/ff567014(v=vs.85).aspx
 
     .EXAMPLE
     
-    $MyKeyHandle = NtCreateKey -KeyName "\Registry\Machine\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+    $MyKeyHandle = NtOpenKey -KeyName "\Registry\Machine\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
     NtClose -KeyHandle $MyKeyHandle
 
     #>
@@ -76,18 +73,11 @@
     $objectAttribute.SecurityDescriptor = [IntPtr]::Zero
     $objectAttribute.SecurityQualityOfService = [IntPtr]::Zero
 
-    $TitleIndex = 0 # this is always set to 0 according to MSDN
-    # "This parameter is reserved. Device and intermediate drivers should set this parameter to zero."
-
-    $Class = [Activator]::CreateInstance($UNICODE_STRING)
-    $CreateOptions = $REG_OPTION::REG_OPTION_NON_VOLATILE
-    $Disposition = [IntPtr]::Zero
-
-    $Success = $ntdll::NtCreateKey([ref]$KeyHandle, $DesiredAccessMask, [ref]$objectAttribute, $TitleIndex, [ref]$Class, $CreateOptions, $Disposition)
+    $Success = $ntdll::NtOpenKey([ref]$KeyHandle, $DesiredAccessMask, [ref]$objectAttribute)
 
     if(-not $Success) 
     {
-        Write-Debug "NtCreateKey Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
+        Write-Debug "NtOpenKey Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
     Write-Output $KeyHandle
 

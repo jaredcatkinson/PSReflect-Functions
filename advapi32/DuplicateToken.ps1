@@ -46,14 +46,15 @@
         [IntPtr]
         $TokenHandle,
 
-        [Parameter(Mandatory = $true)]
-        [UInt32]
-        $ImpersonationLevel = $SECURITY_IMPERSONATION_LEVEL::SecurityImpersonation
+        [Parameter()]
+        [ValidateSet('None','SecurityAnonymous','SecurityIdentification','SecurityImpersonation','SecurityDelegation')]
+        [string]
+        $ImpersonationLevel = 'SecurityImpersonation'
     )
 
     $DuplicateTokenHandle = [IntPtr]::Zero
 
-    $success = $Advapi32::DuplicateToken($TokenHandle, $ImpersonationLevel, [ref]$DuplicateTokenHandle); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $success = $Advapi32::DuplicateToken($TokenHandle, $SECURITY_IMPERSONATION_LEVEL::$ImpersonationLevel, [ref]$DuplicateTokenHandle); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
     
     if(-not $success)
     {

@@ -171,6 +171,7 @@ FunctionsToExport = @(
     'ZwSetEaFile',
     'Get-ArpCache',
     'Get-DigitalSignature',
+    'Get-LogonSession',
     'Get-SecurityPackage',
     'Get-System'
 )

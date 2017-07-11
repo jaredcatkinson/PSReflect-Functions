@@ -48,5 +48,10 @@
         throw "LsaEnumerateLogonSessions Error: $($LastError.Message)"
     }
 
-    return $LogonSessionCount, $LogonSessionList
+    $obj = New-Object -TypeName psobject
+
+    $obj | Add-Member -MemberType NoteProperty -Name SessionCount -Value $LogonSessionCount
+    $obj | Add-Member -MemberType NoteProperty -Name SessionListPointer -Value $LogonSessionList
+    
+    Write-Output $obj
 }

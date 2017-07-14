@@ -131,7 +131,25 @@
         [IntPtr],                  #_In_    HANDLE    hThread
         $CONTEXT64.MakeByRefType() #_Inout_ LPCONTEXT lpContext
     ) -EntryPoint GetThreadContext -SetLastError),
-    
+
+    (func kernel32 GlobalAddAtom ([UInt16]) @(
+        [IntPtr] #_In_ LPCTSTR lpString
+    ) -EntryPoint GlobalAddAtom -SetLastError),
+
+    (func kernel32 GlobalDeleteAtom ([UInt16]) @(
+        [UInt16] #_In_ ATOM nAtom
+    ) -EntryPoint GlobalDeleteAtom -SetLastError),
+
+    (func kernel32 GlobalFindAtom ([UInt16]) @(
+        [IntPtr] #_In_ LPCTSTR lpString
+    ) -EntryPoint GlobalFindAtom -SetLastError),
+
+    (func kernel32 GlobalGetAtomName ([UInt32]) @(
+        [UInt16], #_In_  ATOM   nAtom
+        [IntPtr], #_Out_ LPTSTR lpBuffer
+        [UInt32]  #_In_  int    nSize
+    ) -EntryPoint GlobalGetAtomName -SetLastError),
+        
     (func kernel32 LoadLibrary ([IntPtr]) @(
         [string] #_In_ LPCTSTR lpFileName
     ) -EntryPoint LoadLibrary -SetLastError),

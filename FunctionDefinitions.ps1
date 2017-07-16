@@ -478,6 +478,10 @@
         [Bool],                 # bool IsThreadPrivilege
         [Int32].MakeByRefType() # out bool PreviousValue
     ) -EntryPoint RtlAdjustPrivilege),
+
+    (func ntdll RtlGetFunctionTableListHead ([IntPtr]) @(
+
+    ) -EntryPoint RtlGetFunctionTableListHead),
     
     (func ntdll RtlInitUnicodeString ([void]) @(
         $UNICODE_STRING.MakeByRefType(), #_Inout_  PUNICODE_STRING DestinationString

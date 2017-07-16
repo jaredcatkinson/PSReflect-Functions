@@ -149,6 +149,7 @@ FunctionsToExport = @(
     'ResumeThread',
     'RevertToSelf',
     'RtlAdjustPrivilege',
+    'RtlGetFunctionTableListHead',
     'RtlInitUnicodeString',
     'SamCloseHandle',
     'SamConnect',

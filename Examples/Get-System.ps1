@@ -38,7 +38,7 @@ function Get-System
     CloseHandle -Handle $hToken
     CloseHandle -Handle $hDupToken
 
-    if(-not [System.Security.Principal.WindowsIdentity]::GetCurrent().Name -eq 'NT AUTHORITY\SYSTEM')
+    if([System.Security.Principal.WindowsIdentity]::GetCurrent().Name -ne 'NT AUTHORITY\SYSTEM')
     {
         throw "Unable to Impersonate System Token"
     }

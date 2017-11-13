@@ -1,4 +1,4 @@
-﻿$OBJECT_INFORMATION_CLASS = psenum $Module OBJECT_INFORMATION_CLASS @{
+﻿$OBJECT_INFORMATION_CLASS = psenum $Module OBJECT_INFORMATION_CLASS UInt32 @{
     ObjectBasicInformation         = 0x0
     ObjectNameInformation          = 0x1
     ObjectTypeInformation          = 0x2

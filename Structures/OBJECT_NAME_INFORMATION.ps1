@@ -1,0 +1,3 @@
+﻿$OBJECT_NAME_INFORMATION = struct $Module OBJECT_NAME_INFORMATION @{
+   Name = field 0 $UNICODE_STRING
+}

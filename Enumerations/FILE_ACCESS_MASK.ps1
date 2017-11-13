@@ -1,4 +1,4 @@
-﻿$FILE_ACCESS_MASK = psenum $Module FILE_ACCESS_MASK @{
+﻿$FILE_ACCESS_MASK = psenum $Module FILE_ACCESS_MASK UInt32 @{
     FILE_READ_DATA        = 0x1
     FILE_WRITE_DATA       = 0x2
     FILE_APPEND_DATA      = 0x4

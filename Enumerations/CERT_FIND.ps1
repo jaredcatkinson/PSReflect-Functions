@@ -1,0 +1,25 @@
+﻿$CERT_FIND = psenum $Module CERT_FIND UInt32 @{
+    ANY            = 0
+    CERT_ID        = 1048576
+    CTL_USAGE      = 655360
+    ENHKEY_USAGE   = 655360
+    EXISTING       = 851968
+    HASH           = 65536
+    ISSUER_ATTR    = 196612
+    ISSUER_NAME    = 131076
+    ISSUER_OF      = 786432
+    KEY_IDENTIFIER = 983040
+    KEY_SPEC       = 589824
+    MD5_HASH       = 262144
+    PROPERTY       = 327680
+    PUBLIC_KEY     = 393216
+    SHA1_HASH      = 65536
+    SIGNATURE_HASH = 917504
+    SUBJECT_ATTR   = 196615
+    SUBJECT_CERT   = 720896
+    SUBJECT_NAME   = 131079
+    SUBJECT_STR_A  = 458759
+    SUBJECT_STR_W  = 524295
+    ISSUER_STR_A   = 458756
+    ISSUER_STR_W   = 524292
+}

@@ -91,6 +91,7 @@ FunctionsToExport = @(
     'DsGetSiteName',
     'DuplicateToken',
     'EnumerateSecurityPackages',
+    'EnumMonitors',
     'FreeContextBuffer',
     'GetCurrentProcess',
     'GetIpNetTable',

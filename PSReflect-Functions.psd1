@@ -103,6 +103,7 @@ FunctionsToExport = @(
     'GlobalFindAtom',
     'GlobalGetAtomName',
     'ImpersonateLoggedOnUser',
+    'K32GetMappedFileName',
     'LoadLibrary',
     'LogonUser',
     'LsaCallAuthenticationPackage',

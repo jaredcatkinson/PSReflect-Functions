@@ -50,6 +50,21 @@
         [IntPtr].MakeByRefType()    # _Out_    PHANDLE phToken
     ) -EntryPoint LogonUser -SetLastError),
 
+    (func advapi32 LookupPrivilegeDisplayName ([bool]) @(
+        [string],                    #_In_opt_  LPCTSTR lpSystemName,
+        [string],                    #_In_      LPCTSTR lpName,
+        [System.Text.StringBuilder], #_Out_opt_ LPTSTR  lpDisplayName,
+        [UInt32].MakeByRefType(),    #_Inout_   LPDWORD cchDisplayName,
+        [UInt32].MakeByRefType()     #_Out_     LPDWORD lpLanguageId
+    ) -SetLastError),
+
+    (func advapi32 LookupPrivilegeName ([bool]) @(
+        [string],                    #_In_opt_  LPCTSTR lpSystemName
+        [IntPtr],                    #_In_      PLUID   lpLuid
+        [sYstem.Text.StringBuilder], #_Out_opt_ LPTSTR  lpName
+        [UInt32].MakeByRefType()     #_Inout_   LPDWORD cchName
+    ) -SetLastError),
+
     (func advapi32 LsaNtStatusToWinError ([UInt64]) @(
         [UInt32] #_In_ NTSTATUS Status
     ) -EntryPoint LsaNtStatusToWinError),
@@ -186,7 +201,14 @@
         [IntPtr], #_Out_ LPTSTR lpBuffer
         [UInt32]  #_In_  int    nSize
     ) -EntryPoint GlobalGetAtomName -SetLastError),
-        
+
+    (func kernel32 K32GetMappedFileName ([UInt32]) @(
+        [IntPtr], #_In_  HANDLE hProcess 
+        [IntPtr], #_In_  LPVOID lpv
+        [Byte[]], #_Out_ LPTSTR lpFilename
+        [UInt32]  #_In_  DWORD  nSize
+    ) -EntryPoint K32GetMappedFileName -SetLastError),
+            
     (func kernel32 LoadLibrary ([IntPtr]) @(
         [string] #_In_ LPCTSTR lpFileName
     ) -EntryPoint LoadLibrary -SetLastError),
@@ -442,6 +464,16 @@
         $UNICODE_STRING.MakeByRefType() #_In_ PUNICODE_STRING ValueName
     ) -EntryPoint NtDeleteValueKey),
 
+    (func ntdll NtDuplicateObject ([UInt32]) @(
+        [IntPtr],                 #_In_  HANDLE   hSourceProcessHandle
+        [IntPtr],                 #_In_  HANDLE   hSourceHandle
+        [IntPtr],                 #_In_  HANDLE   hTargetProcessHandle
+        [IntPtr].MakeByRefType(), #_Out_ LPHANDLE lpTargetHandle
+        [Int32],                  #_In_  DWORD    dwDesiredAccess
+        [Int32],                  #_In_  BOOL     bInheritHandle
+        [Int32]                   #_In_  DWORD    dwOptions
+    ) -EntryPoint NtDuplicateObject -SetLastError),
+
     (func ntdll NtEnumerateKey ([UInt32]) @(
         [IntPtr],                           #_In_      HANDLE                KeyHandle,
         [UInt32],                           #_In_      ULONG                 Index,
@@ -475,6 +507,34 @@
         $OBJECT_ATTRIBUTES.MakeByRefType()  #_In_  POBJECT_ATTRIBUTES ObjectAttributes
     ) -EntryPoint NtOpenKey),
 
+    (func ntdll NtQueryEaFile ([UInt32]) @(
+        [IntPtr],                         #_In_     HANDLE           FileHandle
+        $IO_STATUS_BLOCK.MakeByRefType(), #_Out_    PIO_STATUS_BLOCK IoStatusBlock
+        [IntPtr],                         #_Out_    PVOID            Buffer
+        [UInt32],                         #_In_     ULONG            Length
+        [bool],                           #_In_     BOOLEAN          ReturnSingleEntry
+        [IntPtr],                         #_In_opt_ PVOID            EaList
+        [UInt32],                         #_In_     ULONG            EaListLength
+        [IntPtr],                         #_In_opt_ PULONG           EaIndex
+        [bool]                            #_In_     BOOLEAN          RestartScan
+    ) -EntryPoint NtQueryEaFile),
+
+    (func ntdll NtQueryInformationFile ([UInt32]) @(
+        [IntPtr],                 #_In_  HANDLE                 FileHandle,
+        $IO_STATUS_BLOCK.MakeByRefType(), #_Out_ PIO_STATUS_BLOCK       IoStatusBlock,
+        [IntPtr],                 #_Out_ PVOID                  FileInformation,
+        [UInt32],                 #_In_  ULONG                  Length,
+        [UInt32]                  #_In_  FILE_INFORMATION_CLASS FileInformationClass
+    ) -EntryPoint NtQueryInformationFile),
+
+    (func ntdll NtQueryInformationThread ([Int32]) @(
+        [IntPtr], #_In_      HANDLE          ThreadHandle,
+        [Int32],  #_In_      THREADINFOCLASS ThreadInformationClass,
+        [IntPtr], #_Inout_   PVOID           ThreadInformation,
+        [Int32],  #_In_      ULONG           ThreadInformationLength,
+        [IntPtr]  #_Out_opt_ PULONG          ReturnLength
+    ) -EntryPoint NtQueryInformationThread),
+
     (func ntdll NtQueryKey ([UInt32]) @(
         [IntPtr],                           #_In_      HANDLE                KeyHandle,
         $KEY_INFORMATION_CLASS,             #_In_      KEY_INFORMATION_CLASS KeyInformationClass,
@@ -482,6 +542,14 @@
         [UInt32],                           #_In_      ULONG                 Length,
         [UInt32].MakeByRefType()            #_Out_     PULONG                ResultLength
     ) -EntryPoint NtQueryKey),
+
+    (func ntdll NtQueryObject ([UInt32]) @(
+        [IntPtr],                #_In_opt_  HANDLE                   Handle,
+        [UInt32],                #_In_      OBJECT_INFORMATION_CLASS ObjectInformationClass,
+        [IntPtr],                #_Out_opt_ PVOID                    ObjectInformation,
+        [UInt32],                #_In_      ULONG                    ObjectInformationLength,
+        [UInt32].MakeByRefType() #_Out_opt_ PULONG                   ReturnLength
+    ) -EntryPoint NtQueryObject),
 
     (func ntdll NtQueryValueKey ([UInt32]) @(
         [IntPtr],                           #_In_      HANDLE                      KeyHandle,
@@ -491,6 +559,13 @@
         [UInt32],                           #_In_      ULONG                       Length,
         [UInt32].MakeByRefType()            #_Out_     PULONG                      ResultLength
     ) -EntryPoint NtQueryValueKey),
+
+    (func ntdll NtSetEaFile ([UInt32]) @(
+        [IntPtr],                         #_In_  HANDLE           FileHandle
+        $IO_STATUS_BLOCK.MakeByRefType(), #_Out_ PIO_STATUS_BLOCK IoStatusBlock
+        [IntPtr],                         #_In_  PVOID            Buffer
+        [UInt32]                          #_In_  ULONG            Length
+    ) -EntryPoint NtSetEaFile),
     
     (func ntdll NtQueryInformationThread ([Int32]) @(
         [IntPtr], #_In_      HANDLE          ThreadHandle,
@@ -517,7 +592,7 @@
     ) -EntryPoint RtlAdjustPrivilege),
 
     (func ntdll RtlGetFunctionTableListHead ([IntPtr]) @(
-
+        # No parameters
     ) -EntryPoint RtlGetFunctionTableListHead),
     
     (func ntdll RtlInitUnicodeString ([void]) @(
@@ -615,20 +690,23 @@
         [UInt64].MakeByRefType()     #_Out_ PLSA_OPERATIONAL_MODE SecurityMode
     ) -EntryPoint LsaRegisterLogonProcess)
     #endregion secur32
+    #region winspool
+    (func winspool.drv EnumMonitors ([bool]) @(
+        [string],                 #_In_  LPTSTR  pName
+        [UInt32],                 #_In_  DWORD   Level
+        [IntPtr],                 #_Out_ LPBYTE  pMonitors
+        [UInt32],                 #_In_  DWORD   cbBuf
+        [UInt32].MakeByRefType(), #_Out_ LPDWORD pcbNeeded
+        [UInt32].MakeByRefType()  #_Out_ LPDWORD pcReturned
+    ) -EntryPoint EnumMonitors),
+    #endregion windpool
     #region wintrust
     (func wintrust CryptCATAdminAcquireContext ([bool]) @(
       [IntPtr].MakeByRefType(), #_Out_       HCATADMIN *phCatAdmin
       [Guid].MakeByRefType(),   #_In_  const GUID      *pgSubsystem
       [UInt32]                  #_In_        DWORD     dwFlags        
     ) -EntryPoint CryptCATAdminAcquireContext -SetLastError),
-
-    (func wintrust CryptCATAdminAddCatalog ([IntPtr]) @(
-        [IntPtr],               # _In_ HCATADMIN hCatAdmin,
-        [String],               # _In_ WCHAR     *pwszCatalogFile,
-        [IntPtr],               # _In_ WCHAR     *pwszSelectBaseName,
-        [UInt32]                # _In_ DWORD     dwFlags
-    ) -EntryPoint CryptCATAdminAddCatalog -SetLastError -Charset Unicode),
-
+    
     (func wintrust CryptCATAdminAcquireContext2 ([bool]) @(
       [IntPtr].MakeByRefType(), #_Out_            HCATADMIN               *phCatAdmin
       [Guid].MakeByRefType(),   #_In_       const GUID                    *pgSubsystem
@@ -636,6 +714,13 @@
       [IntPtr],                 #_In_opt_         PCCERT_STRONG_SIGN_PARA pStrongHashPolicy
       [UInt32]                  #_In_             DWORD                   dwFlags        
     ) -EntryPoint CryptCATAdminAcquireContext2 -SetLastError),
+
+    (func wintrust CryptCATAdminAddCatalog ([IntPtr]) @(
+        [IntPtr],               # _In_ HCATADMIN hCatAdmin,
+        [String],               # _In_ WCHAR     *pwszCatalogFile,
+        [IntPtr],               # _In_ WCHAR     *pwszSelectBaseName,
+        [UInt32]                # _In_ DWORD     dwFlags
+    ) -EntryPoint CryptCATAdminAddCatalog -SetLastError -Charset Unicode),
 
     (func wintrust CryptCATAdminCalcHashFromFileHandle ([bool]) @(
         [IntPtr],                 #_In_    HANDLE hFile
@@ -736,5 +821,6 @@ $netapi32 = $Types['netapi32']
 $ntdll    = $Types['ntdll']
 $samlib   = $Types['samlib']
 $secur32  = $Types['secur32']
+$winspool = $types['winspool.drv']
 $wintrust = $Types['wintrust']
 $wtsapi32 = $Types['wtsapi32']

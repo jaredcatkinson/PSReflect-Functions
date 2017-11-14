@@ -10,16 +10,12 @@
     A string that specifies the name of the server on which the monitors reside. If this parameter is NULL, the local monitors are enumerated.
 
     .NOTES
-
-    BOOL EnumMonitors(
-      _In_  LPTSTR  pName,
-      _In_  DWORD   Level,
-      _Out_ LPBYTE  pMonitors,
-      _In_  DWORD   cbBuf,
-      _Out_ LPDWORD pcbNeeded,
-      _Out_ LPDWORD pcReturned
-    );
     
+    Author: Jared Atkinson (@jaredcatkinson)
+    License: BSD 3-Clause
+    Required Dependencies: PSReflect, MONITOR_INFO_2 (Structure)
+    Optional Dependencies: None
+
     (func winspool.drv EnumMonitors ([bool]) @(
         [string],                 #_In_  LPTSTR  pName
         [UInt32],                 #_In_  DWORD   Level
@@ -32,6 +28,17 @@
     .LINK
 
     .EXAMPLE
+    
+    EnumMonitors
+
+    pName                                   pEnvironment pDLLName    
+    -----                                   ------------ --------    
+    WSD Port                                Windows x64  WSDMon.dll  
+    ThinPrint Print Port Monitor for VMWare Windows x64  TPVMMon.dll 
+    Standard TCP/IP Port                    Windows x64  tcpmon.dll  
+    Local Port                              Windows x64  localspl.dll
+    IppMon                                  Windows x64  IPPMon.dll  
+    Appmon                                  Windows x64  AppMon.dll
     #>
 
     param
@@ -56,7 +63,6 @@
         {
             $currentPtr = $pMonitors
 
-            $pcReturned
             for($i = 0; $i -lt $pcReturned; $i++)
             {
                 $currentPtr -as $MONITOR_INFO_2

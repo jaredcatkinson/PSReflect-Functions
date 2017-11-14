@@ -56,14 +56,14 @@
         [System.Text.StringBuilder], #_Out_opt_ LPTSTR  lpDisplayName,
         [UInt32].MakeByRefType(),    #_Inout_   LPDWORD cchDisplayName,
         [UInt32].MakeByRefType()     #_Out_     LPDWORD lpLanguageId
-    ) -SetLastError),
+    ) -EntryPoint LookupPrivilegeDisplayName -SetLastError),
 
     (func advapi32 LookupPrivilegeName ([bool]) @(
         [string],                    #_In_opt_  LPCTSTR lpSystemName
         [IntPtr],                    #_In_      PLUID   lpLuid
         [sYstem.Text.StringBuilder], #_Out_opt_ LPTSTR  lpName
         [UInt32].MakeByRefType()     #_Inout_   LPDWORD cchName
-    ) -SetLastError),
+    ) -EntryPoint LookupPrivilegeName -SetLastError),
 
     (func advapi32 LsaNtStatusToWinError ([UInt64]) @(
         [UInt32] #_In_ NTSTATUS Status

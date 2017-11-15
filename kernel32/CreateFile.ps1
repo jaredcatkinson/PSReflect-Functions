@@ -40,26 +40,26 @@
         [string[]]
         $DesiredAccess,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [ValidateSet('NONE','READ','WRITE','DELETE')]
         [string[]]
-        $ShareMode,
+        $ShareMode = 'NONE',
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [IntPtr]
         $SecurityAttributes = [IntPtr]::Zero,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [ValidateSet('CREATE_NEW','CREATE_ALWAYS','OPEN_EXISTING','OPEN_ALWAYS','TRUNCATE_EXISTING')]
         [string]
-        $CreationDisposition,
+        $CreationDisposition = 'OPEN_EXISTING',
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [ValidateSet('NONE','FILE_ATTRIBUTE_READONLY','FILE_ATTRIBUTE_HIDDEN','FILE_ATTRIBUTE_SYSTEM','FILE_ATTRIBUTE_ARCHIVE','FILE_ATTRIBUTE_NORMAL','FILE_ATTRIBUTE_TEMPORARY','FILE_ATTRIBUTE_OFFLINE','FILE_ATTRIBUTE_ENCRYPTED','FILE_FLAG_OPEN_NO_RECALL','FILE_FLAG_POSIX_SEMANTICS','FILE_FLAG_OPEN_REPARSE_POINT','FILE_FLAG_SESSION_AWARE','FILE_FLAG_BACKUP_SEMANTICS','FILE_FLAG_DELETE_ON_CLOSE','FILE_FLAG_SEQUENTIAL_SCAN','FILE_FLAG_RANDOM_ACCESS','FILE_FLAG_NO_BUFFERING','FILE_FLAG_OVERLAPPED','FILE_FLAG_WRITE_THROUGH')]
         [string[]]
-        $FlagsAndAttributes,
+        $FlagsAndAttributes = 'FILE_ATTRIBUTE_NORMAL',
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [IntPtr]
         $TemplateHandle = [IntPtr]::Zero
     )

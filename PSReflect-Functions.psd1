@@ -190,6 +190,7 @@ FunctionsToExport = @(
     'WTSFreeMemoryEx',
     'WTSOpenServerEx',
     'WTSQuerySessionInformation',
+    'WTSQueryUserToken',
     'Get-ArpCache',
     'Get-Atom',
     'Get-DigitalSignature',

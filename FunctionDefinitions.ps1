@@ -805,7 +805,12 @@
         [Int32]                  #_In_  WTS_INFO_CLASS WTSInfoClass
         [IntPtr].MakeByRefType() #_Out_ LPTSTR         *ppBuffer
         [Int32].MakeByRefType()  #_Out_ DWORD          *pBytesReturned
-    ) -EntryPoint WTSQuerySessionInformation -SetLastError)
+    ) -EntryPoint WTSQuerySessionInformation -SetLastError),
+
+    (func wtsapi32 WTSQueryUserToken ([bool]) @(
+      [UInt32],                #_In_  ULONG   SessionId
+      [IntPtr].MakeByRefType() #_Out_ PHANDLE phToken
+    ) -EntryPoint WTSQueryUserToken -SetLastError)
     #endregion wtsapi32
 )
 

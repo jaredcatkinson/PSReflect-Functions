@@ -278,7 +278,8 @@
                 $obj | Add-Member -MemberType NoteProperty -Name Sids -Value $SidList.ToArray()
                 $obj | Add-Member -MemberType NoteProperty -Name Privilegs -Value $PrivList.ToArray()
 
-                Write-Output $obj
+                #Write-Output $obj
+                Write-Output $GroupsAndPrivs
             }
             TokenSandBoxInert
             {

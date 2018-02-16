@@ -167,6 +167,15 @@
         [IntPtr]  #_In_opt_ HANDLE                hTemplateFile
     ) -EntryPoint CreateFile -SetLastError),
     
+    (func kernel32 CreateThread ([IntPtr]) @(
+        [UInt32],                #_In_opt_  LPSECURITY_ATTRIBUTES  lpThreadAttributes
+        [UInt32],                #_In_      SIZE_T                 dwStackSize
+        [IntPtr],                #_In_      LPTHREAD_START_ROUTINE lpStartAddress
+        [IntPtr],                #_In_opt_  LPVOID                 lpParameter
+        [UInt32],                #_In_      DWORD                  dwCreationFlags
+        [UInt32]                 #_Out_opt_ LPDWORD                lpThreadId
+    ) -EntryPoint CreateThread -SetLastError),
+
     (func kernel32 CreateToolhelp32Snapshot ([IntPtr]) @(
         [UInt32], #_In_ DWORD dwFlags,
         [UInt32]  #_In_ DWORD th32ProcessID
@@ -183,6 +192,10 @@
         [IntPtr],                  #_In_    HANDLE    hThread
         $CONTEXT64.MakeByRefType() #_Inout_ LPCONTEXT lpContext
     ) -EntryPoint GetThreadContext -SetLastError),
+
+    (func kernel32 GetThreadId ([UInt32]) @(
+        [IntPtr] #_In_ HANDLE Thread
+    ) -EntryPoint GetThreadId -SetLastError),
 
     (func kernel32 GlobalAddAtom ([UInt16]) @(
         [IntPtr] #_In_ LPCTSTR lpString

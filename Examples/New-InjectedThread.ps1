@@ -1,4 +1,4 @@
-﻿function Test-InjectedThread
+﻿function New-InjectedThread
 {
     $proc = Get-Process -Id $PID
     $BaseAddress = VirtualAllocEx -ProcessHandle $proc.Handle -Size 0x1000 -AllocationType 0x3000 -Protect 0x40

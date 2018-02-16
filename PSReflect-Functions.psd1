@@ -199,6 +199,7 @@ FunctionsToExport = @(
     'Get-LogonSession',
     'Get-SecurityPackage',
     'Get-System',
+    'New-InjectedThread',
     'WinVerifyTrust-2'
 )
 

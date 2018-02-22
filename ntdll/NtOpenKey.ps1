@@ -24,7 +24,7 @@ function NtOpenKey
         [IntPtr].MakeByRefType(),           #_Out_ PHANDLE KeyHandle,
         [Int32],                            #_In_  ACCESS_MASK        DesiredAccess,
         $OBJECT_ATTRIBUTES.MakeByRefType()  #_In_  POBJECT_ATTRIBUTES ObjectAttributes
-    ) -EntryPoint NtOpenKey),
+    ) -EntryPoint NtOpenKey)
 
     .LINK
 

@@ -167,13 +167,23 @@
         [IntPtr]  #_In_opt_ HANDLE                hTemplateFile
     ) -EntryPoint CreateFile -SetLastError),
     
+    (func kernel32 CreateRemoteThread ([IntPtr]) @(
+        [IntPtr],                #_In_  HANDLE                 hProcess
+        [UInt32],                #_In_  LPSECURITY_ATTRIBUTES  lpThreadAttributes
+        [UInt32],                #_In_  SIZE_T                 dwStackSize
+        [IntPtr],                #_In_  LPTHREAD_START_ROUTINE lpStartAddress
+        [IntPtr],                #_In_  LPVOID                 lpParameter
+        [UInt32],                #_In_  DWORD                  dwCreationFlags
+        [UInt32].MakeByRefType() #_Out_ LPDWORD                lpThreadId
+    ) -EntryPoint CreateRemoteThread -SetLastError),
+
     (func kernel32 CreateThread ([IntPtr]) @(
         [UInt32],                #_In_opt_  LPSECURITY_ATTRIBUTES  lpThreadAttributes
         [UInt32],                #_In_      SIZE_T                 dwStackSize
         [IntPtr],                #_In_      LPTHREAD_START_ROUTINE lpStartAddress
         [IntPtr],                #_In_opt_  LPVOID                 lpParameter
         [UInt32],                #_In_      DWORD                  dwCreationFlags
-        [UInt32]                 #_Out_opt_ LPDWORD                lpThreadId
+        [UInt32].MakeByRefType() #_Out_opt_ LPDWORD                lpThreadId
     ) -EntryPoint CreateThread -SetLastError),
 
     (func kernel32 CreateToolhelp32Snapshot ([IntPtr]) @(

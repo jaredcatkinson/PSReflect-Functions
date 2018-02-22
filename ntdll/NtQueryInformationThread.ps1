@@ -23,7 +23,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: PSReflect, THREADINFOCLASS (Enumeration)
+    Required Dependencies: PSReflect, THREAD_INFORMATION_CLASS (Enumeration)
     Optional Dependencies: None
 
     (func ntdll NtQueryInformationThread ([Int32]) @(
@@ -55,7 +55,7 @@
     
     $buf = [System.Runtime.InteropServices.Marshal]::AllocHGlobal([IntPtr]::Size)
 
-    $Success = $Ntdll::NtQueryInformationThread($ThreadHandle, $THREAD_INFORMATION_CLASS::$ThreadInformationClass, $buf, [IntPtr]::Size, [IntPtr]::Zero); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $Success = $Ntdll::NtQueryInformationThread($ThreadHandle, $THREADINFOCLASS::$ThreadInformationClass, $buf, [IntPtr]::Size, [IntPtr]::Zero); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if(-not $Success) 
     {

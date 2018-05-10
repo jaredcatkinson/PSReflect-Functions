@@ -90,7 +90,7 @@
 
     $hFile = $kernel32::CreateFile($FileName, $dwDesiredAccess, $dwShareMode, $SecurityAttributes, $CREATION_DISPOSITION::$CreationDisposition, $dwFlagsAndAttributes, $TemplateHandle); $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
-    if($hFile -eq $null) 
+    if($hFile -eq -1)
     {
         throw "[CreateFile] Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }

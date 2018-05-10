@@ -129,6 +129,11 @@
         [IntPtr].MakeByRefType() # _Out_    AMSI_RESULT  *result
     ) -EntryPoint AmsiScanString -SetLastError),
     #endregion amsi
+    #region auditpolcore
+    (func auditpolcore AdtListCategories ([void]) @(
+
+    ) -EntryPoint AdtListCategories -SetLastError)
+    #endregion auditpolcore
     #region crypt32
     (func crypt32 CryptQueryObject ([bool]) @(
         [UInt32],                 #_In_        DWORD      dwObjectType,
@@ -166,6 +171,13 @@
         [UInt32], #_In_     DWORD                 dwFlagsAndAttributes
         [IntPtr]  #_In_opt_ HANDLE                hTemplateFile
     ) -EntryPoint CreateFile -SetLastError),
+
+    (func kernel32 CreatePipe ([bool]) @(
+        [IntPtr].MakeByRefType(), #_Out_    PHANDLE               hReadPipe,
+        [IntPtr].MakeByRefType(), #_Out_    PHANDLE               hWritePipe,
+        [IntPtr],                 #_In_opt_ LPSECURITY_ATTRIBUTES lpPipeAttributes,
+        [UInt32]                  #_In_     DWORD                 nSize
+    ) -EntryPoint CreatePipe -SetLastError),
     
     (func kernel32 CreateRemoteThread ([IntPtr]) @(
         [IntPtr],                #_In_  HANDLE                 hProcess
@@ -193,6 +205,26 @@
     
     (func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess),
     
+    (func kernel32 GetNamedPipeClientProcessId ([Bool]) @(
+        [IntPtr],                #_In_  HANDLE Pipe,
+        [UInt32].MakeByRefType() #_Out_ PULONG ClientProcessId
+    ) -EntryPoint GetNamedPipeClientProcessId -SetLastError),
+
+    (func kernel32 GetNamedPipeClientSessionId ([Bool]) @(
+        [IntPtr],                #_In_  HANDLE Pipe,
+        [UInt32].MakeByRefType() #_Out_ PULONG ClientSessionId
+    ) -EntryPoint GetNamedPipeClientSessionId -SetLastError),
+
+    (func kernel32 GetNamedPipeServerProcessId ([Bool]) @(
+        [IntPtr],                #_In_  HANDLE Pipe,
+        [UInt32].MakeByRefType() #_Out_ PULONG ServerProcessId
+    ) -EntryPoint GetNamedPipeServerProcessId -SetLastError),
+
+    (func kernel32 GetNamedPipeServerSessionId ([Bool]) @(
+        [IntPtr],                #_In_  HANDLE Pipe,
+        [UInt32].MakeByRefType() #_Out_ PULONG ServerSessionId
+    ) -EntryPoint GetNamedPipeServerSessionId -SetLastError),
+
     (func kernel32 GetProcAddress ([IntPtr]) @(
         [IntPtr], #_In_ HMODULE hModule
         [string]  #_In_ LPCSTR  lpProcName
@@ -841,6 +873,7 @@ $Types = $FunctionDefinitions | Add-Win32Type -Module $Module -Namespace PSRefle
 
 $advapi32 = $Types['advapi32']
 $amsi     = $Types['amsi']
+$auditpolcore = $Types['auditpolcore']
 $crypt32  = $Types['crypt32']
 $iphlpapi = $Types['iphlpapi']
 $kernel32 = $Types['kernel32']

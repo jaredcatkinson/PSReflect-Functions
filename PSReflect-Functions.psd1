@@ -70,6 +70,7 @@ Description = 'Provides Windows API functions as abstracted PowerShell functions
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
+    'AdtListCategories',
     'AmsiCloseSession',
     'AmsiInitialize',
     'AmsiOpenSession',
@@ -82,6 +83,7 @@ FunctionsToExport = @(
     'CloseServiceHandle',
     'ConvertSidToStringSid',
     'CreateFile',
+    'CreatePipe',
     'CreateRemoteThread',
     'CreateThread',
     'CreateToolhelp32Snapshot',
@@ -104,10 +106,15 @@ FunctionsToExport = @(
     'FreeContextBuffer',
     'GetCurrentProcess',
     'GetIpNetTable',
+    'GetNamedPipeClientProcessId',
+    'GetNamedPipeClientSessionId',
+    'GetNamedPipeServerProcessId',
+    'GetNamedPipeServerSessionId',
     'GetProcAddress',
     'GetThreadContext',
     'GetThreadId',
     'GetTokenInformation',
+    'GetVersionFromProcess',
     'GlobalAddAtom',
     'GlobalDeleteAtom',
     'GlobalFindAtom',

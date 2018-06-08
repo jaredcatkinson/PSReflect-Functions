@@ -23,11 +23,20 @@
         [IntPtr].MakeByRefType() #_Out_ LPTSTR *StringSid
     ) -EntryPoint ConvertSidToStringSid -SetLastError),
 
+    (func advapi32 ConvertStringSidToSid ([bool]) @(
+        [string],                #_In_  LPCTSTR StringSid,
+        [IntPtr].MakeByRefType() #_Out_ PSID    *Sid
+    ) -EntryPoint ConvertStringSidToSid -SetLastError),
+
     (func advapi32 DuplicateToken ([bool]) @(
         [IntPtr],                #_In_  HANDLE                       ExistingTokenHandle,
         [UInt32],                #_In_  SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
         [IntPtr].MakeByRefType() #_Out_ PHANDLE                      DuplicateTokenHandle
     ) -EntryPoint DuplicateToken -SetLastError),
+
+    (func advapi32 GetLengthSid ([UInt32]) @(
+        [IntPtr] #_In_ PSID pSid
+    ) -EntryPoint GetLengthSid),
 
     (func advapi32 GetTokenInformation ([bool]) @(
         [IntPtr],                #_In_      HANDLE                  TokenHandle
@@ -205,6 +214,12 @@
     
     (func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess),
     
+    (func kernel32 GetNamedPipeClientComputerName ([Bool]) @(
+        [IntPtr], #_In_  HANDLE Pipe,
+        [byte[]], #_Out_ LPTSTR ClientComputerName,
+        [UInt32]  #_In_  ULONG  ClientComputerNameLength
+    ) -EntryPoint GetNamedPipeClientComputerName -SetLastError),
+
     (func kernel32 GetNamedPipeClientProcessId ([Bool]) @(
         [IntPtr],                #_In_  HANDLE Pipe,
         [UInt32].MakeByRefType() #_Out_ PULONG ClientProcessId
@@ -279,7 +294,22 @@
         [bool],   #_In_ BOOL  bInheritHandle
         [UInt32]  #_In_ DWORD dwThreadId
     ) -EntryPoint OpenThread -SetLastError),
+
+    (func kernel32 PeekNamedPipe ([Bool]) @(
+        [IntPtr],                 #_In_      HANDLE  hNamedPipe
+        [byte[]],                 #_Out_opt_ LPVOID  lpBuffer
+        [UInt32],                 #_In_      DWORD   nBufferSize
+        [UInt32].MakeByRefType(), #_Out_opt_ LPDWORD lpBytesRead
+        [UInt32].MakeByRefType(), #_Out_opt_ LPDWORD lpTotalBytesAvail
+        [UInt32].MakeByRefType()  #_Out_opt_ LPDWORD lpBytesLeftThisMessage
+    ) -EntryPoint PeekNamedPipe -SetLastError),
     
+    (func kernel32 QueryDosDevice ([UInt32]) @(
+        [string],             #_In_opt_ LPCTSTR lpDeviceName
+        [Text.StringBuilder], #_Out_    LPTSTR  lpTargetPath
+        [UInt32]              #_In_     DWORD   ucchMax
+    ) -EntryPoint QueryDosDevice -SetLastError),
+
     (func kernel32 QueryFullProcessImageName ([bool]) @(
       [IntPtr],                    #_In_    HANDLE hProcess
       [UInt32],                    #_In_    DWORD  dwFlags,

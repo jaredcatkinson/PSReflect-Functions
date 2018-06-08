@@ -9,7 +9,7 @@
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: PSReflect
+    Required Dependencies: PSReflect, FILE_ACCESS (Enum), FILE_SHARE (Enum), FILE_FLAGS_AND_ATTRIBUTES (Enum), CREATION_DISPOSITION (Enum)
     Optional Dependencies: None
     
     (func kernel32 CreateFile ([IntPtr]) @(

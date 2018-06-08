@@ -12,7 +12,7 @@
 ModuleToProcess = 'PSReflect-Functions.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0'
+ModuleVersion = '1.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -82,6 +82,7 @@ FunctionsToExport = @(
     'CloseHandle',
     'CloseServiceHandle',
     'ConvertSidToStringSid',
+    'ConvertStringSidToSid',
     'CreateFile',
     'CreatePipe',
     'CreateRemoteThread',
@@ -106,6 +107,8 @@ FunctionsToExport = @(
     'FreeContextBuffer',
     'GetCurrentProcess',
     'GetIpNetTable',
+    'GetLengthSid',
+    'GetNamedPipeClientComputerName',
     'GetNamedPipeClientProcessId',
     'GetNamedPipeClientSessionId',
     'GetNamedPipeServerProcessId',
@@ -123,6 +126,7 @@ FunctionsToExport = @(
     'K32GetMappedFileName',
     'LoadLibrary',
     'LogonUser',
+    'LogonUser1',
     'LookupPrivilegeDisplayName',
     'LookupPrivilegeName',
     'LsaCallAuthenticationPackage',
@@ -172,6 +176,8 @@ FunctionsToExport = @(
     'OpenSCManagerW',
     'OpenThread',
     'OpenThreadToken',
+    'PeekNamedPipe',
+    'QueryDosDevice',
     'QueryFullProcessImageName',
     'ReadProcessMemory',
     'ResumeThread',
@@ -201,12 +207,14 @@ FunctionsToExport = @(
     'WTSOpenServerEx',
     'WTSQuerySessionInformation',
     'WTSQueryUserToken',
+    'Get-AccessToken',
     'Get-ArpCache',
     'Get-Atom',
     'Get-DigitalSignature',
     'Get-LogonSession',
     'Get-SecurityPackage',
     'Get-System',
+    'Make-Token',
     'New-InjectedThread',
     'WinVerifyTrust-2'
 )

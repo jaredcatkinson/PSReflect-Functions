@@ -73,7 +73,17 @@
                     SID_AND_ATTRIBUTES (Structure)
                 #>
                 $TokenUser = $TokenPtr -as $TOKEN_USER
-                ConvertSidToStringSid -SidPointer $TokenUser.User.Sid
+                $UserSid = ConvertSidToStringSid -SidPointer $TokenUser.User.Sid
+
+                $Sid = New-Object System.Security.Principal.SecurityIdentifier($UserSid)
+                $UserName = $Sid.Translate([System.Security.Principal.NTAccount])
+
+                $obj = New-Object -TypeName psobject
+
+                $obj | Add-Member -MemberType NoteProperty -Name Sid -Value $UserSid
+                $obj | Add-Member -MemberType NoteProperty -Name Name -Value $UserName
+
+                Write-Output $obj
             }
             TokenGroups
             {
@@ -126,7 +136,17 @@
     
                 if($TokenOwner.Owner -ne $null)
                 {
-                    Write-Output (ConvertSidToStringSid -SidPointer $TokenOwner.Owner)
+                    $OwnerSid = ConvertSidToStringSid -SidPointer $TokenOwner.Owner
+
+                    $Sid = New-Object System.Security.Principal.SecurityIdentifier($OwnerSid)
+                    $OwnerName = $Sid.Translate([System.Security.Principal.NTAccount])
+
+                    $obj = New-Object -TypeName psobject
+
+                    $obj | Add-Member -MemberType NoteProperty -Name Sid -Value $OwnerSid
+                    $obj | Add-Member -MemberType NoteProperty -Name Name -Value $OwnerName
+
+                    Write-Output $obj
                 }
                 else
                 {
@@ -296,7 +316,7 @@
                     LUID (Structure)
                 #>
                 $TokenOrigin = $TokenPtr -as $LUID
-                Write-Output (Get-LogonSession -LogonId $TokenOrigin.LowPart)
+                Write-Output $TokenOrigin.LowPart
             }
             TokenElevationType
             {
@@ -570,6 +590,6 @@
     }
     else
     {
-        Write-Debug "GetTokenInformation Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
+        Write-Debug "[GetTokenInformation] Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }        
 }

@@ -1,0 +1,5 @@
+﻿$LOGON32_PROVIDER = psenum $Module LOGON32_PROVIDER UInt32 @{
+    DEFAULT = 0
+    WINNT40 = 2
+    WINNT50 = 3
+}

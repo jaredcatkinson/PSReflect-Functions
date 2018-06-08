@@ -50,7 +50,7 @@
 
     if(-not $Success) 
     {
-        Write-Debug "VirtualQueryEx Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
+        throw "VirtualQueryEx Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
     
     Write-Output $memory_basic_info

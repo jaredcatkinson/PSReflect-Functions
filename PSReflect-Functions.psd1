@@ -213,6 +213,7 @@ FunctionsToExport = @(
     'Get-DigitalSignature',
     'Get-LogonSession',
     'Get-SecurityPackage',
+    'Get-StructureOffset'
     'Get-System',
     'Make-Token',
     'New-InjectedThread',

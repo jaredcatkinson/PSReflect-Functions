@@ -88,6 +88,7 @@ FunctionsToExport = @(
     'CreateRemoteThread',
     'CreateThread',
     'CreateToolhelp32Snapshot',
+    'CreateSymbolicLink',
     'CryptCATAdminAcquireContext',
     'CryptCATAdminAcquireContext2',
     'CryptCATAdminAddCatalog',

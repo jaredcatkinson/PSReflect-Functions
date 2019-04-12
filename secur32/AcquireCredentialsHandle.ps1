@@ -19,11 +19,27 @@ function AcquireCredentialsHandle
     The buffer values must be allocated in process virtual memory, not from the pool.
     When you have finished using the returned credentials, free the memory used by the credentials by calling the FreeCredentialsHandle function.
 
+    .PARAMETER Package
+
+    Specifies the name of the security package with which these credentials will be used. This is a security package name returned in the Name member of a SecPkgInfo structure returned by the EnumerateSecurityPackages function. After a context is established, QueryContextAttributes (General) can be called with ulAttribute set to SECPKG_ATTR_PACKAGE_INFO to return information on the security package in use.
+
+    When using the Digest SSP, set this parameter to WDIGEST_SP_NAME.
+
+    When using the Schannel SSP, set this parameter to UNISP_NAME.
+
+    .PARAMETER CredentialUse
+
+    A flag that indicates how these credentials will be used. This parameter can be one of the following values.
+
+    .PARAMETER LogonId
+
+    The Id of the Logon Session to query information from.
+    
     .NOTES
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: FreeCredentialsHandle (function), LUID (Structure), SECPKG_CRED (Enumeration)
+    Required Dependencies: LUID (Structure), SECURITY_HANDLE (Structure), SECURITY_INTEGER (Structure), SECPKG_CRED (Enumeration)
     Optional Dependencies: None
 
     (func secur32 AcquireCredentialsHandle ([UInt32]) @(
@@ -74,7 +90,6 @@ function AcquireCredentialsHandle
     {
         $WinErrorCode = LsaNtStatusToWinError -NtStatus $SUCCESS
         $LastError = [ComponentModel.Win32Exception]$WinErrorCode
-        $LastError
         throw "AcquireCredentialsHandle Error: $($LastError)"
     }
 

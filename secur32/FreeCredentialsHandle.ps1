@@ -7,11 +7,15 @@ function FreeCredentialsHandle
 
     Failure to free credentials handles will result in memory leaks.
 
+    .PARAMETER CredentialHandle
+
+    The CredHandle handle obtained by using the AcquireCredentialsHandle (General) function.
+
     .NOTES
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
+    Required Dependencies: SECURITY_HANDLE (Structure)
     Optional Dependencies: None
 
     (func secur32 FreeCredentialsHandle ([UInt32]) @(

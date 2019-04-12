@@ -4,12 +4,16 @@ function QueryCredentialsAttributes
     .SYNOPSIS
 
     Retrieves the attributes of a credential, such as the name associated with the credential. The information is valid for any security context created with the specified credential.
+    
+    .PARAMETER CredentialHandle
+    
+    A handle of the credentials to be queried.
 
     .NOTES
 
     Author: Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause
-    Required Dependencies: None
+    Required Dependencies: SECURITY_HANDLE (Structure)
     Optional Dependencies: None
 
     (func secur32 QueryCredentialsAttributes ([UInt32]) @(

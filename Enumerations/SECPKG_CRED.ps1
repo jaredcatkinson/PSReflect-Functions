@@ -1,0 +1,7 @@
+$SECPKG_CRED = psenum $Module SECPKG_CRED UInt32 @{
+    INBOUND              = 0x00000001
+    OUTBOUND             = 0x00000002
+    BOTH                 = 0x00000003
+    AUTOLOGON_RESTRICTED = 0x00000010
+    PROCESS_POLICY_ONLY  = 0x00000020
+}

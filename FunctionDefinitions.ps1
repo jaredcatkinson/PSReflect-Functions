@@ -718,6 +718,18 @@
     ) -EntryPoint SamSetInformationUser)
     #endregion samlib   
     #region secur32
+    (func secur32 AcquireCredentialsHandle ([UInt32]) @(
+        [string],                          #_In_  SEC_CHAR       *pszPrincipal
+        [string],                          #_In_  SEC_CHAR       *pszPackage
+        [UInt32],                          #_In_  ULONG          fCredentialUse
+        [IntPtr],                          #_In_  PLUID          pvLogonID
+        [IntPtr],                          #_In_  PVOID          pAuthData
+        [UInt32],                           #_In_  SEC_GET_KEY_FN pGetKeyFn
+        [IntPtr],                          #_In_  PVOID          pvGetKeyArgument
+        $SECURITY_HANDLE.MakeByRefType(),  #_Out_ PCredHandle    phCredential
+        $SECURITY_INTEGER.MakeByRefType()  #_Out_ PTimeStamp     ptsExpiry
+    ) -EntryPoint AcquireCredentialsHandle),
+
     (func secur32 DeleteSecurityPackage ([UInt32]) @(
         [string] #_In_ LPTSTR pszPackageName
     ) -EntryPoint DeleteSecurityPackage),
@@ -728,9 +740,13 @@
     ) -EntryPoint EnumerateSecurityPackages),
 
     (func secur32 FreeContextBuffer ([UInt32]) @(
-          [IntPtr] #_In_ PVOID pvContextBuffer
+        [IntPtr] #_In_ PVOID pvContextBuffer
     ) -EntryPoint FreeContextBuffer),
     
+    (func secur32 FreeCredentialsHandle ([UInt32]) @(
+        $SECURITY_HANDLE #PCredHandle phCredential
+    ) -EntryPoint FreeCredentialsHandle),
+
     (func secur32 LsaCallAuthenticationPackage ([UInt32]) @(
         [IntPtr],                 #_In_  HANDLE    LsaHandle
         [UInt64],                 #_In_  ULONG     AuthenticationPackage
@@ -773,7 +789,13 @@
         $LSA_STRING.MakeByRefType(), #_In_  PLSA_STRING           LogonProcessName,
         [IntPtr].MakeByRefType(),    #_Out_ PHANDLE               LsaHandle,
         [UInt64].MakeByRefType()     #_Out_ PLSA_OPERATIONAL_MODE SecurityMode
-    ) -EntryPoint LsaRegisterLogonProcess)
+    ) -EntryPoint LsaRegisterLogonProcess),
+
+    (func secur32 QueryCredentialsAttributes ([UInt32]) @(
+        $SECURITY_HANDLE, #PCredHandle phCredential
+        [UInt32],         #unsigned long ulAttribute
+        [IntPtr].MakeByRefType()          #void          *pBuffer
+    ) -EntryPoint QueryCredentialsAttributes),
     #endregion secur32
     #region winspool
     (func winspool.drv EnumMonitors ([bool]) @(

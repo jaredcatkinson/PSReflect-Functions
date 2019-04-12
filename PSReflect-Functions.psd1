@@ -70,6 +70,7 @@ Description = 'Provides Windows API functions as abstracted PowerShell functions
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
+    'AcquireCredentialsHandle',
     'AdtListCategories',
     'AmsiCloseSession',
     'AmsiInitialize',
@@ -105,6 +106,7 @@ FunctionsToExport = @(
     'EnumerateSecurityPackages',
     'EnumMonitors',
     'FreeContextBuffer',
+    'FreeCredentialsHandle',
     'GetCurrentProcess',
     'GetIpNetTable',
     'GetLengthSid',
@@ -177,6 +179,7 @@ FunctionsToExport = @(
     'OpenThread',
     'OpenThreadToken',
     'PeekNamedPipe',
+    'QueryCredentialsAttributes',
     'QueryDosDevice',
     'QueryFullProcessImageName',
     'ReadProcessMemory',
@@ -212,8 +215,8 @@ FunctionsToExport = @(
     'Get-Atom',
     'Get-DigitalSignature',
     'Get-LogonSession',
+    'Get-LogonSessionImproved',
     'Get-SecurityPackage',
-    'Get-StructureOffset'
     'Get-System',
     'Make-Token',
     'New-InjectedThread',

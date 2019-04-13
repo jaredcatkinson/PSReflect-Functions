@@ -211,6 +211,12 @@
         [UInt32], #_In_ DWORD dwFlags,
         [UInt32]  #_In_ DWORD th32ProcessID
     ) -EntryPoint CreateToolhelp32Snapshot -SetLastError),
+
+    (func kernel32 CreateSymbolicLink ([bool]) @(
+        [String], #_Out_    LPCTSTR lpSymlinkPath,
+        [String], #_In_     LPCTSTR lpTargetPath,
+        [UInt32]  #_In_     DWORD   SYMBOLIC_LINK_FLAG
+        ) -EntryPoint CreateSymbolicLink -SetLastError)
     
     (func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess),
     

@@ -67,6 +67,9 @@
                     $PrimaryTokenElevationType = GetTokenInformation -TokenInformationClass TokenElevationType -TokenHandle $hToken
                     
                     $obj = [PSCustomObject]@{
+                        ProcessName = $proc.Name
+                        ProcessId = $proc.Id
+                        ThreadId = $null
                         TokenId = [UInt32]$PrimaryTokenStatistics.TokenId
                         ModifiedId = [UInt32]$PrimaryTokenStatistics.ModifiedId
                         AuthenticationId = [UInt32]$PrimaryTokenStatistics.AuthenticationId
@@ -134,6 +137,9 @@
                         $TokenElevationType = GetTokenInformation -TokenInformationClass TokenElevationType -TokenHandle $hToken
 
                         $obj = [PSCustomObject]@{
+                            ProcessName = $proc.Name
+                            ProcessId = $proc.Id
+                            ThreadId = $thread.Id
                             TokenId = [UInt32]$TokenStatistics.TokenId
                             ModifiedId = [UInt32]$TokenStatistics.ModifiedId
                             AuthenticationId = [UInt32]$TokenStatistics.AuthenticationId

@@ -38,8 +38,8 @@
                 {
                     if($_.Exception.Message -ne "OpenProcess Error: The parameter is incorrect")
                     {
-                        Write-Warning "Process Handle: $($proc.Id)"
-                        Write-Warning $_.Exception.Message
+                        Write-Verbose "Process Handle: $($proc.Id)"
+                        Write-Verbose $_.Exception.Message
                     }
                 }
 
@@ -49,8 +49,8 @@
                 }
                 catch
                 {
-                    Write-Warning "Process Token Handle: $($proc.Id)"
-                    Write-Warning $_.Exception.Message
+                    Write-Verbose "Process Token Handle: $($proc.Id)"
+                    Write-Verbose $_.Exception.Message
                 }
 
                 try
@@ -104,8 +104,8 @@
                 }
                 catch
                 {
-                    Write-Warning "Process Token Query: $($proc.Id)"
-                    Write-Warning $_.Exception.Message
+                    Write-Verbose "Process Token Query: $($proc.Id)"
+                    Write-Verbose $_.Exception.Message
                 }
 
                 foreach($thread in $proc.Threads)
@@ -116,8 +116,8 @@
                     }
                     catch
                     {
-                        Write-Warning "Thread Handle: [Proc] $($proc.Id) [THREAD] $($thread.Id)"
-                        Write-Warning $_.Exception.Message
+                        Write-Verbose "Thread Handle: [Proc] $($proc.Id) [THREAD] $($thread.Id)"
+                        Write-Verbose $_.Exception.Message
                     }
 
                     try
@@ -176,8 +176,8 @@
                     {
                         if($_.Exception.Message -ne 'OpenThreadToken Error: An attempt was made to reference a token that does not exist')
                         {
-                            Write-Warning "Thread Token Handle"
-                            Write-Warning $_.Exception.Message
+                            Write-Verbose "Thread Token Handle"
+                            Write-Verbose $_.Exception.Message
                         }
                     }
                 }

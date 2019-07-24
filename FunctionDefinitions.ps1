@@ -211,6 +211,22 @@
         [UInt32], #_In_ DWORD dwFlags,
         [UInt32]  #_In_ DWORD th32ProcessID
     ) -EntryPoint CreateToolhelp32Snapshot -SetLastError),
+
+    (func kernel32 FindResource ([IntPtr]) @(
+        [IntPtr], #_Out_    HMODULE hmodule,
+        [string], #_In_     LPCTSTR lpName,
+        [string]  #_In_     LPCTSTR lpType,       
+    ) -EntryPoint FindResource -SetLastError),
+
+    (func kernel32 FormatMessage ([UInt32]) @(
+        [UInt32], #_In_     DWORD   dwFlags,
+        [IntPtr], #_In_     LPCVOID lpSource,
+        [UInt32], #_In_     DWORD dwMessageId,
+        [UInt32], #_In_     DWORD dwLanguageId,
+        [IntPtr], #_Out_    LPTSTR lpBuffer
+        [UInt32], #_In_     DWORD nSize,
+        [IntPtr]  #_Out_    va_list Arguments
+    ) -EntryPoint FormatMessage -SetLastError),
     
     (func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess),
     
@@ -282,6 +298,15 @@
     (func kernel32 LoadLibrary ([IntPtr]) @(
         [string] #_In_ LPCTSTR lpFileName
     ) -EntryPoint LoadLibrary -SetLastError),
+
+    (func kernel32 LoadResource ([IntPtr]) @(
+        [IntPtr], #_In_ HMODULE hModule
+        [IntPtr]  #_Out_ HRSRC hResInfo
+    ) -EntryPoint LoadResource -SetLastError),
+
+    (func kernel32 LockResource ([IntPtr]) @(
+        [IntPtr]  #_In_ HGLOBAL hResData
+    ) -EntryPoint LockResource -SetLastError),
     
     (func kernel32 OpenProcess ([IntPtr]) @(
         [UInt32], #_In_ DWORD dwDesiredAccess

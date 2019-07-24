@@ -223,7 +223,7 @@
         [IntPtr], #_In_     LPCVOID lpSource,
         [UInt32], #_In_     DWORD dwMessageId,
         [UInt32], #_In_     DWORD dwLanguageId,
-        [IntPtr], #_Out_    LPTSTR lpBuffer
+        [IntPtr].MakeByRefType(), #_Out_    LPTSTR lpBuffer
         [UInt32], #_In_     DWORD nSize,
         [IntPtr]  #_Out_    va_list Arguments
     ) -EntryPoint FormatMessage -SetLastError),

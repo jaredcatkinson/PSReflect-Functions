@@ -53,7 +53,7 @@ function FormatMessage
     (     
  
         [Parameter()]
-        [ValidateSet('FORMAT_MESSAGE_ALLOCATE_BUFFER','FORMAT_MESSAGE_ARGUMENT_ARRAY','FORMAT_MESSAGE_FROM_HMODULE','FORMAT_MESSAGE_FROM_STRING','FORMAT_MESSAGE_FROM_SYSTEM', 'FORMAT_MESSAGE_IGNORE_INSERTS')]
+        # [ValidateSet('FORMAT_MESSAGE_ALLOCATE_BUFFER','FORMAT_MESSAGE_ARGUMENT_ARRAY','FORMAT_MESSAGE_FROM_HMODULE','FORMAT_MESSAGE_FROM_STRING','FORMAT_MESSAGE_FROM_SYSTEM', 'FORMAT_MESSAGE_IGNORE_INSERTS')]
         [string[]]
         $FormatMessageFlags = @('FORMAT_MESSAGE_ALLOCATE_BUFFER','FORMAT_MESSAGE_FROM_HMODULE','FORMAT_MESSAGE_IGNORE_INSERTS'),
 
@@ -86,7 +86,7 @@ function FormatMessage
         $ResourceHandle,
         $MessageId,
         $LanguageId,
-        $MessagePtr,
+        [ref]$MessagePtr,
         0,
         [IntPtr]::Zero
         )
@@ -96,8 +96,8 @@ function FormatMessage
     {
         throw "[FormatMessage]: Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     } else {
-        $Message = [System.Runtime.InteropServices.Marshal]::PtrToStringAnsi($MessagePtr)
-        $Message.Replace("\r\n","")
+        $Message = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($MessagePtr)
+        $null = $Message.Replace("`r`n","")
     }
 
     Write-Output $Message

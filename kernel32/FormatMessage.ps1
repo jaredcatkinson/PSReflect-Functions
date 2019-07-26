@@ -89,15 +89,14 @@ function FormatMessage
         [ref]$MessagePtr,
         0,
         [IntPtr]::Zero
-        )
-    $LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+        );$LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     if($BytesReturned -eq 0)
     {
         throw "[FormatMessage]: Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     } else {
         $Message = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($MessagePtr)
-        $null = $Message.Replace("`r`n","")
+        $Message = $Message.Replace("`r`n","")
     }
 
     Write-Output $Message

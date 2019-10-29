@@ -98,7 +98,7 @@ function LogonUser
         'SERVICE' { 5 }
     }
 
-    $LogonProviderID = Switch ($LogonType) {
+    $LogonProviderID = Switch ($LogonProvider) {
         'DEFAULT' { 0 }
         'WINNT40' { 2 }
         'WINNT50' { 3 }

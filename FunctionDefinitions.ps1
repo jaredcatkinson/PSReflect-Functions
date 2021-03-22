@@ -28,6 +28,22 @@
         [IntPtr].MakeByRefType() #_Out_ PSID    *Sid
     ) -EntryPoint ConvertStringSidToSid -SetLastError),
 
+    (func advapi32 CreateServiceW ([IntPtr]) @(
+        [IntPtr], # SC_HANDLE hSCManager
+        [string], # LPCWSTR   lpServiceName
+        [string], # LPCWSTR   lpDisplayName
+        [UInt32], # DWORD     dwDesiredAccess
+        [UInt32], # DWORD     dwServiceType
+        [UInt32], # DWORD     dwStartType
+        [UInt32], # DWORD     dwErrorControl
+        [string], # LPCWSTR   lpBinaryPathName
+        [string], # LPCWSTR   lpLoadOrderGroup
+        [IntPtr], # LPDWORD   lpdwTagId
+        [string], # LPCWSTR   lpDependencies
+        [string], # LPCWSTR   lpServiceStartName
+        [string]  # LPCWSTR   lpPassword
+    ) -EntryPoint CreateServiceW -SetLastError),
+
     (func advapi32 DuplicateToken ([bool]) @(
         [IntPtr],                #_In_  HANDLE                       ExistingTokenHandle,
         [UInt32],                #_In_  SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,

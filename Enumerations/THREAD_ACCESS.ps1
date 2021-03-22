@@ -15,5 +15,5 @@
     WRITE_DAC                        = 0x00040000
     WRITE_OWNER                      = 0x00080000
     SYNCHRONIZE                      = 0x00100000
-    THREAD_ALL_ACCESS                = 0x001f0ffb
+    THREAD_ALL_ACCESS                = 0x001F0FFB
 } -Bitfield

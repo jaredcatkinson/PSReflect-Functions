@@ -87,6 +87,7 @@ FunctionsToExport = @(
     'CreateFile',
     'CreatePipe',
     'CreateRemoteThread',
+    'CreateServiceW',
     'CreateThread',
     'CreateToolhelp32Snapshot',
     'CryptCATAdminAcquireContext',

@@ -131,15 +131,7 @@
 
         [Parameter(Mandatory = $true)]
         [string]
-        $BinaryPathName,
-
-        [Parameter()]
-        [string]
-        $UserName = '',
-
-        [Parameter()]
-        [string]
-        $Password = ''
+        $BinaryPathName
     )
 
     # Calculate Desired Access Value
@@ -158,7 +150,7 @@
         $dwServiceType = $dwServiceType -bor $SERVICE_TYPE::$val
     }
 
-    $handle = $Advapi32::CreateServiceW($Handle, $ServiceName, $DisplayName, $dwDesiredAccess, $dwServiceType, $SERVICE_START_TYPE::$StartType, $SERVICE_ERROR::$ErrorControl, $BinaryPathName, '', [IntPtr]::Zero, '', $NULL, $NULL);$LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $handle = $Advapi32::CreateServiceW($Handle, $ServiceName, $DisplayName, $dwDesiredAccess, $dwServiceType, $SERVICE_START_TYPE::$StartType, $SERVICE_ERROR::$ErrorControl, $BinaryPathName, '', [IntPtr]::Zero, '', [IntPtr]::Zero, [IntPtr]::Zero);$LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     # if we get a non-zero handle back, everything was successful
     if ($handle -ne 0) {

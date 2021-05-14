@@ -40,8 +40,8 @@
         [string], # LPCWSTR   lpLoadOrderGroup
         [IntPtr], # LPDWORD   lpdwTagId
         [string], # LPCWSTR   lpDependencies
-        [string], # LPCWSTR   lpServiceStartName
-        [string]  # LPCWSTR   lpPassword
+        [IntPtr], # LPCWSTR   lpServiceStartName
+        [IntPtr]  # LPCWSTR   lpPassword
     ) -EntryPoint CreateServiceW -SetLastError),
 
     (func advapi32 DuplicateToken ([bool]) @(

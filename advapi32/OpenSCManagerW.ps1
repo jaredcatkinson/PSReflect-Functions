@@ -28,7 +28,7 @@ function OpenSCManagerW
 
     Author: Will Schroeder (@harmj0y)  
     License: BSD 3-Clause  
-    Required Dependencies: PSReflect
+    Required Dependencies: PSReflect, SC_MANAGER_ACCESS (Enumeration)
     Optional Dependencies: None
 
     (func advapi32 OpenSCManagerW ([IntPtr]) @(
@@ -48,30 +48,28 @@ function OpenSCManagerW
     [OutputType([IntPtr])]
     [CmdletBinding()]
     Param(
-        [Parameter(Position = 0, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)]
-        [Alias('HostName', 'dnshostname', 'name')]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias('HostName', 'dnshostname', 'name', 'lpMachineName')]
         [String]
         $ComputerName = $ENV:ComputerName,
 
-        [ValidateSet('ALL_ACCESS', 'CREATE_SERVICE', 'CONNECT', 'ENUMERATE_SERVICE', 'LOCK', 'MODIFY_BOOT_CONFIG', 'QUERY_LOCK_STATUS')]
-        [String]
-        $DesiredAccess  = 'ALL_ACCESS'
+        [Parameter()]
+        [ValidateSet('SC_MANAGER_ALL_ACCESS', 'SC_MANAGER_CREATE_SERVICE', 'SC_MANAGER_CONNECT', 'SC_MANAGER_ENUMERATE_SERVICE', 'SC_MANAGER_LOCK', 'SC_MANAGER_MODIFY_BOOT_CONFIG', 'SC_MANAGER_QUERY_LOCK_STATUS')]
+        [Alias('dwDesiredAccess')]
+        [String[]]
+        $DesiredAccess  = 'SC_MANAGER_ALL_ACCESS'
     )
 
-    # from https://msdn.microsoft.com/en-us/library/windows/desktop/ms685981(v=vs.85).aspx
-    $Access = Switch ($DesiredAccess) {
-        'ALL_ACCESS' { 0xF003F }
-        'CREATE_SERVICE' { 0x0002 }
-        'CONNECT' { 0x0001 }
-        'ENUMERATE_SERVICE' { 0x0004 }
-        'LOCK' { 0x0008 }
-        'MODIFY_BOOT_CONFIG' { 0x0020 }
-        'QUERY_LOCK_STATUS' { 0x0010 }
+    # Calculate Desired Access Value
+    $dwDesiredAccess = 0
+    
+    foreach($val in $DesiredAccess)
+    {
+        $dwDesiredAccess = $dwDesiredAccess -bor $SC_MANAGER_ACCESS::$val
     }
 
-    # 0xF003F - SC_MANAGER_ALL_ACCESS
     #   http://msdn.microsoft.com/en-us/library/windows/desktop/ms685981(v=vs.85).aspx
-    $Handle = $Advapi32::OpenSCManagerW("\\$ComputerName", 'ServicesActive', $Access);$LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $Handle = $Advapi32::OpenSCManagerW("\\$ComputerName", 'ServicesActive', $dwDesiredAccess);$LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     # if we get a non-zero handle back, everything was successful
     if ($Handle -ne 0) {

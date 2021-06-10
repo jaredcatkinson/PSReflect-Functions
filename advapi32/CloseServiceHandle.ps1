@@ -36,7 +36,7 @@ function CloseServiceHandle
     [OutputType([IntPtr])]
     [CmdletBinding()]
     Param(
-        [Parameter(Position = 0, Mandatory = $True, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [Alias('hSCObject')]
         [ValidateNotNullOrEmpty()]
         [IntPtr]

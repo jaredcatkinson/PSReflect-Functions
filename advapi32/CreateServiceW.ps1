@@ -98,38 +98,46 @@
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory = $true)]
+        [Alias('hSCManager')]
         [IntPtr]
         $Handle,
 
         [Parameter(Mandatory = $true)]
+        [Alias('lpServiceName')]
         [string]
         $ServiceName,
 
         [Parameter(Mandatory = $true)]
+        [Alias('lpDisplayName')]
         [string]
         $DisplayName,
 
         [Parameter(Mandatory = $true)]
         [ValidateSet('SERVICE_QUERY_CONFIG', 'SERVICE_CHANGE_CONFIG', 'SERVICE_QUERY_STATUS', 'SERVICE_ENUMERATE_DEPENDENTS', 'SERVICE_START', 'SERVICE_STOP', 'SERVICE_PAUSE_CONTINUE', 'SERVICE_INTERROGATE', 'SERVICE_USER_DEFINED_CONTROL', 'DELETE', 'READ_CONTROL', 'WRITE_DAC', 'WRITE_OWNER', 'SERVICE_ALL_ACCESS', 'ACCESS_SYSTEM_SECURITY')]
-        [string]
+        [Alias('dwDesiredAccess')]
+        [string[]]
         $DesiredAccess,
 
         [Parameter(Mandatory = $true)]
         [ValidateSet('SERVICE_ADAPTER', 'SERVICE_FILE_SYSTEM_DRIVER', 'SERVICE_KERNEL_DRIVER', 'SERVICE_RECOGNIZER_DRIVER', 'SERVICE_WIN32_OWN_PROCESS', 'SERVICE_WIN32_SHARE_PROCESS', 'SERVICE_USER_OWN_PROCESS', 'SERVICE_USER_SHARE_PROCESS', 'SERVICE_INTERACTIVE_PROCESS')]
+        [Alias('dwServiceType')]
         [string[]]
         $ServiceType,
 
         [Parameter(Mandatory = $true)]
         [ValidateSet('SERVICE_BOOT_START', 'SERVICE_SYSTEM_START', 'SERVICE_AUTO_START', 'SERVICE_DEMAND_START', 'SERVICE_DISABLED')]
+        [Alias('dwStartType')]
         [string]
         $StartType,
 
         [Parameter()]
         [ValidateSet('SERVICE_ERROR_IGNORE', 'SERVICE_ERROR_NORMAL', 'SERVICE_ERROR_SEVERE', 'SERVICE_ERROR_CRITICAL')]
+        [Alias('dwErrorControl')]
         [string]
         $ErrorControl = 'SERVICE_ERROR_IGNORE',
 
         [Parameter(Mandatory = $true)]
+        [Alias('lpBinaryPathName')]
         [string]
         $BinaryPathName
     )

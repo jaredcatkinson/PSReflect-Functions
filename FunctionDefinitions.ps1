@@ -1,22 +1,22 @@
 ﻿$FunctionDefinitions = @( 
     #region advapi32
-    (func advapi32 ChangeServiceConfig ([Bool]) @(
+    (func advapi32 ChangeServiceConfigW ([Bool]) @(
         [IntPtr],       # _In_      SC_HANDLE hService
         [UInt32],       # _In_      DWORD     dwServiceType
         [UInt32],       # _In_      DWORD     dwStartType
         [UInt32],       # _In_      DWORD     dwErrorControl
-        [String],       # _In_opt_  LPCTSTR   lpBinaryPathName
-        [String],       # _In_opt_  LPCTSTR   lpLoadOrderGroup
+        [IntPtr],       # _In_opt_  LPCTSTR   lpBinaryPathName
+        [IntPtr],       # _In_opt_  LPCTSTR   lpLoadOrderGroup
         [IntPtr],       # _Out_opt_ LPDWORD   lpdwTagId
-        [String],       # _In_opt_  LPCTSTR   lpDependencies
-        [String],       # _In_opt_  LPCTSTR   lpServiceStartName
-        [String],       # _In_opt_  LPCTSTR   lpPassword
-        [String]        # _In_opt_  LPCTSTR   lpDisplayName
-    ) -SetLastError -Charset Unicode),
+        [IntPtr],       # _In_opt_  LPCTSTR   lpDependencies
+        [IntPtr],       # _In_opt_  LPCTSTR   lpServiceStartName
+        [IntPtr],       # _In_opt_  LPCTSTR   lpPassword
+        [IntPtr]        # _In_opt_  LPCTSTR   lpDisplayName
+    ) -EntryPoint ChangeServiceConfigW -SetLastError),
 
     (func advapi32 CloseServiceHandle ([Int]) @(
         [IntPtr]        # _In_ SC_HANDLE hSCObject
-    )),
+    ) -EntryPoint CloseServiceHandle),
 
     (func advapi32 ConvertSidToStringSid ([bool]) @(
         [IntPtr],                #_In_  PSID   Sid,
@@ -101,10 +101,16 @@
     ) -EntryPoint OpenProcessToken -SetLastError),
 
     (func advapi32 OpenSCManagerW ([IntPtr]) @(
-        [String],       # _In_opt_ LPCTSTR lpMachineName
-        [String],       # _In_opt_ LPCTSTR lpDatabaseName
-        [Int32]         # _In_     DWORD   dwDesiredAccess
+        [String],                # _In_opt_ LPCTSTR lpMachineName
+        [String],                # _In_opt_ LPCTSTR lpDatabaseName
+        [Int32]                  # _In_     DWORD   dwDesiredAccess
     ) -EntryPoint OpenSCManagerW -SetLastError),
+
+    (func advapi32 OpenServiceW ([IntPtr]) @(
+        [IntPtr],                # SC_HANDLE hSCManager
+        [String],                # LPCWSTR   lpServiceName
+        [UInt32 ]                   # DWORD     dwDesiredAccess
+    ) -EntryPoint OpenServiceW -SetLastError),
 
     (func advapi32 OpenThreadToken ([bool]) @(
         [IntPtr],                #_In_  HANDLE  ThreadHandle

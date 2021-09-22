@@ -122,6 +122,13 @@
     (func advapi32 RevertToSelf ([bool]) @(
         # No Parameters
     ) -EntryPoint RevertToSelf -SetLastError),
+
+    (func advapi32 StartServiceW ([bool]) @(
+        [IntPtr], # SC_HANDLE  hService
+        [UInt32], # DWORD      dwNumServiceArgs
+        [String]  # LPCWSTR    lpServiceArgVectors
+    ) -EntryPoint StartServiceW -SetLastError),
+
     #endregion advapi32
     #region amsi
     (func amsi AmsiInitialize ([UInt32]) @(

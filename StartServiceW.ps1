@@ -11,11 +11,7 @@ function StartServiceW
 
     .PARAMETER Handle
 
-    A handle to the service. This handle is returned by the OpenService or CreateService function, 
-    and it must have the SERVICE_START access right. It can be closed by calling the CloseServiceHandle function. 
-    Required.
-
-    To use StartServiceW, no privileges are required aside from SERVICE_START.
+    A handle to the service. This handle is returned by the OpenService or CreateService function, and it must have the SERVICE_START access right. It can be closed by calling the CloseServiceHandle function. Required.
 
     .PARAMETER NumServiceArgs
  
@@ -23,10 +19,7 @@ function StartServiceW
 
     .PARAMETER ServiceArgVectors
 
-    The null-terminated strings to be passed to the ServiceMain function for the service as arguments.
-    If there are no arguments, this parameter can be NULL. Otherwise, the first argument (lpServiceArgVectors[0])
-    is the name of the service, followed by any additional arguments (lpServiceArgVectors[1] through 
-    lpServiceArgVectors[dwNumServiceArgs-1]).
+    The null-terminated strings to be passed to the ServiceMain function for the service as arguments. If there are no arguments, this parameter can be NULL. Otherwise, the first argument (lpServiceArgVectors[0]) is the name of the service, followed by any additional arguments (lpServiceArgVectors[1] through lpServiceArgVectors[dwNumServiceArgs-1]).
 
     Driver services do not receive these arguments.
 
@@ -72,7 +65,7 @@ function StartServiceW
         [String]
         $ServiceArgs = ""
     )
-
+    # TODO: This doesn't properly handle services with arguments, but works fine without them
     $Result = $Advapi32::StartServiceW($Handle, $NumServiceArgs, $ServiceArgs);$LastError = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
 
     # if we get "0" back, everything was successful

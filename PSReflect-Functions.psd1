@@ -195,6 +195,7 @@ FunctionsToExport = @(
     'SamOpenDomain',
     'SamOpenUser',
     'SamSetInformationUser',
+    'StartServiceW',
     'TerminateThread',
     'Thread32First',
     'VirtualAllocEx',

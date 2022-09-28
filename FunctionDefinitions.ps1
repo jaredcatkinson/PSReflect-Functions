@@ -121,7 +121,12 @@
 
     (func advapi32 RevertToSelf ([bool]) @(
         # No Parameters
-    ) -EntryPoint RevertToSelf -SetLastError),
+    ) -EntryPoint RevertToSelf -SetLastError), 
+
+    (func advapi32 SetThreadToken ([bool]) @(
+        [IntPtr], # _In_ PHANDLE Thread,
+        [IntPtr]  # _In_ HANDLE  Token
+    ) -EntryPoint SetThreadToken -SetLastError),
 
     (func advapi32 StartServiceW ([bool]) @(
         [IntPtr], # SC_HANDLE  hService

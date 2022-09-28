@@ -195,6 +195,7 @@ FunctionsToExport = @(
     'SamOpenDomain',
     'SamOpenUser',
     'SamSetInformationUser',
+    'SetThreadToken',
     'StartServiceW',
     'TerminateThread',
     'Thread32First',

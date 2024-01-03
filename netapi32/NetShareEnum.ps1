@@ -22,9 +22,9 @@ function NetShareEnum {
 
     .NOTES
 
-    Author: Will Schroeder (@harmj0y)  
+    Author: Will Schroeder (@harmj0y) & Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause  
-    Required Dependencies: PSReflect, NetApiBufferFree (Function)
+    Required Dependencies: PSReflect, IsValidSecurityDescriptor (Function), ConvertSecurityDescriptorToStringSecurityDescriptor (Function), NetApiBufferFree (Function), SHARE_INFO_0, SHARE_INFO_1, SHARE_INFO_2, SHARE_INFO_502, SHARE_INFO_503, SHARE_TYPE 
     Optional Dependencies: None
 
     (func netapi32 NetShareEnum ([Int]) @(
@@ -178,7 +178,6 @@ function NetShareEnum {
                         503
                         {
                             $ShareInfo = $NewIntPtr -as $SHARE_INFO_503
-                            $sd = $ShareInfo.shi503_security_descriptor -as $SECURITY_DESCRIPTOR
 
                             $obj = New-Object -TypeName psobject
 

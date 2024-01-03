@@ -390,6 +390,14 @@
       [UInt32].MakeByRefType()     #_Inout_ PDWORD lpdwSize
     ) -EntryPoint QueryFullProcessImageName -SetLastError),
     
+    (func kernel32 ReadFile ([bool]) @(
+        [IntPtr],                 # _In_        HANDLE       hFile
+        [Byte[]],                 # _Out_       LPVOID       lpBuffer
+        [UInt32],                 # _In_        DWORD        nNumberOfBytesToRead
+        [UInt32].MakeByRefType(), # _Out_opt_   LPDWORD      lpNumberOfBytesRead
+        [IntPtr]                  # _Inout_opt_ LPOVERLAPPED lpOverlapped
+    ) -EntryPoint ReadFile -SetLastError),
+
     (func kernel32 ReadProcessMemory ([Bool]) @(
         [IntPtr],                                  # _In_ HANDLE hProcess
         [IntPtr],                                  # _In_ LPCVOID lpBaseAddress
@@ -442,6 +450,14 @@
         [UInt32]                                   #_In_     SIZE_T                    dwLength
     ) -EntryPoint VirtualQueryEx -SetLastError),
     
+    (func kernel32 WriteFile ([bool]) @(
+        [IntPtr],                 # _In_        HANDLE       hFile
+        [Byte[]],                 # _In_        LPCVOID      lpBuffer
+        [UInt32],                 # _In_        DWORD        nNumberOfBytesToWrite
+        [UInt32].MakeByRefType(), # _Out_opt_   LPDWORD      lpNumberOfBytesWritten
+        [IntPtr]                  # _Inout_opt_ LPOVERLAPPED lpOverlapped
+    ) -EntryPoint WriteFile -SetLastError),
+
     (func kernel32 WriteProcessMemory ([Bool]) @(
         [IntPtr],                                  # _In_ HANDLE hProcess
         [IntPtr],                                  # _In_ LPVOID lpBaseAddress

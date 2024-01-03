@@ -187,6 +187,7 @@ FunctionsToExport = @(
     'QueryCredentialsAttributes',
     'QueryDosDevice',
     'QueryFullProcessImageName',
+    'ReadFile',
     'ReadProcessMemory',
     'ResumeThread',
     'RevertToSelf',
@@ -209,6 +210,7 @@ FunctionsToExport = @(
     'WinVerifyTrust',
     'WNetAddConnection2W,'
     'WNetCancelConnection2',
+    'WriteFile',
     'WriteProcessMemory',
     'WTSCloseServer',
     'WTSEnumerateSessionsEx',

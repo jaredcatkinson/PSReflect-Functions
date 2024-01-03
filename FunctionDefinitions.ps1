@@ -18,6 +18,14 @@
         [IntPtr]        # _In_ SC_HANDLE hSCObject
     ) -EntryPoint CloseServiceHandle),
 
+    (func advapi32 ConvertSecurityDescriptorToStringSecurityDescriptor ([Bool]) @(
+        [IntPtr],                 # [in]  PSECURITY_DESCRIPTOR SecurityDescriptor
+        [UInt32],                 # [in]  DWORD                RequestedStringSDRevision
+        [UInt32],                 # [in]  SECURITY_INFORMATION SecurityInformation
+        [IntPtr].MakeByRefType(), # [out] LPSTR                *StringSecurityDescriptor
+        [UInt32].MakeByRefType()  # [out] PULONG               StringSecurityDescriptorLen
+    ) -EntryPoint ConvertSecurityDescriptorToStringSecurityDescriptor),
+
     (func advapi32 ConvertSidToStringSid ([bool]) @(
         [IntPtr],                #_In_  PSID   Sid,
         [IntPtr].MakeByRefType() #_Out_ LPTSTR *StringSid
@@ -66,6 +74,10 @@
         [IntPtr] #_In_ HANDLE hToken
     ) -EntryPoint ImpersonateLoggedOnUser -SetLastError),
 
+    (func advapi32 IsValidSecurityDescriptor ([Bool]) @(
+        [IntPtr]                    # [in] PSECURITY_DESCRIPTOR pSecurityDescriptor
+    ) -EntryPoint IsValidSecurityDescriptor),
+
     (func advapi32 LogonUser ([Bool]) @(
         [String],                   # _In_     LPTSTR  lpszUsername
         [String],                   # _In_opt_ LPTSTR  lpszDomain
@@ -109,7 +121,7 @@
     (func advapi32 OpenServiceW ([IntPtr]) @(
         [IntPtr],                # SC_HANDLE hSCManager
         [String],                # LPCWSTR   lpServiceName
-        [UInt32 ]                   # DWORD     dwDesiredAccess
+        [UInt32 ]                # DWORD     dwDesiredAccess
     ) -EntryPoint OpenServiceW -SetLastError),
 
     (func advapi32 OpenThreadToken ([bool]) @(
@@ -121,7 +133,7 @@
 
     (func advapi32 RevertToSelf ([bool]) @(
         # No Parameters
-    ) -EntryPoint RevertToSelf -SetLastError), 
+    ) -EntryPoint RevertToSelf -SetLastError),
 
     (func advapi32 SetThreadToken ([bool]) @(
         [IntPtr], # _In_ PHANDLE Thread,
@@ -263,6 +275,8 @@
     ) -EntryPoint FormatMessage -SetLastError),
     
     (func kernel32 GetCurrentProcess ([IntPtr]) @() -EntryPoint GetCurrentProcess),
+
+    (func kernel32 GetCurrentThreadId ([UInt32]) @() -EntryPoint GetCurrentThreadId),
     
     (func kernel32 GetNamedPipeClientComputerName ([Bool]) @(
         [IntPtr], #_In_  HANDLE Pipe,
@@ -805,6 +819,12 @@
     (func secur32 FreeCredentialsHandle ([UInt32]) @(
         $SECURITY_HANDLE #PCredHandle phCredential
     ) -EntryPoint FreeCredentialsHandle),
+
+    (func secur32 GetUserNameEx ([Bool]) @(
+        [UInt32],                          #_In_    EXTENDED_NAME_FORMAT NameFormat
+        [System.Text.StringBuilder],       #_Out_   LPWSTRE              lpNameBuffer
+        [UInt32].MakeByRefType()           #_InOut_ ULONG                nSize
+    ) -EntryPoint GetUserNameEx),
 
     (func secur32 LsaCallAuthenticationPackage ([UInt32]) @(
         [IntPtr],                 #_In_  HANDLE    LsaHandle

@@ -82,6 +82,7 @@ FunctionsToExport = @(
     'ChangeServiceConfigW',
     'CloseHandle',
     'CloseServiceHandle',
+    'ConvertSecurityDescriptorToStringSecurityDescriptor',
     'ConvertSidToStringSid',
     'ConvertStringSidToSid',
     'CreateFile',
@@ -109,6 +110,7 @@ FunctionsToExport = @(
     'FreeContextBuffer',
     'FreeCredentialsHandle',
     'GetCurrentProcess',
+    'GetCurrentThreadId',
     'GetIpNetTable',
     'GetLengthSid',
     'GetNamedPipeClientComputerName',
@@ -126,6 +128,7 @@ FunctionsToExport = @(
     'GlobalFindAtom',
     'GlobalGetAtomName',
     'ImpersonateLoggedOnUser',
+    'IsValidSecurityDescriptor',
     'K32GetMappedFileName',
     'LoadLibrary',
     'LogonUser',
@@ -224,7 +227,8 @@ FunctionsToExport = @(
     'Get-System',
     'Make-Token',
     'New-InjectedThread',
-    'WinVerifyTrust-2'
+    'WinVerifyTrust-2',
+    'whoami'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

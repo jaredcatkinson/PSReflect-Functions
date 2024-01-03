@@ -57,6 +57,14 @@ function NetShareEnum {
         $Level = 1
     )
 
+    BEGIN {
+        # Get Share Security Descriptor (This will have to be updated to grab this value from the remote system if possible using WMI)
+        $DefaultSddlBytes = (Get-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity -Name SrvsvcShareAdminConnect).SrvsvcShareAdminConnect
+        $DefaultSD = [System.Security.AccessControl.RawSecurityDescriptor]::new($DefaultSddlBytes,0)
+        $DefaultSddl = $DefaultSD.GetSddlForm([System.Security.AccessControl.AccessControlSections]::All)
+
+    }
+
     PROCESS {
         ForEach ($Computer in $ComputerName) {
             $PtrInfo = [IntPtr]::Zero
@@ -88,19 +96,124 @@ function NetShareEnum {
                     $NewIntPtr = New-Object System.Intptr -ArgumentList $Offset
 
                     # grab the appropriate result structure
-                    $Info = Switch ($Level) {
-                        0   { $NewIntPtr -as $SHARE_INFO_0 }
-                        1   { $NewIntPtr -as $SHARE_INFO_1 }
-                        2   { $NewIntPtr -as $SHARE_INFO_2 }
-                        502 { $NewIntPtr -as $SHARE_INFO_502 }
-                        503 { $NewIntPtr -as $SHARE_INFO_503 }
+                    Switch ($Level) {
+                        0
+                        {
+                            $ShareInfo = $NewIntPtr -as $SHARE_INFO_0
+                            $obj = New-Object -TypeName psobject
+
+                            $obj | Add-Member -MemberType NoteProperty -Name Name -Value $ShareInfo.shi0_netname
+
+                            Write-Output $obj
+                        }
+                        1
+                        {
+                            $ShareInfo = $NewIntPtr -as $SHARE_INFO_1
+                            $obj = New-Object -TypeName psobject
+
+                            $obj | Add-Member -MemberType NoteProperty -Name Name -Value $ShareInfo.shi1_netname
+                            
+                            $obj | Add-Member -MemberType NoteProperty -Name IsSpecial -Value (($ShareInfo.shi1_type -band 0x80000000) -eq 2147483648)
+                            $obj | Add-Member -MemberType NoteProperty -Name IsTemporary -Value (($ShareInfo.shi1_type -band 0x40000000) -eq 0x40000000)
+                            $type = $ShareInfo.shi1_type -band 0x0FFFFFFF
+                            $obj | Add-Member -MemberType NoteProperty -Name Type -Value ([SHARE_TYPE]$type)
+                            
+                            $obj | Add-Member -MemberType NoteProperty -Name Remark -Value $ShareInfo.shi1_remark
+
+                            Write-Output $obj
+                        }
+                        2
+                        {
+                            $ShareInfo = $NewIntPtr -as $SHARE_INFO_2
+                            $obj = New-Object -TypeName psobject
+
+                            $obj | Add-Member -MemberType NoteProperty -Name Name -Value $ShareInfo.shi2_netname
+                            
+                            $obj | Add-Member -MemberType NoteProperty -Name IsSpecial -Value (($ShareInfo.shi2_type -band 0x80000000) -eq 2147483648)
+                            $obj | Add-Member -MemberType NoteProperty -Name IsTemporary -Value (($ShareInfo.shi2_type -band 0x40000000) -eq 0x40000000)
+                            $type = $ShareInfo.shi2_type -band 0x0FFFFFFF
+                            $obj | Add-Member -MemberType NoteProperty -Name Type -Value ([SHARE_TYPE]$type)
+                            
+                            $obj | Add-Member -MemberType NoteProperty -Name Remark -Value $ShareInfo.shi2_remark
+                            #$obj | Add-Member -MemberType NoteProperty -Name Permissions -Value $ShareInfo.shi2_permissions
+                            $obj | Add-Member -MemberType NoteProperty -Name MaxUses -Value $ShareInfo.shi2_max_uses
+                            $obj | Add-Member -MemberType NoteProperty -Name CurrentUses -Value $ShareInfo.shi2_current_uses
+                            $obj | Add-Member -MemberType NoteProperty -Name Path -Value $ShareInfo.shi2_path
+                            #$obj | Add-Member -MemberType NoteProperty -Name Password -Value $ShareInfo.shi2_passwd
+
+                            Write-Output $obj
+                        }
+                        502
+                        {
+                            $ShareInfo = $NewIntPtr -as $SHARE_INFO_502
+
+                            $obj = New-Object -TypeName psobject
+
+                            $obj | Add-Member -MemberType NoteProperty -Name Name -Value $ShareInfo.shi502_netname
+                            
+                            $obj | Add-Member -MemberType NoteProperty -Name IsSpecial -Value (($ShareInfo.shi502_type -band 0x80000000) -eq 2147483648)
+                            $obj | Add-Member -MemberType NoteProperty -Name IsTemporary -Value (($ShareInfo.shi502_type -band 0x40000000) -eq 0x40000000)
+                            $type = $ShareInfo.shi502_type -band 0x0FFFFFFF
+                            $obj | Add-Member -MemberType NoteProperty -Name Type -Value ([SHARE_TYPE]$type)
+                            
+                            $obj | Add-Member -MemberType NoteProperty -Name Remark -Value $ShareInfo.shi502_remark
+                            #$obj | Add-Member -MemberType NoteProperty -Name Permissions -Value $ShareInfo.shi502_permissions
+                            $obj | Add-Member -MemberType NoteProperty -Name MaxUses -Value $ShareInfo.shi502_max_uses
+                            $obj | Add-Member -MemberType NoteProperty -Name CurrentUses -Value $ShareInfo.shi502_current_uses
+                            $obj | Add-Member -MemberType NoteProperty -Name Path -Value $ShareInfo.shi502_path
+                            #$obj | Add-Member -MemberType NoteProperty -Name Password -Value $ShareInfo.shi502_passwd
+                            #$obj | Add-Member -MemberType NoteProperty -Name Reserved -Value $ShareInfo.shi502_reserved
+                            
+                            if(IsValidSecurityDescriptor -SecurityDescriptor $ShareInfo.shi502_security_descriptor)
+                            {
+                                $obj | Add-Member -MemberType NoteProperty -Name SecurityDescriptor -Value (ConvertSecurityDescriptorToStringSecurityDescriptor -SecurityDescriptor $ShareInfo.shi502_security_descriptor)
+                            }
+                            else
+                            {
+                                $obj | Add-Member -MemberType NoteProperty -Name SecurityDescriptor -Value $DefaultSddl
+                            }
+                            
+                            Write-Output $obj
+                        }
+                        503
+                        {
+                            $ShareInfo = $NewIntPtr -as $SHARE_INFO_503
+                            $sd = $ShareInfo.shi503_security_descriptor -as $SECURITY_DESCRIPTOR
+
+                            $obj = New-Object -TypeName psobject
+
+                            $obj | Add-Member -MemberType NoteProperty -Name Name -Value $ShareInfo.shi503_netname
+                            
+                            $obj | Add-Member -MemberType NoteProperty -Name IsSpecial -Value (($ShareInfo.shi503_type -band 0x80000000) -eq 2147483648)
+                            $obj | Add-Member -MemberType NoteProperty -Name IsTemporary -Value (($ShareInfo.shi503_type -band 0x40000000) -eq 0x40000000)
+                            $type = $ShareInfo.shi503_type -band 0x0FFFFFFF
+                            $obj | Add-Member -MemberType NoteProperty -Name Type -Value ([SHARE_TYPE]$type)
+
+                            $obj | Add-Member -MemberType NoteProperty -Name Remark -Value $ShareInfo.shi503_remark
+                            #$obj | Add-Member -MemberType NoteProperty -Name Permissions -Value $ShareInfo.shi503_permissions
+                            $obj | Add-Member -MemberType NoteProperty -Name MaxUses -Value $ShareInfo.shi503_max_uses
+                            $obj | Add-Member -MemberType NoteProperty -Name CurrentUses -Value $ShareInfo.shi503_current_uses
+                            $obj | Add-Member -MemberType NoteProperty -Name Path -Value $ShareInfo.shi503_path
+                            #$obj | Add-Member -MemberType NoteProperty -Name Password -Value $ShareInfo.shi503_passwd
+                            $obj | Add-Member -MemberType NoteProperty -Name ServerName -Value $ShareInfo.shi503_servername
+                            $obj | Add-Member -MemberType NoteProperty -Name Reserved -Value $ShareInfo.shi503_reserved
+                            
+                            if(IsValidSecurityDescriptor -SecurityDescriptor $ShareInfo.shi503_security_descriptor)
+                            {
+                                $obj | Add-Member -MemberType NoteProperty -Name SecurityDescriptor -Value (ConvertSecurityDescriptorToStringSecurityDescriptor -SecurityDescriptor $ShareInfo.shi503_security_descriptor)
+                            }
+                            else
+                            {
+                                $obj | Add-Member -MemberType NoteProperty -Name SecurityDescriptor -Value $DefaultSddl
+                            }
+                            
+                            Write-Output $obj
+                        }
                     }
 
                     # return all the sections of the structure - have to do it this way for V2
-                    $Object = $Info | Select-Object *
                     $Offset = $NewIntPtr.ToInt64()
                     $Offset += $Increment
-                    $Object
                 }
 
                 # free up the result buffer

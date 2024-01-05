@@ -57,6 +57,7 @@ function NetShareEnum {
         $Level = 1
     )
 
+    <#
     BEGIN {
         # Get Share Security Descriptor (This will have to be updated to grab this value from the remote system if possible using WMI)
         $DefaultSddlBytes = (Get-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity -Name SrvsvcShareAdminConnect).SrvsvcShareAdminConnect
@@ -64,9 +65,24 @@ function NetShareEnum {
         $DefaultSddl = $DefaultSD.GetSddlForm([System.Security.AccessControl.AccessControlSections]::All)
 
     }
+    #>
 
     PROCESS {
         ForEach ($Computer in $ComputerName) {
+            $reg = [WmiClass]"\\$($Computer)\ROOT\DEFAULT:StdRegProv"
+            $DefaultSddlBytes = $reg.GetBinaryValue(2147483650, 'SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity', 'SrvsvcShareAdminConnect') | select -ExpandProperty uValue
+            $DefaultSD = [System.Security.AccessControl.RawSecurityDescriptor]::new($DefaultSddlBytes,0)
+            $DefaultSddl = $DefaultSD.GetSddlForm([System.Security.AccessControl.AccessControlSections]::All)
+
+            if($Computer -eq 'localhost')
+            {
+                $Hostname = $env:COMPUTERNAME
+            }
+            else
+            {
+                $Hostname = $Computer
+            }
+
             $PtrInfo = [IntPtr]::Zero
             $EntriesRead = 0
             $TotalRead = 0
@@ -103,8 +119,6 @@ function NetShareEnum {
                             $obj = New-Object -TypeName psobject
 
                             $obj | Add-Member -MemberType NoteProperty -Name Name -Value $ShareInfo.shi0_netname
-
-                            Write-Output $obj
                         }
                         1
                         {
@@ -119,8 +133,6 @@ function NetShareEnum {
                             $obj | Add-Member -MemberType NoteProperty -Name Type -Value ([SHARE_TYPE]$type)
                             
                             $obj | Add-Member -MemberType NoteProperty -Name Remark -Value $ShareInfo.shi1_remark
-
-                            Write-Output $obj
                         }
                         2
                         {
@@ -140,8 +152,6 @@ function NetShareEnum {
                             $obj | Add-Member -MemberType NoteProperty -Name CurrentUses -Value $ShareInfo.shi2_current_uses
                             $obj | Add-Member -MemberType NoteProperty -Name Path -Value $ShareInfo.shi2_path
                             #$obj | Add-Member -MemberType NoteProperty -Name Password -Value $ShareInfo.shi2_passwd
-
-                            Write-Output $obj
                         }
                         502
                         {
@@ -172,8 +182,6 @@ function NetShareEnum {
                             {
                                 $obj | Add-Member -MemberType NoteProperty -Name SecurityDescriptor -Value $DefaultSddl
                             }
-                            
-                            Write-Output $obj
                         }
                         503
                         {
@@ -205,10 +213,11 @@ function NetShareEnum {
                             {
                                 $obj | Add-Member -MemberType NoteProperty -Name SecurityDescriptor -Value $DefaultSddl
                             }
-                            
-                            Write-Output $obj
                         }
                     }
+
+                    $obj | Add-Member -MemberType NoteProperty -Name ComputerName -Value $Hostname
+                    Write-Output $obj
 
                     # return all the sections of the structure - have to do it this way for V2
                     $Offset = $NewIntPtr.ToInt64()

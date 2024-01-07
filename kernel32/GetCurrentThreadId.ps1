@@ -16,9 +16,7 @@ function GetCurrentThreadId
     Required Dependencies: PSReflect  
     Optional Dependencies: None
 
-    (func kernel32 GetCurrentThreadId ([UInt32]) @(
-    
-    ) -EntryPoint GetCurrentThreadId)
+    (func kernel32 GetCurrentThreadId ([UInt32]) @() -EntryPoint GetCurrentThreadId)
 
     .LINK
 

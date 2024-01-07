@@ -22,9 +22,9 @@ function NetShareEnum {
 
     .NOTES
 
-    Author: Will Schroeder (@harmj0y)  
+    Author: Will Schroeder (@harmj0y) & Jared Atkinson (@jaredcatkinson)
     License: BSD 3-Clause  
-    Required Dependencies: PSReflect, NetApiBufferFree (Function)
+    Required Dependencies: PSReflect, IsValidSecurityDescriptor (Function), ConvertSecurityDescriptorToStringSecurityDescriptor (Function), NetApiBufferFree (Function), SHARE_INFO_0, SHARE_INFO_1, SHARE_INFO_2, SHARE_INFO_502, SHARE_INFO_503, SHARE_TYPE 
     Optional Dependencies: None
 
     (func netapi32 NetShareEnum ([Int]) @(
@@ -67,6 +67,21 @@ function NetShareEnum {
 
     PROCESS {
         ForEach ($Computer in $ComputerName) {
+            <#
+            $DefaultSddlBytes = Invoke-WmiMethod -ComputerName $Computer -Class StdRegProv -Name GetBinaryValue -ArgumentList @(2147483650, 'SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity', 'SrvsvcShareAdminConnect') | select -ExpandProperty uValue
+            $DefaultSD = [System.Security.AccessControl.RawSecurityDescriptor]::new($DefaultSddlBytes,0)
+            $DefaultSddl = $DefaultSD.GetSddlForm([System.Security.AccessControl.AccessControlSections]::All)
+            #>
+
+            if($Computer -eq 'localhost')
+            {
+                $Hostname = $env:COMPUTERNAME
+            }
+            else
+            {
+                $Hostname = $Computer
+            }
+
             $PtrInfo = [IntPtr]::Zero
             $EntriesRead = 0
             $TotalRead = 0
@@ -103,8 +118,6 @@ function NetShareEnum {
                             $obj = New-Object -TypeName psobject
 
                             $obj | Add-Member -MemberType NoteProperty -Name Name -Value $ShareInfo.shi0_netname
-
-                            Write-Output $obj
                         }
                         1
                         {
@@ -119,8 +132,6 @@ function NetShareEnum {
                             $obj | Add-Member -MemberType NoteProperty -Name Type -Value ([SHARE_TYPE]$type)
                             
                             $obj | Add-Member -MemberType NoteProperty -Name Remark -Value $ShareInfo.shi1_remark
-
-                            Write-Output $obj
                         }
                         2
                         {
@@ -140,8 +151,6 @@ function NetShareEnum {
                             $obj | Add-Member -MemberType NoteProperty -Name CurrentUses -Value $ShareInfo.shi2_current_uses
                             $obj | Add-Member -MemberType NoteProperty -Name Path -Value $ShareInfo.shi2_path
                             #$obj | Add-Member -MemberType NoteProperty -Name Password -Value $ShareInfo.shi2_passwd
-
-                            Write-Output $obj
                         }
                         502
                         {
@@ -172,13 +181,10 @@ function NetShareEnum {
                             {
                                 $obj | Add-Member -MemberType NoteProperty -Name SecurityDescriptor -Value $DefaultSddl
                             }
-                            
-                            Write-Output $obj
                         }
                         503
                         {
                             $ShareInfo = $NewIntPtr -as $SHARE_INFO_503
-                            $sd = $ShareInfo.shi503_security_descriptor -as $SECURITY_DESCRIPTOR
 
                             $obj = New-Object -TypeName psobject
 
@@ -206,10 +212,11 @@ function NetShareEnum {
                             {
                                 $obj | Add-Member -MemberType NoteProperty -Name SecurityDescriptor -Value $DefaultSddl
                             }
-                            
-                            Write-Output $obj
                         }
                     }
+
+                    $obj | Add-Member -MemberType NoteProperty -Name ComputerName -Value $Hostname
+                    Write-Output $obj
 
                     # return all the sections of the structure - have to do it this way for V2
                     $Offset = $NewIntPtr.ToInt64()

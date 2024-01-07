@@ -67,7 +67,7 @@
 
     if(-not $SUCCESS) 
     {
-        Write-Debug "ReadProcessMemory Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
+        throw "ReadProcessMemory Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
     
     Write-Output $buf

@@ -67,12 +67,6 @@ function NetShareEnum {
 
     PROCESS {
         ForEach ($Computer in $ComputerName) {
-            <#
-            $DefaultSddlBytes = Invoke-WmiMethod -ComputerName $Computer -Class StdRegProv -Name GetBinaryValue -ArgumentList @(2147483650, 'SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity', 'SrvsvcShareAdminConnect') | select -ExpandProperty uValue
-            $DefaultSD = [System.Security.AccessControl.RawSecurityDescriptor]::new($DefaultSddlBytes,0)
-            $DefaultSddl = $DefaultSD.GetSddlForm([System.Security.AccessControl.AccessControlSections]::All)
-            #>
-
             if($Computer -eq 'localhost')
             {
                 $Hostname = $env:COMPUTERNAME

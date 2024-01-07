@@ -1,4 +1,4 @@
- function SetThreadToken
+﻿function SetThreadToken
 {
     <#
     .SYNOPSIS
@@ -56,4 +56,4 @@
     {
         throw "SetThreadToken Error: $(([ComponentModel.Win32Exception] $LastError).Message)"
     }
-} 
+}

@@ -1,5 +1,14 @@
 ﻿$FILE_ACCESS = psenum $Module FILE_ACCESS UInt32 @{
     QueryDeviceOnly          = 0x00000000
+    FILE_READ_DATA           = 0x00000001
+    FILE_WRITE_DATA          = 0x00000002
+    FILE_APPEND_DATA         = 0x00000004
+    FILE_READ_EA             = 0x00000008
+    FILE_WRITE_EA            = 0x00000010
+    FILE_EXECUTE             = 0x00000020
+    FILE_DELETE_CHILD        = 0x00000040
+    FILE_READ_ATTRIBUTES     = 0x00000080
+    FILE_WRITE_ATTRIBUTES    = 0x00000100
     SPECIFIC_RIGHTS_ALL      = 0x0000FFFF
     DELETE                   = 0x00010000
     READ_CONTROL             = 0x00020000
